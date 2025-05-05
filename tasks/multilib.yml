@@ -1,0 +1,24 @@
+- name: Enable multilib repository
+  become: true
+  lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#\\[multilib\\]'
+    line: '[multilib]'
+    backrefs: yes
+  notify:
+    - Update pacman databases
+
+- name: Include multilib mirrorlist
+  become: true
+  lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#Include = /etc/pacman.d/mirrorlist'
+    line: 'Include = /etc/pacman.d/mirrorlist'
+    insertafter: '[multilib]'
+  notify:
+    - Update pacman databases
+
+- name: Force pacman sync (handlers don't always trigger)
+  become: true
+  command: pacman -Sy
+  changed_when: false

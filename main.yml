@@ -23,5 +23,6 @@
     - import_tasks: tasks/swap.yml
     - import_tasks: tasks/chaotic-aur.yml
     - import_tasks: tasks/xorg.yml
+    - import_tasks: tasks/multilib.yml
     - import_tasks: tasks/nvidiagpu.yml
 
