@@ -1,8 +1,40 @@
 ---
+- name: Install zsh
+  ansible.builtin.package:
+    name: zsh
+    state: present
+  become: true
+
+- name: Set user shell to zsh
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: /bin/zsh
+  become: true
+
+- name: Download ohmyzsh
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: "/home/{{ lookup('env', 'USER') }}/install.sh"
+    mode: '0755'
+
+- name: Install ohmyzsh
+  ansible.builtin.script:
+    cmd: "/home/{{ lookup('env', 'USER') }}/install.sh"
+
 - name: Change default shell to zsh
   become: true
   shell: "chsh -s $(which zsh) {{ lookup('env', 'USER') }}"
   changed_when: false
+
+- name: Install PowerLevel10K (idempotent)
+  ansible.builtin.git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "/home/{{ user_name }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    depth: 1
+    update: no  # Critical - prevents errors on subsequent runs
+    force: no   # Preserves local changes
+  register: p10k_install
+  changed_when: p10k_install.changed
 
 - name: Copy aliases.local
   ansible.builtin.copy:
@@ -12,9 +44,16 @@
     group: "{{ lookup('env', 'USER') }}"
     mode: '0644'
 
-
 - name: Create file and add line
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
     line: "source {{ playbook_dir }}/assets/plugins.zsh"
     state: present
+
+- name: Ensure Powerlevel10k is sourced in .zshrc
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user }}/.zshrc"
+    regexp: "^source .*powerlevel10k.zsh-theme"  # Key: Prevents duplicates
+    line: "source /home/{{ user }}/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme"
+    state: present
+    insertafter: EOF
