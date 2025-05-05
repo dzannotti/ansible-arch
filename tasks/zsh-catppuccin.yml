@@ -1,0 +1,37 @@
+---
+- name: Create themes directory structure
+  file:
+    path: "/home/{{ lookup('env', 'USER') }}/.oh-my-zsh/themes/catppuccin-flavors"
+    state: directory
+    mode: '0755'
+  become_user: "{{ lookup('env', 'USER') }}"
+
+- name: Clone Catppuccin ZSH theme repo
+  git:
+    repo: "https://github.com/JannoTjarks/catppuccin-zsh.git"
+    dest: "/home/{{ lookup('env', 'USER') }}/.catppuccin-zsh"
+    depth: 1
+  become_user: "{{ lookup('env', 'USER') }}"
+  register: theme_clone
+  changed_when: theme_clone.changed
+
+- name: Create theme symlinks
+  file:
+    src: "/home/{{ lookup('env', 'USER') }}/.catppuccin-zsh/{{ item.src }}"
+    dest: "/home/{{ lookup('env', 'USER') }}/.oh-my-zsh/themes/{{ item.dest }}"
+    state: link
+    force: yes
+  become_user: "{{ lookup('env', 'USER') }}"
+  loop:
+    - { src: "catppuccin.zsh-theme", dest: "catppuccin.zsh-theme" }
+    - { src: "catppuccin-flavors", dest: "catppuccin-flavors" }
+
+- name: Configure ZSH theme
+  blockinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    marker: "# {mark} ANSIBLE MANAGED CATPPUCCIN THEME"
+    block: |
+      ZSH_THEME="catppuccin"
+      CATPPUCCIN_FLAVOR="mocha"
+    insertafter: "^source .*oh-my-zsh.sh"
+  become_user: "{{ lookup('env', 'USER') }}"
