@@ -19,7 +19,7 @@
 
 - name: Install ohmyzsh
   ansible.builtin.script:
-    cmd: "/home/{{ lookup('env', 'USER') }}/install.sh"
+    cmd: "/home/{{ lookup('env', 'USER') }}/install.sh --unattended"
 
 - name: Change default shell to zsh
   become: true

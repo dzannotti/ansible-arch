@@ -23,5 +23,12 @@
       - eza
       - bat
       - libadwaita
+      - alsa-utils
+      - dosfstools
+      - ntfs-3g
+      - exa
+      - fd
+      - ffmpeg
+      - fzf
     state: present
   changed_when: false
