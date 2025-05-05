@@ -22,3 +22,5 @@
     - import_tasks: tasks/multilib.yml
     - import_tasks: tasks/nvidiagpu.yml
     - import_tasks: tasks/fonts.yml
+    - import_tasks: tasks/other-packages.yml
+    - import_tasks: tasks/other-services.yml

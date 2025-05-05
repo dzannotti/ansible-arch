@@ -1,0 +1,12 @@
+---
+- name: Enable other service
+  become: true
+  service:
+    name:
+      - sshd
+      - NetworkManager
+      - reflector
+    enabled: true
+  changed_when: false
+
+
