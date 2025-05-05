@@ -4,7 +4,7 @@
   shell: "chsh -s $(which zsh) {{ lookup('env', 'USER') }}"
   changed_when: false
 
-- name: copy aliases.local
+- name: Copy aliases.local
   ansible.builtin.copy:
     src: ../assets/aliases.local
     dest: "/home/{{ lookup('env', 'USER') }}/.zsh/aliases.local"
@@ -13,7 +13,7 @@
     mode: '0644'
 
 
-- name: create file and add line
+- name: Create file and add line
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
     line: "source {{playbook_dir}}/assets/plugins.zsh"

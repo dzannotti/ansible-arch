@@ -1,4 +1,4 @@
-- name: create var file of ohmyzsh
+- name: Create var file of ohmyzsh
   copy:
     content: |
       ---
@@ -10,7 +10,7 @@
     force: true
 
 
-- name: create var file of terminus
+- name: Create var file of terminus
   copy:
     content: |
       ---
