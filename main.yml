@@ -21,6 +21,7 @@
     - import_tasks: tasks/xorg.yml
     - import_tasks: tasks/multilib.yml
     - import_tasks: tasks/nvidiagpu.yml
+    - import_tasks: tasks/bluetooth.yml
     - import_tasks: tasks/fonts.yml
     - import_tasks: tasks/other-packages.yml
     - import_tasks: tasks/other-services.yml
