@@ -1,0 +1,11 @@
+---
+- name: Install xorg packages
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - xorg-xwayland
+      - xorg-xrandr
+      - xorg-xprop
+    use: yay
+    state: present
+  changed_when: false
