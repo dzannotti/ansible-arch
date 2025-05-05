@@ -8,5 +8,5 @@
 - name: Enable SDDM
   systemd:
     name: sddm
-    enabled: yes
+    enabled: true
     state: started
