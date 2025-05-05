@@ -1,0 +1,11 @@
+---
+- name: Configure host.
+  hosts: all
+
+  vars_files:
+    - default.config.yml
+    - config.yml
+
+  tasks:
+    - import_tasks: tasks/update.yml
+    - import_tasks: tasks/base-packages.yml
