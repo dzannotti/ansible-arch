@@ -6,6 +6,5 @@
       - bluez
       - bluez-utils
       - bluez-plugins
-      - pulseaudio-bluetooth
       - pipewire-pulse
     state: present

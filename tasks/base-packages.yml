@@ -13,7 +13,6 @@
       - networkmanager
       - openssh
       - nano
-      - pipewire
       - man-db
       - man-pages
       - git
