@@ -16,5 +16,5 @@
 - name: Create file and add line
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
-    line: "source {{playbook_dir}}/assets/plugins.zsh"
+    line: "source {{ playbook_dir }}/assets/plugins.zsh"
     state: present

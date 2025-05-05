@@ -18,4 +18,4 @@
 - name: Update pacman cache
   become: true
   pacman:
-    update_cache: yes
+    update_cache: true
