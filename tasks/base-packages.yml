@@ -19,5 +19,10 @@
       - git
       - wget
       - reflector
+      - gtk4
+      - wmctrl
+      - eza
+      - bat
+      - libadwaita
     state: present
   changed_when: false

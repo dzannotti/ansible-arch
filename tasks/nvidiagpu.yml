@@ -8,7 +8,7 @@
     state: present
 - name: Install NVIDIA GPU packages
   become: true
-  kewlfft.aur.aur:
+  pacman:  # ← Use pacman instead of yay for official repo packages
     name:
       - nvidia
       - nvidia-utils
@@ -21,6 +21,5 @@
       - mesa
       - lib32-mesa
       - vulkan-headers
-    use: yay
     state: present
   changed_when: false
