@@ -12,6 +12,7 @@
       - go
       - rust
       - ghostty
+      - tmux
     use: yay
     state: present
   changed_when: false
