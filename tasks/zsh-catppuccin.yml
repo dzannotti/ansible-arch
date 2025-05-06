@@ -26,11 +26,9 @@
     - { src: "catppuccin.zsh-theme", dest: "catppuccin.zsh-theme" }
     - { src: "catppuccin-flavors", dest: "catppuccin-flavors" }
 
-- name: Configure ZSH theme
-  blockinfile:
+- name: Add theme source to .zshrc
+  lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
-    marker: "# {mark} ANSIBLE MANAGED CATPPUCCIN THEME"
-    block: |
-      ZSH_THEME="catppuccin"
-      CATPPUCCIN_FLAVOR="mocha"
-    insertafter: "^source .*oh-my-zsh.sh"
+    line: "source /home/{{ lookup('env', 'USER') }}/.zsh_theme"
+    state: present
+    insertafter: EOF

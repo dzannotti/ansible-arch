@@ -54,19 +54,19 @@
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
 
-- name: Copy aliases.local
-  ansible.builtin.copy:
-    src: ../assets/aliases.local
-    dest: "/home/{{ lookup('env', 'USER') }}/.zsh/aliases.local"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
-    mode: '0644'
-
-- name: Create file and add line
+- name: Add .zsh_plugins
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
-    line: "source {{ playbook_dir }}/assets/plugins.zsh"
+    line: "source /home/{{ lookup('env', 'USER') }}/.config/zsh/plugins"
     state: present
+    insertafter: EOF
+
+- name: Add .zshrc
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.zshrc"
+    line: "source /home/{{ lookup('env', 'USER') }}/.config/zsh/zshrc"
+    state: present
+    insertafter: EOF
 
 - name: Ensure Powerlevel10k is sourced in .zshrc
   ansible.builtin.lineinfile:
