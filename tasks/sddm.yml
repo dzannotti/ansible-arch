@@ -11,6 +11,13 @@
     enabled: true
     state: started
 
+- name: Check if SDDM config already has user settings
+  shell: grep -q "User=dzannotti" /etc/sddm.conf && grep -q "Session=hyprland.desktop" /etc/sddm.conf
+  register: sddm_settings
+  ignore_errors: true
+  changed_when: false
+  when: sddm_conf.stat.exists
+
 - name: Set default SDDM user
   lineinfile:
     path: /etc/sddm.conf
@@ -22,7 +29,7 @@
     owner: root
     group: root
     mode: '0644'
-
+  when: not sddm_conf.stat.exists or sddm_settings is failed
 
 - name: Clone Sweet theme repository (nova branch)
   git:
