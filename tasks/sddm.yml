@@ -10,3 +10,39 @@
     name: sddm
     enabled: true
     state: started
+
+- name: Clone astronaut SDDM theme
+  git:
+    repo: https://github.com/keyitdev/sddm-astronaut-theme.git
+    dest: /usr/share/sddm/themes/sddm-astronaut-theme
+    depth: 1
+    force: true
+
+- name: Copy astronaut theme fonts
+  copy:
+    src: /usr/share/sddm/themes/sddm-astronaut-theme/Fonts/
+    dest: /usr/share/fonts/
+    owner: root
+    group: root
+    mode: '0644'
+    remote_src: yes
+
+- name: Set astronaut theme via sddm.conf.d
+  copy:
+    dest: /etc/sddm.conf.d/theme.conf
+    content: |
+      [Theme]
+      Current=sddm-astronaut-theme
+
+- name: Enable Qt Virtual Keyboard
+  copy:
+    dest: /etc/sddm.conf.d/virtualkbd.conf
+    content: |
+      [General]
+      InputMethod=qtvirtualkeyboard
+
+- name: Set theme variant
+  lineinfile:
+    path: /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop
+    regexp: '^ConfigFile=Themes/.*'
+    line: 'ConfigFile=Themes/black_hole.conf'

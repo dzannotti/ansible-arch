@@ -21,3 +21,7 @@
       - xdg-desktop-portal-hyprland
       - lxappearance
       - polkit-gnome
+      - layer-shell-qt5
+      - qt6-svg
+      - qt6-virtualkeyboard
+      - qt6-multimedia-ffmpeg
