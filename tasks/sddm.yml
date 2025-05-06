@@ -1,0 +1,12 @@
+---
+- name: Install SDDM
+  pacman:
+    name:
+      - sddm
+    state: present
+
+- name: Enable SDDM
+  systemd:
+    name: sddm
+    enabled: true
+    state: started

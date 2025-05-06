@@ -1,0 +1,10 @@
+---
+- name: Install Bluetooth stack
+  become: true
+  pacman:
+    name:
+      - bluez
+      - bluez-utils
+      - bluez-plugins
+      - pipewire-pulse
+    state: present

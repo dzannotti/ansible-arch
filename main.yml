@@ -1,0 +1,36 @@
+---
+- name: Configure host.
+  hosts: all
+  become: true
+  connection: local
+  vars_files:
+    - default.config.yml
+    - config.yml
+  vars_prompt:
+    - name: ssh_pass
+      prompt: What is your ssh passphrase?
+      private: false
+      confirm: false
+  pre_tasks:
+    - import_tasks: tasks/createvars.yml
+  tasks:
+    - import_tasks: tasks/update.yml
+    - import_tasks: tasks/base-packages.yml
+    - import_tasks: tasks/pipewire.yml
+    - import_tasks: tasks/swap.yml
+    - import_tasks: tasks/chaotic-aur.yml
+    - import_tasks: tasks/xorg.yml
+    - import_tasks: tasks/multilib.yml
+    - import_tasks: tasks/nvidiagpu.yml
+    - import_tasks: tasks/bluetooth.yml
+    - import_tasks: tasks/fonts.yml
+    - import_tasks: tasks/other-packages.yml
+    - import_tasks: tasks/other-services.yml
+    - import_tasks: tasks/dev-packages.yml
+    - import_tasks: tasks/upgrade.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/zsh-catppuccin.yml
+    - import_tasks: tasks/genssh.yml
+    - import_tasks: tasks/git-config.yml
+    - import_tasks: tasks/sddm.yml
+    - import_tasks: tasks/desktop.yml

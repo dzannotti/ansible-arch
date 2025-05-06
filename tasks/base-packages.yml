@@ -1,0 +1,34 @@
+---
+- name: Install base packages
+  become: true
+  community.general.pacman:
+    name:
+      - base
+      - base-devel
+      - linux
+      - linux-firmware
+      - sudo
+      - dhcpcd
+      - netctl
+      - networkmanager
+      - openssh
+      - nano
+      - man-db
+      - man-pages
+      - git
+      - wget
+      - reflector
+      - gtk4
+      - wmctrl
+      - eza
+      - bat
+      - libadwaita
+      - alsa-utils
+      - dosfstools
+      - ntfs-3g
+      - exa
+      - fd
+      - ffmpeg
+      - fzf
+    state: present
+  changed_when: false

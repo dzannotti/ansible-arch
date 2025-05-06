@@ -1,0 +1,23 @@
+---
+- name: Install programs from pacman for desktop.
+  become: true
+  pacman:
+    name:
+      - nautilus
+      - qt5-wayland
+      - qt6-wayland
+      - slurp
+      - swaybg
+      - swayimg
+      - swaylock
+      - wayland
+      - wayland-protocols
+      - wl-clipboard
+      - wtype
+      - hyprland
+      - hyprpaper
+      - hyprpicker
+      - waybar
+      - xdg-desktop-portal-hyprland
+      - lxappearance
+      - polkit-gnome

@@ -1,0 +1,9 @@
+- name: Setup git config
+  copy:
+    content: |
+      [user]
+              email = dzannotti@me.com
+              name = Daniele Zannotti
+
+    dest: "/home/{{ lookup('env', 'USER') }}/.gitconfig"
+    force: true
