@@ -6,6 +6,10 @@
       - xorg-xwayland
       - xorg-xrandr
       - xorg-xprop
+      - libxcb
+      - qt5-x11extras
+      - xcb-util-wm
+      - xcb-util-image
     use: yay
     state: present
   changed_when: false

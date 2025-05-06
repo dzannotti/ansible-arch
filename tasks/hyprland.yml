@@ -1,0 +1,8 @@
+---
+- name: Set user avatar for Hyprland lock screen
+  copy:
+    src: assets/avatar.png
+    dest: "/home/dzannotti/.config/hyprland/avatar.png"
+    owner: dzannotti
+    group: dzannotti
+    mode: '0644'

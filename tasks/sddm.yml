@@ -11,6 +11,14 @@
     enabled: true
     state: started
 
+- name: Set user avatar for SDDM
+  copy:
+    src: assets/avatar.png
+    dest: "/var/lib/AccountsService/icons/dzannotti.png"
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Check if SDDM config already has user settings
   shell: grep -q "User=dzannotti" /etc/sddm.conf && grep -q "Session=hyprland.desktop" /etc/sddm.conf
   register: sddm_settings
@@ -46,7 +54,7 @@
 
 - name: Copy Sweet SDDM theme contents
   copy:
-    src: /tmp/sweet-theme/kde/sddm/
+    src: /tmp/sweet-theme/kde/sddm/sweet/
     dest: /usr/share/sddm/themes/Sweet/
     owner: root
     group: root
@@ -65,7 +73,7 @@
     path: /etc/sddm.conf
     line: |
       [Theme]
-      Current=Sweet
+      Current=sweet
     create: yes
     owner: root
     group: root
@@ -80,4 +88,4 @@
   replace:
     path: /usr/share/sddm/themes/Sweet/theme.conf
     regexp: '^font=.*'
-    replace: 'font=Inter Nerd Font Mono'
+    replace: 'font="Inter Nerd Font Mono"'

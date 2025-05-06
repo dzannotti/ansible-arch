@@ -5,6 +5,7 @@
     name:
       - ttf-ubuntu-font-family
       - noto-fonts
+      - cantarell-fonts
       - noto-fonts-emoji
       - ttf-dejavu
       - ttf-roboto
