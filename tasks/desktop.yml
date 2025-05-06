@@ -21,3 +21,4 @@
       - xdg-desktop-portal-hyprland
       - lxappearance
       - polkit-gnome
+      - layer-shell-qt5

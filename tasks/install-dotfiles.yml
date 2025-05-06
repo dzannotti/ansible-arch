@@ -1,32 +1,23 @@
 ---
-- name: Set up dotfiles with stow
-  hosts: localhost
-  gather_facts: no
-  vars:
-    dotfiles_repo: https://github.com/dzannotti/dotfiles
-    dotfiles_dir: "{{ ansible_env.HOME }}/dotfiles"
+- name: Ensure git and stow are installed
+  become: true
+  package:
+    name:
+      - git
+      - stow
+    state: present
 
-  tasks:
+- name: Clone dotfiles repo
+  git:
+    repo: "https://github.com/dzannotti/dotfiles"
+    dest: "{{ ansible_env.HOME }}/dotfiles"
+    version: main
+    update: true
 
-    - name: Ensure git and stow are installed
-      become: yes
-      package:
-        name:
-          - git
-          - stow
-        state: present
-
-    - name: Clone dotfiles repo
-      git:
-        repo: "{{ dotfiles_repo }}"
-        dest: "{{ dotfiles_dir }}"
-        version: main
-        update: yes
-
-    - name: Run stow in dotfiles repo
-      shell: |
-        stow .
-      args:
-        chdir: "{{ dotfiles_dir }}"
-      register: stow_result
-      changed_when: stow_result.rc == 0
+- name: Run stow in dotfiles repo
+  shell: |
+    stow .
+  args:
+    chdir: "{{ ansible_env.HOME }}/dotfiles"
+  register: stow_result
+  changed_when: stow_result.rc == 0
