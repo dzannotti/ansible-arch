@@ -44,7 +44,6 @@
     owner: root
     group: root
     mode: '0755'
-    recurse: yes
 
 - name: Install Inter Nerd Font
   become: true
