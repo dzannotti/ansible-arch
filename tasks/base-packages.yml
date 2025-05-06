@@ -30,5 +30,6 @@
       - fd
       - ffmpeg
       - fzf
+      - stow
     state: present
   changed_when: false
