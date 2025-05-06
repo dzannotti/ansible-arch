@@ -11,81 +11,27 @@
     enabled: true
     state: started
 
+- name: Install accountsservice
+  pacman:
+    name: accountsservice
+    state: present
+
+- name: Enable and start accounts-daemon
+  systemd:
+    name: accounts-daemon
+    enabled: yes
+    state: started
+
+- name: Ensure AccountsService icons directory exists
+  file:
+    path: /var/lib/AccountsService/icons/{{ ansible_user_id }}
+    state: directory
+    mode: '0755'
+
 - name: Set user avatar for SDDM
   copy:
-    src: assets/avatar.png
+    src: "{{ playbook_dir }}/assets/profile.png"
     dest: "/var/lib/AccountsService/icons/dzannotti.png"
     owner: root
     group: root
     mode: '0644'
-
-- name: Check if SDDM config already has user settings
-  shell: grep -q "User=dzannotti" /etc/sddm.conf && grep -q "Session=hyprland.desktop" /etc/sddm.conf
-  register: sddm_settings
-  ignore_errors: true
-  changed_when: false
-  when: sddm_conf.stat.exists
-
-- name: Set default SDDM user
-  lineinfile:
-    path: /etc/sddm.conf
-    line: |
-      [General]
-      User=dzannotti
-      Session=hyprland.desktop
-    create: yes
-    owner: root
-    group: root
-    mode: '0644'
-  when: not sddm_conf.stat.exists or sddm_settings is failed
-
-- name: Clone Sweet theme repository (nova branch)
-  git:
-    repo: https://github.com/EliverLara/Sweet.git
-    dest: /tmp/sweet-theme
-    version: nova
-    force: yes
-
-- name: Ensure /usr/share/sddm/themes/Sweet directory exists
-  file:
-    path: /usr/share/sddm/themes/Sweet
-    state: directory
-    mode: '0755'
-
-- name: Copy Sweet SDDM theme contents
-  copy:
-    src: /tmp/sweet-theme/kde/sddm/sweet/
-    dest: /usr/share/sddm/themes/Sweet/
-    owner: root
-    group: root
-    mode: '0755'
-
-- name: Install Inter Nerd Font
-  become: true
-  kewlfft.aur.aur:
-    name:
-      - nerd-fonts-inter
-    use: yay
-    state: present
-
-- name: Ensure /etc/sddm.conf exists with Sweet theme configuration
-  lineinfile:
-    path: /etc/sddm.conf
-    line: |
-      [Theme]
-      Current=sweet
-    create: yes
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Remove temporary Sweet theme repository
-  file:
-    path: /tmp/sweet-theme
-    state: absent
-
-- name: Replace font in Sweet theme.conf with Inter Nerd Font
-  replace:
-    path: /usr/share/sddm/themes/Sweet/theme.conf
-    regexp: '^font=.*'
-    replace: 'font="Inter Nerd Font Mono"'

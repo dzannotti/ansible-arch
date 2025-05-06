@@ -25,8 +25,3 @@
       - qt6-svg
       - qt6-virtualkeyboard
       - qt6-multimedia-ffmpeg
-      - qt5-x11extras
-      - libxcb
-      - xcb-util-wm
-      - xcb-util-image
-      - xcb-util-keysyms

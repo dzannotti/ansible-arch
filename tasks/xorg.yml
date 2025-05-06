@@ -10,6 +10,9 @@
       - qt5-x11extras
       - xcb-util-wm
       - xcb-util-image
+      - qt5-x11extras
+      - xcb-util-keysyms
+
     use: yay
     state: present
   changed_when: false
