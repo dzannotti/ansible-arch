@@ -1,12 +1,4 @@
 ---
-- name: Ensure git and stow are installed
-  become: true
-  package:
-    name:
-      - git
-      - stow
-    state: present
-
 - name: Clone dotfiles repo
   git:
     repo: "https://github.com/dzannotti/dotfiles"
