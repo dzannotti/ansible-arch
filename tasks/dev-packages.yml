@@ -13,6 +13,7 @@
       - rust
       - ghostty
       - tmux
+      - gitkraken
     use: yay
     state: present
   changed_when: false

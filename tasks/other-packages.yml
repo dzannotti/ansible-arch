@@ -35,6 +35,7 @@
       - oh-my-zsh-git
       - zsh-theme-powerlevel10k
       - ferdium
+      - unzip
 
     use: yay
     state: present
