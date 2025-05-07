@@ -1,8 +1,8 @@
 ---
 - name: Set user avatar for Hyprland lock screen
   copy:
-    src: assets/avatar.png
-    dest: "/home/dzannotti/.config/hyprland/avatar.png"
+    src: "{{ playbook_dir }}/assets/profile.png"
+    dest: "/home/dzannotti/.config/hypr/avatar.png"
     owner: dzannotti
     group: dzannotti
     mode: '0644'

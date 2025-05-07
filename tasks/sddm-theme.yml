@@ -1,76 +1,24 @@
 ---
-- name: Check if /etc/sddm.conf exists
-  stat:
-    path: /etc/sddm.conf
-  register: sddm_conf
-
-- name: Check if SDDM config already has user settings
-  shell: grep -q "User=dzannotti" /etc/sddm.conf && grep -q "Session=hyprland.desktop" /etc/sddm.conf
-  register: sddm_settings
-  ignore_errors: true
-  changed_when: false
-  when: sddm_conf.stat.exists
-
-- name: Set default SDDM user
-  lineinfile:
-    path: /etc/sddm.conf
-    line: |
-      [General]
-      User=dzannotti
-      Session=hyprland.desktop
-    create: yes
-    owner: root
-    group: root
-    mode: '0644'
-  when: not sddm_conf.stat.exists or sddm_settings is failed
-
-- name: Clone Sweet theme repository (nova branch)
-  git:
-    repo: https://github.com/EliverLara/Sweet.git
-    dest: /tmp/sweet-theme
-    version: nova
-    force: yes
-
-- name: Ensure /usr/share/sddm/themes/Sweet directory exists
-  file:
-    path: /usr/share/sddm/themes/Sweet
-    state: directory
-    mode: '0755'
-
-- name: Copy Sweet SDDM theme contents
-  copy:
-    src: /tmp/sweet-theme/kde/sddm/
-    dest: /usr/share/sddm/themes/sweet/
-    owner: root
-    group: root
-    mode: '0755'
-
-- name: Install Inter Nerd Font
-  become: true
-  kewlfft.aur.aur:
+- name: Remove conflicting bibata-cursor-theme
+  ansible.builtin.pacman:
     name:
-      - nerd-fonts-inter
-    use: yay
-    state: present
-
-- name: Ensure /etc/sddm.conf exists with Sweet theme configuration
-  lineinfile:
-    path: /etc/sddm.conf
-    line: |
-      [Theme]
-      Current=sweet
-    create: yes
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Remove temporary Sweet theme repository
-  file:
-    path: /tmp/sweet-theme
+      - bibata-cursor-theme
+      - bibata-cursor-theme-bin
     state: absent
 
-- name: Replace font in Sweet theme.conf with Inter Nerd Font
-  replace:
-    path: /usr/share/sddm/themes/Sweet/theme.conf
-    regexp: '^font=.*'
-    replace: 'font="Inter Nerd Font Mono"'
+- name: Install themes
+  become: false
+  kewlfft.aur.aur:
+    name:
+      - bibata-cursor-theme-bin
+    use: yay
+    state: present
+    extra_args: "--answerclean Yes --answerdiff None --overwrite '*'"
+
+- name: Copy Sweet SDDM settings
+  copy:
+    src: "{{ playbook_dir }}/assets/sddm.conf"
+    dest: /etc/ssdm.conf
+    owner: root
+    group: root
+    mode: '0755'

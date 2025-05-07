@@ -4,6 +4,7 @@
   kewlfft.aur.aur:
     name:
       - ttf-ubuntu-font-family
+      - nerd-fonts-inter
       - noto-fonts
       - cantarell-fonts
       - noto-fonts-emoji
@@ -15,6 +16,8 @@
       - ttf-inter-nerd
       - ttf-fira-code-nerd
       - ttf-jetbrains-mono
+      - ttf-bitstream-vera
+      - ttf-font-awesome
     use: yay
     state: present
   changed_when: false

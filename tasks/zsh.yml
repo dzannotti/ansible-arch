@@ -34,7 +34,7 @@
   when: ansible_env.SHELL != "/bin/zsh"
   changed_when: true
 
-- name: Install PowerLevel10K (idempotent)
+- name: Install PowerLevel10K
   ansible.builtin.git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: "/home/{{ ansible_env.USER }}/.oh-my-zsh/custom/themes/powerlevel10k"

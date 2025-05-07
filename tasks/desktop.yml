@@ -10,6 +10,7 @@
       - swaybg
       - swayimg
       - swaylock
+      - swaync
       - wayland
       - wayland-protocols
       - wl-clipboard
@@ -25,3 +26,5 @@
       - qt6-svg
       - qt6-virtualkeyboard
       - qt6-multimedia-ffmpeg
+      - wofi
+      - pavucontrol

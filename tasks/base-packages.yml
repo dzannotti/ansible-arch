@@ -9,7 +9,6 @@
       - linux-firmware
       - sudo
       - dhcpcd
-      - netctl
       - networkmanager
       - openssh
       - nano
@@ -26,7 +25,6 @@
       - alsa-utils
       - dosfstools
       - ntfs-3g
-      - exa
       - fd
       - ffmpeg
       - fzf

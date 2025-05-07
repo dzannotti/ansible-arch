@@ -1,9 +1,10 @@
 ---
 - name: Clone dotfiles repo
+  become: true
   git:
     repo: "https://github.com/dzannotti/dotfiles"
     dest: "{{ ansible_env.HOME }}/dotfiles"
-    version: main
+    version: master
     update: true
 
 - name: Run stow in dotfiles repo
