@@ -6,3 +6,12 @@
     owner: dzannotti
     group: dzannotti
     mode: '0644'
+
+- name: Install Clipboard utils
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - wayclip
+    use: yay
+    state: present
+  changed_when: false

@@ -17,7 +17,9 @@
       - wtype
       - hyprland
       - hyprpaper
+      - hyprlock
       - hyprpicker
+      - libnotify
       - waybar
       - xdg-desktop-portal-hyprland
       - lxappearance
@@ -28,3 +30,12 @@
       - qt6-multimedia-ffmpeg
       - wofi
       - pavucontrol
+
+- name: Install programs from yay for desktop
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - hyprshot
+    use: yay
+    state: present
+  changed_when: false

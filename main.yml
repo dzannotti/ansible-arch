@@ -36,3 +36,4 @@
     - import_tasks: tasks/sddm-theme.yml
     - import_tasks: tasks/hyprland.yml
     - import_tasks: tasks/install-dotfiles.yml
+    - import_tasks: tasks/dev-setup.yml

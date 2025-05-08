@@ -18,7 +18,7 @@
 - name: Copy Sweet SDDM settings
   copy:
     src: "{{ playbook_dir }}/assets/sddm.conf"
-    dest: /etc/ssdm.conf
+    dest: /etc/sddm.conf
     owner: root
     group: root
     mode: '0755'
