@@ -3,7 +3,7 @@
   hosts: all
   roles:
     - { role: 01_host_info }
-    #- { role: 02_basics }
+    - { role: 02_basics }
     #- { role: 03_display_server }
     #- { role: 04_desktop }
     #- { role: 05_packages }
