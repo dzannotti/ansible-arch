@@ -15,7 +15,7 @@ Ansible playbook to setup my Arch Linux machines (i.e., meant to be run against 
 
 1. Install the necessary packages
    ```
-   sudo pacman -S git python
+   sudo pacman -S git python python-pip
    ```
 1. Clone this repo
    ```
