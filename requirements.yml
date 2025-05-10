@@ -6,4 +6,3 @@ collections:
   - name: kewlfft.aur
     version: 0.11.1
     source: https://galaxy.ansible.com
-  - name: luizgavalda.gnome_extensions
