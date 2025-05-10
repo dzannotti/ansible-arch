@@ -1,8 +1,0 @@
----
-- name: Clone TPM repo
-  become: true
-  git:
-    repo: "https://github.com/tmux-plugins/tpm"
-    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
-    version: master
-    update: true

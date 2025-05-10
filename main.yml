@@ -1,39 +1,12 @@
 ---
-- name: Configure host.
+- name: Main play
   hosts: all
-  become: true
-  connection: local
-  vars_files:
-    - default.config.yml
-    - config.yml
-  vars_prompt:
-    - name: ssh_pass
-      prompt: What is your ssh passphrase?
-      private: false
-      confirm: false
-  pre_tasks:
-    - import_tasks: tasks/createvars.yml
-  tasks:
-    - import_tasks: tasks/update.yml
-    - import_tasks: tasks/base-packages.yml
-    - import_tasks: tasks/pipewire.yml
-    - import_tasks: tasks/swap.yml
-    - import_tasks: tasks/chaotic-aur.yml
-    - import_tasks: tasks/xorg.yml
-    - import_tasks: tasks/multilib.yml
-    - import_tasks: tasks/nvidiagpu.yml
-    - import_tasks: tasks/bluetooth.yml
-    - import_tasks: tasks/fonts.yml
-    - import_tasks: tasks/other-packages.yml
-    - import_tasks: tasks/other-services.yml
-    - import_tasks: tasks/dev-packages.yml
-    - import_tasks: tasks/upgrade.yml
-    - import_tasks: tasks/zsh.yml
-    - import_tasks: tasks/zsh-catppuccin.yml
-    - import_tasks: tasks/genssh.yml
-    - import_tasks: tasks/desktop.yml
-    - import_tasks: tasks/sddm.yml
-    - import_tasks: tasks/sddm-theme.yml
-    - import_tasks: tasks/hyprland.yml
-    - import_tasks: tasks/install-dotfiles.yml
-    - import_tasks: tasks/dev-setup.yml
+  roles:
+    - { role: 01_host_info }
+    #- { role: 02_basics }
+    #- { role: 03_display_server }
+    #- { role: 04_desktop }
+    #- { role: 05_packages }
+    #- { role: 06_microcode, when: install_microcode }
+    #- { role: 07_users }
+    #- { role: 08_bluetooth, when: enable_bluetooth }

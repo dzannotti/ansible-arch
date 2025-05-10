@@ -1,12 +1,7 @@
 ---
-skip_list:
-  - schema[meta]
+enable_list:
+  - fqcn-builtins  # opt-in
+warn_list:
   - role-name
-  - experimental
-  - fqcn
-  - name[missing]
-  - no-changed-when
-  - risky-file-permissions
-  - yaml[line-length]
-  - yaml[octal-values]
-  - command-instead-of-shell
+  - var-naming
+  - yaml[truthy]

@@ -1,0 +1,72 @@
+---
+user:
+  name: dzannotti
+  full_name: "Daniele Zannotti"
+  primary_group: users
+  additional_groups: wheel,render
+  shell: /bin/zsh
+  country: "United Kingdom"
+
+git:
+  name: "{{ user['full_name'] }}"
+  email_b64: "ZC56YW5ub3R0aUBtZS5jb20K"
+  helper: "cache"
+  rebase: "true"
+  colorMoved: "zebra"
+
+desktop: gnome
+
+pacman:
+  parallel_downloads: 10
+
+aur_helper: yay
+disable_lvm: true
+
+packages:
+  - base
+  - base-devel
+  - linux
+  - linux-firmware
+  - sudo
+  - dhcpcd
+  - networkmanager
+  - openssh
+  - nano
+  - man-db
+  - man-pages
+  - git
+  - wget
+  - reflector
+  - gtk4
+  - wmctrl
+  - eza
+  - bat
+  - libadwaita
+  - alsa-utils
+  - dosfstools
+  - ntfs-3g
+  - fd
+  - ffmpeg
+  - fzf
+  - stow
+
+aur_packages:
+  - 7-zip-bin
+
+base_fonts:
+  - gnu-free-fonts
+  - ttf-ubuntu-font-family
+  - nerd-fonts-inter
+  - noto-fonts
+  - cantarell-fonts
+  - noto-fonts-emoji
+  - ttf-dejavu
+  - ttf-roboto
+  - ttf-cascadia-code-nerd
+  - adobe-source-han-sans-otc-fonts
+  - ttf-meslo-nerd
+  - ttf-inter-nerd
+  - ttf-fira-code-nerd
+  - ttf-jetbrains-mono
+  - ttf-bitstream-vera
+  - ttf-font-awesome
