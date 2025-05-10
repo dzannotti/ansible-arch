@@ -1,0 +1,24 @@
+---
+- name: Install base packages
+  become: true
+  community.general.pacman:
+    name:
+      - base
+      - base-devel
+      - linux
+      - linux-firmware
+      - sudo
+      - dhcpcd
+      - netctl
+      - networkmanager
+      - openssh
+      - nano
+      - micro
+      - man-db
+      - man-pages
+      - git
+      - wget
+      - reflector
+      - unzip
+    state: present
+  changed_when: false

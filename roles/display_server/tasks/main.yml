@@ -1,0 +1,12 @@
+---
+- name: Install Xorg
+  community.general.pacman:
+    name:
+      - xorg-xwayland
+      - xorg-apps
+      - xorg-drivers
+      - xorg-apps
+      - xorg-fonts
+      - xorg-xinit
+    state: present
+  become: true
