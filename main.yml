@@ -1,16 +1,11 @@
 ---
 - name: Main play
   hosts: all
-  roles:
-    - { role: host_info }
-    - { role: swap }
-    - { role: basics }
-    - { role: base-packages }
-    - { role: audio }
-    - { role: display_server }
-    - { role: nvidia }
-    #- { role: 04_desktop }
-    #- { role: 05_packages }
-    #- { role: 06_microcode, when: install_microcode }
-    #- { role: 07_users }
-    #- { role: 08_bluetooth, when: enable_bluetooth }
+  connection: local
+  vars_files:
+    - default.config.yml
+    - config.yml
+  tasks:
+    - import_tasks: tasks/update.yml
+    - import_tasks: tasks/host-info.yml
+    - import_tasks: tasks/base-packages.yml
