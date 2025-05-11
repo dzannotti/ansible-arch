@@ -40,3 +40,17 @@
 
     state: present
   changed_when: false
+
+- name: Enable NetworkManager
+  become: true
+  service:
+    name: NetworkManager
+    enabled: true
+  changed_when: false
+
+- name: Enable reflector
+  become: true
+  service:
+    name: reflector
+    enabled: true
+  changed_when: false

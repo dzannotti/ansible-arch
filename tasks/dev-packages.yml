@@ -1,0 +1,20 @@
+---
+- name: Install Dev packages
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - neovim
+      - visual-studio-code-bin
+      - python
+      - python-pip
+      - nodejs
+      - npm
+      - bun
+      - go
+      - rust
+      - ghostty
+      - tmux
+      - gitkraken
+    use: yay
+    state: present
+  changed_when: false

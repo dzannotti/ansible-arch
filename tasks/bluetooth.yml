@@ -9,9 +9,9 @@
       - pipewire-pulse
     state: present
 
-- name: Start systemd service - bluetooth.service
-  ansible.builtin.systemd:
-    name: bluetooth.service
-    state: started
-    enabled: yes
+- name: Enable bluetooth
   become: true
+  service:
+    name: bluetooth
+    enabled: true
+  changed_when: false

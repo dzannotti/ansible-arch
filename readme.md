@@ -36,3 +36,7 @@ Ansible playbook to setup my Arch Linux machines (i.e., meant to be run against 
    ```
    ansible-playbook main.yml --ask-become-pass
    ```
+
+### Manual steps
+
+1. You will need Bitwarden & Youtube Sponsors block & UBlock Origin - cannot be ansibled

@@ -1,0 +1,25 @@
+---
+- name: Install other packages
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - mpv
+      - mpv-mpris
+      - pass
+      - aria2
+      - brave
+      - spotify
+      - spotify-adblock-git
+      - ghostty
+      - yt-dlp
+      - gallery-dl
+      - bitwarden
+      - tmux
+      - xclip
+      - oh-my-zsh-git
+      - zsh-theme-powerlevel10k
+      - ferdium
+      - unzip
+
+    use: yay
+    state: present
