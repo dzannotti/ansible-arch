@@ -16,6 +16,10 @@
       - gnome-characters
       - evince
       - gedit
+      - libadwaita
+      - gnome-themes-extra
+      - gnome-font-viewer
+      - gnome-software
       - gnome-shell-extensions
       - file-roller
     state: present
