@@ -28,6 +28,7 @@
   ansible.builtin.systemd:
     name: gdm.service
     enabled: no
+    state: stopped
   become: true
 
 - name: Enable NetworkManager service

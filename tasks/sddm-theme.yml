@@ -1,0 +1,19 @@
+---
+- name: Install SDDM theme
+  become: false
+  kewlfft.aur.aur:
+    name:
+      - sddm-sugar-candy-git
+      - bibata-cursor-theme-bin
+    use: yay
+    state: present
+    extra_args: "--answerclean Yes --answerdiff None --overwrite '*'"
+
+- name: Copy SDDM settings
+  become: true
+  copy:
+    src: "{{ playbook_dir }}/assets/sddm.conf"
+    dest: /etc/sddm.conf
+    owner: root
+    group: root
+    mode: "0755"

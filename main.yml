@@ -19,3 +19,5 @@
     - import_tasks: tasks/desktop.yml
     - import_tasks: tasks/dev-packages.yml
     - import_tasks: tasks/other-packages.yml
+    - import_tasks: tasks/sddm.yml
+    - import_tasks: tasks/sddm-theme.yml
