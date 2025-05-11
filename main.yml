@@ -6,8 +6,8 @@
     - default.config.yml
     - config.yml
   tasks:
-    - import_tasks: tasks/update.yml
     - import_tasks: tasks/host-info.yml
+    - import_tasks: tasks/update.yml
     - import_tasks: tasks/microcode.yml
     - import_tasks: tasks/base-packages.yml
     - import_tasks: tasks/chaotic-aur.yml
@@ -17,6 +17,11 @@
     - import_tasks: tasks/bluetooth.yml
     - import_tasks: tasks/fonts.yml
     - import_tasks: tasks/desktop.yml
+    - import_tasks: tasks/desktop-extensions.yml
+    - import_tasks: tasks/desktop-tools.yml
+    - import_tasks: tasks/desktop-keybinds.yml
+    - import_tasks: tasks/desktop-wallpaper.yml
+    - import_tasks: tasks/desktop-theme.yml
     - import_tasks: tasks/dev-packages.yml
     - import_tasks: tasks/other-packages.yml
     - import_tasks: tasks/sddm.yml
@@ -25,3 +30,4 @@
     - import_tasks: tasks/zsh-catppuccin.yml
     - import_tasks: tasks/genssh.yml
     - import_tasks: tasks/dotfiles.yml
+    - import_tasks: tasks/env-config.yml

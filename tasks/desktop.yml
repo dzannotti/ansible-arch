@@ -8,13 +8,13 @@
       - gdm
       - xdg-desktop-portal-gnome
       - xdg-desktop-portal-gtk
-      - nautilus
       - gnome-tweaks
       - gnome-screenshot
       - gnome-calculator
       - gnome-characters
       - evince
       - gedit
+      - dconf
       - libadwaita
       - gnome-themes-extra
       - gnome-font-viewer
@@ -65,3 +65,9 @@
 - name: Set default application for compressed files (tar, gzip)
   command: xdg-mime default file-roller.desktop application/x-tar
   become: false
+
+- name: Set Geist Nerd as the default GNOME interface font
+  ansible.builtin.command: >
+    gsettings set org.gnome.desktop.interface font-name 'Geist Nerd 11'
+  environment:
+    DISPLAY: ":0"

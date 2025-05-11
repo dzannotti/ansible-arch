@@ -1,0 +1,20 @@
+---
+- name: Set desktop background image
+  ansible.builtin.dconf:
+    key: /org/gnome/desktop/background/picture-uri
+    value: "'file://{{ ansible_env.HOME }}/.config/backgrounds/shaded_landscape.png'"
+
+- name: Set desktop background options
+  ansible.builtin.dconf:
+    key: /org/gnome/desktop/background/picture-options
+    value: "'zoom'"
+
+- name: Set lockscreen background image
+  ansible.builtin.dconf:
+    key: /org/gnome/desktop/screensaver/picture-uri
+    value: "'file://{{ ansible_env.HOME }}/.config/backgrounds/shaded_landscape.png'"
+
+- name: Set lockscreen background options
+  ansible.builtin.dconf:
+    key: /org/gnome/desktop/screensaver/picture-options
+    value: "'zoom'"

@@ -1,0 +1,56 @@
+- name: Clone Catppuccin GTK Theme repository
+  git:
+    repo: "https://github.com/Fausto-Korpsvart/Catppuccin-GTK-Theme.git"
+    dest: "/tmp/Catppuccin-GTK-Theme"
+    version: main
+    update: true
+
+- name: Create local themes directory if it doesn't exist
+  file:
+    path: "~/.themes"
+    state: directory
+    mode: "0755"
+
+- name: Create local icons directory if it doesn't exist
+  file:
+    path: "~/.icons"
+    state: directory
+    mode: "0755"
+
+- name: Run the installation script with custom parameters
+  shell: |
+    cd /tmp/Catppuccin-GTK-Theme/themes
+    chmod u+x install.sh
+    ./install.sh --theme pink --color dark --size compact --libadwaita --tweaks float outline macos
+  args:
+    executable: /bin/zsh
+
+- name: Install only Catppuccin-Mocha icons
+  shell: |
+    if [ -d "/tmp/Catppuccin-GTK-Theme/icons/Catppuccin-Mocha" ]; then
+      mkdir -p ~/.icons/Catppuccin-Mocha
+      cp -r /tmp/Catppuccin-GTK-Theme/icons/Catppuccin-Mocha/* ~/.icons/Catppuccin-Mocha/
+    fi
+  args:
+    executable: /bin/zsh
+
+- name: Clean up - remove cloned repository
+  file:
+    path: "/tmp/Catppuccin-GTK-Theme"
+    state: absent
+
+- name: Set GTK, Shell, and Legacy themes
+  command: >
+    dconf write /org/gnome/shell/extensions/user-theme/name "'Catppuccin-Dark-Pink'"
+
+- name: Set GTK theme
+  command: >
+    dconf write /org/gnome/desktop/interface/gtk-theme "'Catppuccin-Dark-Pink'"
+
+- name: Set Legacy Applications theme
+  command: >
+    dconf write /org/gnome/desktop/wm/preferences/theme "'Catppuccin-Dark-Pink'"
+
+- name: Enable User Themes extension
+  command: >
+    dconf write /org/gnome/shell/enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com']"

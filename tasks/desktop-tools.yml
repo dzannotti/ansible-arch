@@ -1,0 +1,45 @@
+- name: Install Ulauncher
+  ansible.builtin.pacman:
+    name: ulauncher
+    state: present
+    update_cache: yes
+  become: true
+
+- name: Ensure Ulauncher extensions directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/ulauncher/extensions"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+
+- name: Install Ulauncher Currency Extension
+  git:
+    repo: "https://github.com/brpaz/ulauncher-currency.git"
+    dest: "{{ ansible_env.HOME }}/.config/ulauncher/extensions/ulauncher-currency"
+    version: master
+    update: true
+
+- name: Install Ulauncher Zoxide Extension
+  git:
+    repo: "https://github.com/vanguard478/ulauncher-zoxide"
+    dest: "{{ ansible_env.HOME }}/.config/ulauncher/extensions/ulauncher-zoxide"
+    version: master
+    update: true
+
+- name: Install Ulauncher Emoji Extension
+  git:
+    repo: https://github.com/Ulauncher/ulauncher-emoji.git
+    dest: "{{ ansible_env.HOME }}/.config/ulauncher/extensions/ulauncher-emoji"
+    version: master
+    force: yes
+
+- name: Install Catppuccin theme for Ulauncher
+  ansible.builtin.shell: |
+    python3 <(curl -fsSL https://raw.githubusercontent.com/catppuccin/ulauncher/main/install.py) \
+      --flavor mocha \
+      -a pink \
+      --radius 22
+  args:
+    executable: /bin/bash
+  become: false

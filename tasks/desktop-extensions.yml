@@ -1,0 +1,58 @@
+---
+- name: Install Tweaks and extension
+  become: true
+  pacman:
+    name:
+      - gnome-tweaks
+      - gnome-shell-extensions
+      - extension-manager
+    state: present
+    update_cache: yes
+
+- name: Install extensions-manager-cli
+  ansible.builtin.command:
+    cmd: pip3 install --upgrade gnome-extensions-cli
+
+- name: Install GNOME extensions
+  ansible.builtin.command:
+    cmd: |
+      gext install workspace-indicator-left@fmuellner
+      gext install user-theme@gnome-shell-extensions.gcampax.github.com
+      gext install blur-my-shell@aunetx
+      gext install dash-to-dock@micxgx.gmail.com
+      gext install just-perfection@gnome-shell-extensions.gcampax.github.com
+      gext install no-overview@gnome-shell-extensions.gcampax.github.com
+      gext install rezmon@azz.lol
+      gext install space-bar@luchrioh
+      gext install quick-settings-avatar@d-go
+      gext install tactile@gnome-shell-extensions.gcampax.github.com
+
+- name: Enable GNOME extensions
+  ansible.builtin.command:
+    cmd: |
+      gext enable workspace-indicator-left@fmuellner
+      gext enable user-theme@gnome-shell-extensions.gcampax.github.com
+      gext enable blur-my-shell@aunetx
+      gext enable dash-to-dock@micxgx.gmail.com
+      gext enable just-perfection@gnome-shell-extensions.gcampax.github.com
+      gext enable no-overview@gnome-shell-extensions.gcampax.github.com
+      gext enable rezmon@azz.lol
+      gext enable space-bar@luchrioh
+      gext enable quick-settings-avatar@d-go
+      gext enable tactile@gnome-shell-extensions.gcampax.github.com
+
+- name: Set User Themes settings
+  ansible.builtin.shell:
+    cmd: "dconf load /org/gnome/shell/extensions/user-theme/ < {{ playbook_dir }}/assets/user-theme-settings.conf"
+
+- name: Set Blur My Shell settings
+  ansible.builtin.shell:
+    cmd: "dconf load /org/gnome/shell/extensions/blur-my-shell/ < {{ playbook_dir }}/assets/blur-my-shell-settings.conf"
+
+- name: Set Dash to Dock settings
+  ansible.builtin.shell:
+    cmd: "dconf load /org/gnome/shell/extensions/dash-to-dock/ < {{ playbook_dir }}/assets/dash-to-dock-settings.conf"
+
+- name: Set Just Perfection settings
+  ansible.builtin.shell:
+    cmd: "dconf load /org/gnome/shell/extensions/just-perfection/ < {{ playbook_dir }}/assets/just-perfection-settings.conf"

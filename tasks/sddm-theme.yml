@@ -3,8 +3,11 @@
   become: false
   kewlfft.aur.aur:
     name:
-      - sddm-sugar-candy-git
+      - sddm-theme-catppuccin
       - bibata-cursor-theme-bin
+      - qt6-svg
+      - qt6-declarative
+      - qt5-quickcontrols2
     use: yay
     state: present
     extra_args: "--answerclean Yes --answerdiff None --overwrite '*'"
