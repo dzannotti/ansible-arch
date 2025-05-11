@@ -3,12 +3,10 @@
   become: true
   pacman:
     name:
-      - bluetooth
       - bluez
       - bluez-utils
       - bluez-plugins
       - pipewire-pulse
-      - bluez-firmware
     state: present
 
 - name: Start systemd service - bluetooth.service
