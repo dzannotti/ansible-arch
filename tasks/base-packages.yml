@@ -26,5 +26,17 @@
       - fzf
       - stow
       - micro
+      - pass
+      - fastfetch
+      - btop
+      - geary
+      - cpupower
+      - turbostat
+      - acpi
+      - bc
+      - update-grub
+      - p7zip
+      - xclip
+
     state: present
   changed_when: false
