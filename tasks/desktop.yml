@@ -10,7 +10,6 @@
       - xdg-desktop-portal-gtk
       - nautilus
       - gnome-tweaks
-      - gnome-extensions
       - gnome-screenshot
       - gnome-calculator
       - gnome-characters
