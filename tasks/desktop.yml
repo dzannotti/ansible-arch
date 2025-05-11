@@ -45,33 +45,30 @@
     state: started
   become: true
 
-- name: Set default file associations for GNOME
-  become: true
-  tasks:
-    - name: Set default image viewer for PNG, JPG, GIF
-      command: xdg-mime default eog.desktop image/png
-      become: false
+- name: Set default image viewer for PNG, JPG, GIF
+  command: xdg-mime default eog.desktop image/png
+  become: false
 
-    - name: Set default image viewer for JPG files
-      command: xdg-mime default eog.desktop image/jpeg
-      become: false
+- name: Set default image viewer for JPG files
+  command: xdg-mime default eog.desktop image/jpeg
+  become: false
 
-    - name: Set default PDF viewer
-      command: xdg-mime default evince.desktop application/pdf
-      become: false
+- name: Set default PDF viewer
+  command: xdg-mime default evince.desktop application/pdf
+  become: false
 
-    - name: Set default text editor for .txt files
-      command: xdg-mime default gedit.desktop text/plain
-      become: false
+- name: Set default text editor for .txt files
+  command: xdg-mime default gedit.desktop text/plain
+  become: false
 
-    - name: Set default web browser (Brave) for HTML files
-      command: xdg-mime default brave-browser.desktop text/html
-      become: false
+- name: Set default web browser (Brave) for HTML files
+  command: xdg-mime default brave-browser.desktop text/html
+  become: false
 
-    - name: Set default application for compressed archives (zip, tar)
-      command: xdg-mime default file-roller.desktop application/zip
-      become: false
+- name: Set default application for compressed archives (zip, tar)
+  command: xdg-mime default file-roller.desktop application/zip
+  become: false
 
-    - name: Set default application for compressed files (tar, gzip)
-      command: xdg-mime default file-roller.desktop application/x-tar
-      become: false
+- name: Set default application for compressed files (tar, gzip)
+  command: xdg-mime default file-roller.desktop application/x-tar
+  become: false
