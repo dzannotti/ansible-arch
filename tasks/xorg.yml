@@ -1,0 +1,19 @@
+---
+- name: Install xorg packages
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - xorg
+      - xorg-apps
+      - xorg-drivers
+      - xorg-apps
+      - xorg-fonts
+      - xorg-xinit
+      - xdg-desktop-portal
+      - xdg-desktop-portal-wlr
+      - xdg-user-dirs
+      - xdg-utils
+
+    use: yay
+    state: present
+  changed_when: false

@@ -1,0 +1,19 @@
+---
+- name: Install Bluetooth stack
+  become: true
+  pacman:
+    name:
+      - bluetooth
+      - bluez
+      - bluez-utils
+      - bluez-plugins
+      - pipewire-pulse
+      - bluez-firmware
+    state: present
+
+- name: Start systemd service - bluetooth.service
+  ansible.builtin.systemd:
+    name: bluetooth.service
+    state: started
+    enabled: yes
+  become: true
