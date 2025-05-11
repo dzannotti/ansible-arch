@@ -46,7 +46,6 @@
   become: true
 
 - name: Set default file associations for GNOME
-  hosts: localhost
   become: true
   tasks:
     - name: Set default image viewer for PNG, JPG, GIF
