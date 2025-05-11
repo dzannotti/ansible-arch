@@ -1,0 +1,49 @@
+---
+- name: Clone dotfiles repo
+  become: true
+  git:
+    repo: "https://github.com/dzannotti/dotfiles"
+    dest: "{{ ansible_env.HOME }}/dotfiles"
+    version: master
+    update: true
+
+- name: Check if ghostty config exists
+  stat:
+    path: "{{ ansible_env.HOME }}/.config/ghostty"
+  register: ghostty_config
+
+- name: Remove ghostty config if it exists
+  file:
+    path: "{{ ansible_env.HOME }}/.config/ghostty"
+    state: absent
+  when: ghostty_config.stat.exists
+
+- name: Run stow in dotfiles repo
+  shell: |
+    stow .
+  args:
+    chdir: "{{ ansible_env.HOME }}/dotfiles"
+  register: stow_result
+  changed_when: stow_result.rc == 0
+
+- name: Check if brew.txt exists
+  stat:
+    path: "{{ ansible_env.HOME }}/dotfiles/brew.txt"
+  register: brew_file
+
+- name: Check if README.md exists
+  stat:
+    path: "{{ ansible_env.HOME }}/dotfiles/README.md"
+  register: readme_file
+
+- name: Remove brew.txt if it exists
+  file:
+    path: "{{ ansible_env.HOME }}/dotfiles/brew.txt"
+    state: absent
+  when: brew_file.stat.exists
+
+- name: Remove README.md if it exists
+  file:
+    path: "{{ ansible_env.HOME }}/dotfiles/README.md"
+    state: absent
+  when: readme_file.stat.exists

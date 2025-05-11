@@ -21,3 +21,7 @@
     - import_tasks: tasks/other-packages.yml
     - import_tasks: tasks/sddm.yml
     - import_tasks: tasks/sddm-theme.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/zsh-catppuccin.yml
+    - import_tasks: tasks/genssh.yml
+    - import_tasks: tasks/dotfiles.yml
