@@ -23,7 +23,7 @@
     chmod u+x install.sh
     ./install.sh --theme pink --color dark --size compact --libadwaita --tweaks float outline macos
   args:
-    executable: /bin/zsh
+    executable: /bin/bash
 
 - name: Install only Catppuccin-Mocha icons
   shell: |
@@ -32,7 +32,7 @@
       cp -r /tmp/Catppuccin-GTK-Theme/icons/Catppuccin-Mocha/* ~/.icons/Catppuccin-Mocha/
     fi
   args:
-    executable: /bin/zsh
+    executable: /bin/bash
 
 - name: Clean up - remove cloned repository
   file:

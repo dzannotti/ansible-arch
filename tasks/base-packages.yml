@@ -34,7 +34,6 @@
       - turbostat
       - acpi
       - bc
-      - update-grub
       - p7zip
       - xclip
 

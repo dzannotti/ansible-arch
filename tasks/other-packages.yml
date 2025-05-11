@@ -20,6 +20,7 @@
       - zsh-theme-powerlevel10k
       - ferdium
       - unzip
+      - obsidian-appimage
 
     use: yay
     state: present
