@@ -9,3 +9,5 @@
     - import_tasks: tasks/update.yml
     - import_tasks: tasks/host-info.yml
     - import_tasks: tasks/base-packages.yml
+    - import_tasks: tasks/chaotic-aur.yml
+    - import_tasks: tasks/audio.yml
