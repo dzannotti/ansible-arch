@@ -1,15 +1,13 @@
 ---
-- name: Audio
-  block:
-    - name: Install Pipewire
-      become: true
-      community.general.pacman:
-        name:
-          - pipewire
-          - pipewire-pulse
-          - pipewire-alsa
-          - pipewire-jack
-          - wireplumber
-          - alsa-utils
-        state: present
-      changed_when: false
+- name: Install Pipewire
+  become: true
+  community.general.pacman:
+    name:
+      - pipewire
+      - pipewire-pulse
+      - pipewire-alsa
+      - pipewire-jack
+      - wireplumber
+      - alsa-utils
+    state: present
+  changed_when: false
