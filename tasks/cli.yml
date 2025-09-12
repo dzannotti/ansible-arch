@@ -34,6 +34,9 @@
     name:
       - oh-my-zsh-git
       - zsh-theme-powerlevel10k
+      - bash-completion
+      - yay
+      - update-grub
     use: yay
     state: present
   changed_when: false

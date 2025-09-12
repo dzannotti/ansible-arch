@@ -69,7 +69,7 @@ swapfile_size: 16G
 
 - **Automated package installation** (base, dev, desktop)
 - **AUR support** via yay
-- **Desktop environment** (Hyprland, SDDM)
+- **Desktop environment** (Hyprland, GDM)
 - **Development tools** (neovim, vscode, various languages)
 - **System services** (pipewire, bluetooth, etc.)
 - **Dotfiles management** via stow

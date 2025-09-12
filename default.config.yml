@@ -23,7 +23,7 @@ enable_nvidia: true
 enable_bluetooth: true
 
 # Services
-enable_sddm: true
+enable_gdm: true
 enable_docker: false
 
 # SSH configuration

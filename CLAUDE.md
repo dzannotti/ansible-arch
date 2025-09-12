@@ -98,7 +98,7 @@ These files still exist but should be reviewed/consolidated:
 - **chaotic-aur.yml** - Chaotic-AUR repository setup
 - **multilib.yml** - 32-bit library support
 - **swap.yml** - Swap file configuration
-- **sddm.yml/sddm-theme.yml** - SDDM display manager (to be replaced with GDM)
+- **gdm.yml** - GDM display manager configuration
 - **Various user config** - zsh, git, ssh, dotfiles
 
 ## Package Management Notes
@@ -111,7 +111,7 @@ The following duplicate packages have been cleaned up:
 - ntfs-3g (was in base-packages and other-packages)
 - pipewire-pulse (was in pipewire and bluetooth)
 - qt5-x11extras (duplicate within xorg.yml)
-- bibata-cursor-theme-bin (duplicate within sddm-theme.yml)
+- bibata-cursor-theme-bin (was duplicate in old sddm-theme.yml)
 
 ### Package Installation Methods
 - **pacman** - Used for official Arch repository packages
@@ -126,7 +126,7 @@ enable_nvidia: true/false
 enable_bluetooth: true/false
 enable_desktop: true/false
 enable_development: true/false
-enable_sddm: true/false  # Will be replaced with enable_gdm
+enable_gdm: true/false
 
 # System settings
 swapfile_size: 8G
@@ -136,7 +136,7 @@ generate_ssh_key: true
 
 ## Next Steps / TODO
 
-1. **Replace SDDM with GDM** - Remove SDDM tasks, create GDM configuration
+1. ~~**Replace SDDM with GDM**~~ - ✅ **DONE** - Removed SDDM, added GDM configuration
 2. **Consolidate other-packages.yml** - Move packages to appropriate category files
 3. **Review other-services.yml** - Determine which services belong where
 4. **Create role structure** - Eventually migrate to proper Ansible roles when complexity grows

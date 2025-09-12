@@ -72,12 +72,9 @@
       import_tasks: tasks/git-config.yml
     
     # Display manager
-    - name: Setup SDDM display manager
-      import_tasks: tasks/sddm.yml
-      when: enable_sddm | default(true)
-    - name: Configure SDDM theme
-      import_tasks: tasks/sddm-theme.yml
-      when: enable_sddm | default(true)
+    - name: Setup GDM display manager
+      import_tasks: tasks/gdm.yml
+      when: enable_gdm | default(true)
     
     # Dotfiles and final setup
     - name: Install dotfiles

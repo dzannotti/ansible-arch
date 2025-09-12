@@ -1,0 +1,27 @@
+---
+- name: Install GDM display manager
+  become: true
+  community.general.pacman:
+    name:
+      - gdm
+    state: present
+
+- name: Enable GDM service
+  become: true
+  systemd:
+    name: gdm
+    enabled: true
+    daemon_reload: true
+  notify: restart gdm
+
+- name: Disable other display managers
+  become: true
+  systemd:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  loop:
+    - sddm
+    - lightdm
+  failed_when: false
+  ignore_errors: true
