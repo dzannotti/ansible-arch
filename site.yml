@@ -1,0 +1,49 @@
+---
+# Main playbook for Arch Linux setup
+- name: Configure Arch Linux workstation
+  hosts: localhost
+  connection: local
+  become: true
+  vars_files:
+    - default.config.yml
+    - config.yml
+  vars_prompt:
+    - name: ssh_pass
+      prompt: SSH key passphrase (leave empty for no passphrase)
+      private: true
+      confirm: false
+      
+  tasks:
+    - import_tasks: tasks/createvars.yml
+    - import_tasks: tasks/update.yml
+      when: update | default(true)
+    - import_tasks: tasks/base-packages.yml
+    - import_tasks: tasks/pipewire.yml
+    - import_tasks: tasks/swap.yml
+    - import_tasks: tasks/chaotic-aur.yml
+    - import_tasks: tasks/xorg.yml
+    - import_tasks: tasks/multilib.yml
+    - import_tasks: tasks/nvidiagpu.yml
+      when: enable_nvidia | default(false)
+    - import_tasks: tasks/bluetooth.yml
+      when: enable_bluetooth | default(false)
+    - import_tasks: tasks/fonts.yml
+    - import_tasks: tasks/other-packages.yml
+    - import_tasks: tasks/other-services.yml
+    - import_tasks: tasks/dev-packages.yml
+      when: enable_development | default(true)
+    - import_tasks: tasks/upgrade.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/zsh-catppuccin.yml
+    - import_tasks: tasks/genssh.yml
+      when: generate_ssh_key | default(true)
+    - import_tasks: tasks/desktop.yml
+      when: enable_desktop | default(true)
+    - import_tasks: tasks/sddm.yml
+      when: enable_sddm | default(true)
+    - import_tasks: tasks/sddm-theme.yml
+      when: enable_sddm | default(true)
+    - import_tasks: tasks/hyprland.yml
+    - import_tasks: tasks/install-dotfiles.yml
+    - import_tasks: tasks/dev-setup.yml
+      when: enable_development | default(true)

@@ -1,10 +1,6 @@
 ---
 collections:
-  - community.general
-  - kewlfft.aur
-  - name: drew1kun.shellfreak
-    version: '*'
-    type: galaxy
-  - name: drew1kun.fancyfonts
-roles:
-  - name: luizgavalda.gnome_extensions
+  - name: community.general
+    version: ">=8.0.0"
+  - name: kewlfft.aur
+    version: ">=0.11.0"

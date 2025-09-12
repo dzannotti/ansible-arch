@@ -1,0 +1,31 @@
+---
+# Default configuration for Arch Linux setup
+# Override these in config.yml
+
+# System update on run
+update: true
+
+# Swap configuration
+swapfile_path: /swapfile
+swapfile_size: 8G
+
+# User configuration (will be auto-detected if not set)
+user: "{{ ansible_user_id }}"
+home: "{{ ansible_env.HOME }}"
+
+# Development tools
+enable_development: true
+enable_desktop: true
+enable_gaming: false
+
+# Hardware
+enable_nvidia: true
+enable_bluetooth: true
+
+# Services
+enable_sddm: true
+enable_docker: false
+
+# SSH configuration
+generate_ssh_key: true
+ssh_key_comment: "{{ user }}@archlinux"

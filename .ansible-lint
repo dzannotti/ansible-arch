@@ -1,12 +1,44 @@
 ---
-skip_list:
-  - schema[meta]
+# .ansible-lint configuration
+# Personal Arch Linux setup - optimized for maintainability
+
+profile: production
+
+# Use specific rules collections
+enable_list:
+  - yaml
   - role-name
+  - fqcn-builtins
+
+# Skip rules that don't apply to personal projects
+skip_list:
+  - meta-no-info  # We don't need galaxy meta for personal use
+  - role-name[path]  # Allow custom role paths
+  - yaml[line-length]  # Long lines OK for package lists
+  - no-changed-when  # OK for idempotent package installs
+  - package-latest  # We want latest packages for Arch
+  - risky-file-permissions  # We'll handle permissions explicitly
+
+# Warn on these but don't fail
+warn_list:
   - experimental
-  - fqcn
-  - name[missing]
-  - no-changed-when
-  - risky-file-permissions
-  - yaml[line-length]
-  - yaml[octal-values]
   - command-instead-of-shell
+  - no-handler
+
+# Exclude paths
+exclude_paths:
+  - .github/
+  - .git/
+  - assets/
+  - inventories/development/
+
+# Additional rules configuration
+rules:
+  literal-compare:
+    allow-duplicates: true
+  
+# Use the parseable output
+parseable: true
+
+# Set the verbosity
+verbosity: 1
