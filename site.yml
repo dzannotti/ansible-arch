@@ -22,10 +22,8 @@
     # Core system setup
     - name: Install base system packages
       import_tasks: tasks/base.yml
-    - name: Install filesystem tools
-      import_tasks: tasks/filesystem.yml
-    - name: Install CLI enhancement tools
-      import_tasks: tasks/cli.yml
+    - name: Install modern CLI utilities
+      import_tasks: tasks/utilities.yml
     
     # System services
     - name: Enable multilib repository

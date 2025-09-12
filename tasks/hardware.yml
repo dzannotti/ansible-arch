@@ -1,5 +1,25 @@
 ---
-# Hardware support - NVIDIA, Bluetooth, etc.
+# Hardware support - CPU, GPU, monitoring tools
+- name: Install AMD microcode
+  become: true
+  community.general.pacman:
+    name:
+      - amd-ucode
+    state: present
+  changed_when: false
+
+- name: Install hardware monitoring tools
+  become: true
+  community.general.pacman:
+    name:
+      - acpi
+      - cpupower
+      - turbostat
+      - fastfetch
+      - lm_sensors
+    state: present
+  changed_when: false
+
 - name: Install NVIDIA drivers
   become: true
   community.general.pacman:
@@ -11,6 +31,29 @@
     state: present
   when: enable_nvidia | default(false)
   changed_when: false
+
+- name: Configure NVIDIA DRM kernel mode setting for Wayland
+  become: true
+  copy:
+    dest: /etc/modprobe.d/nvidia.conf
+    content: |
+      options nvidia_drm modeset=1
+      options nvidia_drm fbdev=1
+      options nvidia NVreg_PreserveVideoMemoryAllocations=1
+      options nvidia NVreg_TemporaryFilePath=/var/tmp
+    mode: '0644'
+  when: enable_nvidia | default(false)
+
+- name: Enable NVIDIA power management services
+  become: true
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+  loop:
+    - nvidia-suspend
+    - nvidia-hibernate
+    - nvidia-resume
+  when: enable_nvidia | default(false)
 
 - name: Install Bluetooth support
   become: true
@@ -31,4 +74,3 @@
     enabled: true
     state: started
   when: enable_bluetooth | default(false)
-  changed_when: false

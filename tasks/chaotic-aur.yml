@@ -34,8 +34,34 @@
 - name: Update package cache after adding repository
   import_tasks: tasks/update.yml
 
-- name: Install yay
+- name: Install yay (temporary bootstrap for paru)
   become: true
   community.general.pacman:
     name: yay
     state: present
+
+- name: Clone paru from AUR
+  become: false
+  git:
+    repo: https://aur.archlinux.org/paru.git
+    dest: /tmp/paru
+    force: true
+
+- name: Build and install paru
+  become: false
+  command: makepkg -si --noconfirm
+  args:
+    chdir: /tmp/paru
+  changed_when: true
+
+- name: Remove yay after paru installation
+  become: true
+  community.general.pacman:
+    name: yay
+    state: absent
+
+- name: Clean up paru build directory
+  become: false
+  file:
+    path: /tmp/paru
+    state: absent

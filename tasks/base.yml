@@ -14,13 +14,30 @@
       - man-db
       - man-pages
       # Networking
-      - dhcpcd
       - networkmanager
       - openssh
       # Basic tools
-      - nano
       - git
-      - wget
-      - reflector
+      - curl
+      - micro
+      - vim
+      - which
+      - less
+      - tree
+      - bind-tools  # dig, nslookup for network debugging
+      # Shell
+      - zsh
+      - bash-completion
+      # System utilities
+      - bc
+      - stow
+      - btop
+      # Filesystem support
+      - dosfstools
+      - ntfs-3g
+      - exfatprogs
+      - p7zip
+      - unzip
     state: present
   changed_when: false
+

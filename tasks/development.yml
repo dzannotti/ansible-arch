@@ -10,6 +10,7 @@
       - npm
       - go
       - rust
+      - tmux  # Terminal multiplexer
     state: present
   changed_when: false
 

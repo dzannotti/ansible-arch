@@ -8,6 +8,8 @@
       - mpv
       - mpv-mpris
       - ffmpeg
+      # Utilities
+      - pass  # Password manager
     state: present
   changed_when: false
 
