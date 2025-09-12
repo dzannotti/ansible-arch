@@ -1,0 +1,39 @@
+---
+# Enhanced CLI tools and utilities
+- name: Install CLI enhancement tools
+  become: true
+  community.general.pacman:
+    name:
+      # Better CLI tools
+      - eza          # Better ls
+      - bat          # Better cat
+      - fd           # Better find
+      - fzf          # Fuzzy finder
+      - ripgrep      # Better grep
+      - htop         # Better top
+      - btop         # Even better top
+      - fastfetch    # System info
+      # Shell and terminal
+      - zsh
+      - tmux
+      - stow         # Dotfile management
+      # System monitoring
+      - acpi
+      - cpupower
+      - turbostat
+      # Other utilities
+      - xclip
+      - bc
+      - pass         # Password manager
+    state: present
+  changed_when: false
+
+- name: Install AUR CLI tools
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - oh-my-zsh-git
+      - zsh-theme-powerlevel10k
+    use: yay
+    state: present
+  changed_when: false

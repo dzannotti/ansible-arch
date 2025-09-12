@@ -1,41 +1,45 @@
 ---
-- name: Install programs from pacman for desktop.
+# Desktop environment - Hyprland and components
+- name: Install Hyprland and core components
   become: true
-  pacman:
+  community.general.pacman:
     name:
-      - nautilus
-      - qt5-wayland
-      - qt6-wayland
-      - slurp
-      - swaybg
-      - swayimg
-      - swaylock
-      - swaync
-      - wayland
-      - wayland-protocols
-      - wl-clipboard
-      - wtype
+      # Hyprland
       - hyprland
       - hyprpaper
       - hyprlock
       - hyprpicker
-      - libnotify
-      - waybar
       - xdg-desktop-portal-hyprland
-      - lxappearance
+      # Window management
+      - swaybg
+      - swayimg
+      - swaylock
+      - swaync
+      # Desktop components
+      - waybar
+      - wofi
+      - libnotify
       - polkit-gnome
+      # File manager
+      - nautilus
+      # Theming
+      - lxappearance
+      - gtk4
+      - libadwaita
+      # Qt support
       - layer-shell-qt5
       - qt6-svg
       - qt6-virtualkeyboard
       - qt6-multimedia-ffmpeg
-      - wofi
-      - pavucontrol
+    state: present
+  changed_when: false
 
-- name: Install programs from yay for desktop
+- name: Install AUR desktop packages
   become: true
   kewlfft.aur.aur:
     name:
       - hyprshot
+      - bibata-cursor-theme-bin
     use: yay
     state: present
   changed_when: false

@@ -1,0 +1,34 @@
+---
+# Hardware support - NVIDIA, Bluetooth, etc.
+- name: Install NVIDIA drivers
+  become: true
+  community.general.pacman:
+    name:
+      - nvidia
+      - nvidia-utils
+      - nvidia-settings
+      - lib32-nvidia-utils
+    state: present
+  when: enable_nvidia | default(false)
+  changed_when: false
+
+- name: Install Bluetooth support
+  become: true
+  community.general.pacman:
+    name:
+      - bluez
+      - bluez-utils
+      - bluez-plugins
+      - blueman
+    state: present
+  when: enable_bluetooth | default(false)
+  changed_when: false
+
+- name: Enable Bluetooth service
+  become: true
+  systemd:
+    name: bluetooth
+    enabled: true
+    state: started
+  when: enable_bluetooth | default(false)
+  changed_when: false

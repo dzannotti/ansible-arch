@@ -1,9 +1,8 @@
 ---
 - name: Remove conflicting bibata-cursor-theme
-  ansible.builtin.pacman:
+  community.general.pacman:
     name:
       - bibata-cursor-theme
-      - bibata-cursor-theme-bin
     state: absent
 
 - name: Install themes

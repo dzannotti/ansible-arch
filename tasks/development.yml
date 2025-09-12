@@ -1,0 +1,29 @@
+---
+# Development tools and environments
+- name: Install development languages and runtimes
+  become: true
+  community.general.pacman:
+    name:
+      - python
+      - python-pip
+      - nodejs
+      - npm
+      - go
+      - rust
+    state: present
+  changed_when: false
+
+- name: Install development tools from AUR
+  become: true
+  kewlfft.aur.aur:
+    name:
+      # Editors and IDEs
+      - neovim
+      - visual-studio-code-bin
+      # Terminals
+      - ghostty
+      # Git tools
+      - gitkraken
+    use: yay
+    state: present
+  changed_when: false

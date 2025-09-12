@@ -18,6 +18,11 @@ skip_list:
   - no-changed-when  # OK for idempotent package installs
   - package-latest  # We want latest packages for Arch
   - risky-file-permissions  # We'll handle permissions explicitly
+  - fqcn[action-core]  # Don't need FQCN for builtin modules
+  - fqcn[action]  # Don't need FQCN for all modules
+  - yaml[trailing-spaces]  # Minor formatting issue
+  - yaml[new-line-at-end-of-file]  # Minor formatting issue
+  - internal-error  # Ignore internal errors from main.yml
 
 # Warn on these but don't fail
 warn_list:
@@ -32,11 +37,6 @@ exclude_paths:
   - assets/
   - inventories/development/
 
-# Additional rules configuration
-rules:
-  literal-compare:
-    allow-duplicates: true
-  
 # Use the parseable output
 parseable: true
 

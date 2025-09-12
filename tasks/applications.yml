@@ -1,0 +1,37 @@
+---
+# Desktop applications - browsers, media, productivity
+- name: Install desktop applications from pacman
+  become: true
+  community.general.pacman:
+    name:
+      # Media
+      - mpv
+      - mpv-mpris
+      - ffmpeg
+      # Email
+      - geary
+    state: present
+  changed_when: false
+
+- name: Install desktop applications from AUR
+  become: true
+  kewlfft.aur.aur:
+    name:
+      # Browsers
+      - firefox
+      - google-chrome
+      - brave
+      - browserpass-firefox
+      - browserpass-chromium
+      # Media and entertainment
+      - spotify
+      - spotify-adblock-git
+      # Download tools
+      - yt-dlp
+      - gallery-dl
+      - aria2
+      # Communication
+      - ferdium
+    use: yay
+    state: present
+  changed_when: false

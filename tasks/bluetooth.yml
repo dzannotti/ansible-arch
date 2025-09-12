@@ -6,5 +6,4 @@
       - bluez
       - bluez-utils
       - bluez-plugins
-      - pipewire-pulse
     state: present

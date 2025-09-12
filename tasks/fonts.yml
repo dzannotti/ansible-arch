@@ -1,23 +1,28 @@
 ---
-- name: Install fonts packages
+# Font installation
+- name: Install fonts
   become: true
   kewlfft.aur.aur:
     name:
-      - ttf-ubuntu-font-family
-      - nerd-fonts-inter
-      - noto-fonts
-      - cantarell-fonts
-      - noto-fonts-emoji
-      - ttf-dejavu
-      - ttf-roboto
-      - ttf-cascadia-code-nerd
-      - adobe-source-han-sans-otc-fonts
-      - ttf-meslo-nerd
-      - ttf-inter-nerd
-      - ttf-fira-code-nerd
-      - ttf-jetbrains-mono
-      - ttf-bitstream-vera
+      - ttf-fira-code
+      - ttf-fira-sans
       - ttf-font-awesome
+      - ttf-hack
+      - ttf-cascadia-code
+      - ttf-jetbrains-mono
+      - ttf-ubuntu-font-family
+      - ttf-roboto
+      - noto-fonts
+      - noto-fonts-cjk
+      - noto-fonts-emoji
+      - ttf-liberation
+      - ttf-opensans
+      - ttf-droid
+      - ttf-ibm-plex
+      - otf-font-awesome
+      - ttf-material-design-icons-extended
+      - ttf-meslo-nerd-font-powerlevel10k
+      - ttf-sourcecodepro-nerd
     use: yay
     state: present
   changed_when: false

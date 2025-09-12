@@ -1,0 +1,28 @@
+---
+# Audio system (PipeWire)
+- name: Install PipeWire audio system
+  become: true
+  community.general.pacman:
+    name:
+      - pipewire
+      - pipewire-alsa
+      - pipewire-pulse
+      - pipewire-jack
+      - wireplumber
+      - alsa-utils
+      - pavucontrol
+    state: present
+  changed_when: false
+
+- name: Enable PipeWire services
+  become: false
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+    scope: user
+  loop:
+    - pipewire
+    - pipewire-pulse
+    - wireplumber
+  changed_when: false

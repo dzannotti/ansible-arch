@@ -31,7 +31,8 @@
   changed_when: false
   failed_when: false
 
-- import_tasks: tasks/update.yml
+- name: Update package cache after adding repository
+  import_tasks: tasks/update.yml
 
 - name: Install yay
   become: true

@@ -14,36 +14,78 @@
       confirm: false
       
   tasks:
-    - import_tasks: tasks/createvars.yml
-    - import_tasks: tasks/update.yml
+    # System update
+    - name: Update package cache
+      import_tasks: tasks/update.yml
       when: update | default(true)
-    - import_tasks: tasks/base-packages.yml
-    - import_tasks: tasks/pipewire.yml
-    - import_tasks: tasks/swap.yml
-    - import_tasks: tasks/chaotic-aur.yml
-    - import_tasks: tasks/xorg.yml
-    - import_tasks: tasks/multilib.yml
-    - import_tasks: tasks/nvidiagpu.yml
-      when: enable_nvidia | default(false)
-    - import_tasks: tasks/bluetooth.yml
-      when: enable_bluetooth | default(false)
-    - import_tasks: tasks/fonts.yml
-    - import_tasks: tasks/other-packages.yml
-    - import_tasks: tasks/other-services.yml
-    - import_tasks: tasks/dev-packages.yml
-      when: enable_development | default(true)
-    - import_tasks: tasks/upgrade.yml
-    - import_tasks: tasks/zsh.yml
-    - import_tasks: tasks/zsh-catppuccin.yml
-    - import_tasks: tasks/genssh.yml
-      when: generate_ssh_key | default(true)
-    - import_tasks: tasks/desktop.yml
+    
+    # Core system setup
+    - name: Install base system packages
+      import_tasks: tasks/base.yml
+    - name: Install filesystem tools
+      import_tasks: tasks/filesystem.yml
+    - name: Install CLI enhancement tools
+      import_tasks: tasks/cli.yml
+    
+    # System services
+    - name: Enable multilib repository
+      import_tasks: tasks/multilib.yml
+    - name: Add Chaotic-AUR repository
+      import_tasks: tasks/chaotic-aur.yml
+    - name: Setup audio system
+      import_tasks: tasks/audio.yml
+    - name: Setup hardware support
+      import_tasks: tasks/hardware.yml
+    
+    # Display and desktop
+    - name: Setup display system
+      import_tasks: tasks/display.yml
+    - name: Setup desktop environment
+      import_tasks: tasks/desktop.yml
       when: enable_desktop | default(true)
-    - import_tasks: tasks/sddm.yml
-      when: enable_sddm | default(true)
-    - import_tasks: tasks/sddm-theme.yml
-      when: enable_sddm | default(true)
-    - import_tasks: tasks/hyprland.yml
-    - import_tasks: tasks/install-dotfiles.yml
-    - import_tasks: tasks/dev-setup.yml
+    
+    # Applications
+    - name: Install development tools
+      import_tasks: tasks/development.yml
       when: enable_development | default(true)
+    - name: Install desktop applications
+      import_tasks: tasks/applications.yml
+      when: enable_desktop | default(true)
+    - name: Install fonts
+      import_tasks: tasks/fonts.yml
+    
+    # System configuration
+    - name: Configure swap file
+      import_tasks: tasks/swap.yml
+    - name: Configure system services
+      import_tasks: tasks/other-services.yml
+    
+    # User configuration
+    - name: Configure zsh shell
+      import_tasks: tasks/zsh.yml
+    - name: Setup zsh catppuccin theme
+      import_tasks: tasks/zsh-catppuccin.yml
+    - name: Generate SSH key
+      import_tasks: tasks/genssh.yml
+      when: generate_ssh_key | default(true)
+    - name: Configure git
+      import_tasks: tasks/git-config.yml
+    
+    # Display manager
+    - name: Setup SDDM display manager
+      import_tasks: tasks/sddm.yml
+      when: enable_sddm | default(true)
+    - name: Configure SDDM theme
+      import_tasks: tasks/sddm-theme.yml
+      when: enable_sddm | default(true)
+    
+    # Dotfiles and final setup
+    - name: Install dotfiles
+      import_tasks: tasks/install-dotfiles.yml
+    - name: Setup development environment
+      import_tasks: tasks/dev-setup.yml
+      when: enable_development | default(true)
+    
+    # Final upgrade
+    - name: Upgrade all packages
+      import_tasks: tasks/upgrade.yml

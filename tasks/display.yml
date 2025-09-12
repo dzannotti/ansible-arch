@@ -1,0 +1,31 @@
+---
+# Display system - Xorg/Wayland components
+- name: Install Xorg/XWayland packages
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - xorg-xwayland
+      - xorg-xrandr
+      - xorg-xprop
+      - libxcb
+      - qt5-x11extras
+      - xcb-util-wm
+      - xcb-util-image
+      - xcb-util-keysyms
+    use: yay
+    state: present
+  changed_when: false
+
+- name: Install Wayland base packages
+  become: true
+  community.general.pacman:
+    name:
+      - wayland
+      - wayland-protocols
+      - qt5-wayland
+      - qt6-wayland
+      - wl-clipboard
+      - wtype
+      - slurp
+    state: present
+  changed_when: false

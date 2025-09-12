@@ -19,7 +19,7 @@
 - name: Enable and start accounts-daemon
   systemd:
     name: accounts-daemon
-    enabled: yes
+    enabled: true
     state: started
 
 - name: Ensure AccountsService icons directory exists
