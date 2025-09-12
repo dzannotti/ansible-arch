@@ -8,7 +8,7 @@ This Ansible playbook is designed to:
 3. **Stay simple and maintainable** - single-user focused, no corporate overhead
 4. **Be modular** - enable/disable features via config flags
 
-The setup should be able to take you from a minimal Arch install to a fully configured development environment with Hyprland, all your tools, and dotfiles configured.
+The setup should be able to take you from a minimal Arch install to a fully configured development environment with Wayland, all your tools, and dotfiles configured.
 
 ## Testing Commands
 
@@ -62,14 +62,14 @@ These run first and set up the foundation:
 Desktop environment setup:
 
 - **display.yml** - Display server components
-  - Xorg/XWayland compatibility layers
+  - XWayland compatibility layer (for X11 apps)
   - Wayland core protocols and tools
 
-- **desktop.yml** - Hyprland and components
-  - Hyprland window manager and utilities
-  - Desktop components: waybar, wofi, notifications
-  - File manager: Nautilus
+- **desktop.yml** - Wayland desktop components
+  - Core desktop libraries and tools
+  - File manager: Nautilus  
   - Theming tools and cursor themes
+  - Qt/GTK Wayland support
 
 ### Applications
 

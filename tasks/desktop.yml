@@ -1,23 +1,10 @@
 ---
-# Desktop environment - Hyprland and components
-- name: Install Hyprland and core components
+# Desktop environment - Wayland desktop components  
+- name: Install Wayland desktop components
   become: true
   community.general.pacman:
     name:
-      # Hyprland
-      - hyprland
-      - hyprpaper
-      - hyprlock
-      - hyprpicker
-      - xdg-desktop-portal-hyprland
-      # Window management
-      - swaybg
-      - swayimg
-      - swaylock
-      - swaync
       # Desktop components
-      - waybar
-      - wofi
       - libnotify
       - polkit-gnome
       # File manager
@@ -27,9 +14,8 @@
       - gtk4
       - libadwaita
       # Qt support
-      - layer-shell-qt5
       - qt6-svg
-      - qt6-virtualkeyboard
+      - qt6-virtualkeyboard  
       - qt6-multimedia-ffmpeg
     state: present
   changed_when: false
@@ -38,7 +24,6 @@
   become: true
   kewlfft.aur.aur:
     name:
-      - hyprshot
       - bibata-cursor-theme-bin
     use: yay
     state: present

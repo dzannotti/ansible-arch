@@ -1,18 +1,10 @@
 ---
-# Display system - Xorg/Wayland components
-- name: Install Xorg/XWayland packages
+# Display system - Wayland with XWayland compatibility
+- name: Install XWayland compatibility layer
   become: true
-  kewlfft.aur.aur:
+  community.general.pacman:
     name:
-      - xorg-xwayland
-      - xorg-xrandr
-      - xorg-xprop
-      - libxcb
-      - qt5-x11extras
-      - xcb-util-wm
-      - xcb-util-image
-      - xcb-util-keysyms
-    use: yay
+      - xorg-xwayland  # X11 app compatibility on Wayland
     state: present
   changed_when: false
 
