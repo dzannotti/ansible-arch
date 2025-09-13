@@ -10,9 +10,12 @@ sudo pacman -S --needed --noconfirm \
     limine \
     plymouth
 
-# Try to install limine tools - first from official repos, then AUR
-echo "Installing limine tools..."
+# Install snapper for snapshot functionality
+echo "Installing snapper and limine tools..."
+sudo pacman -S --needed --noconfirm \
+    snapper
 
+# Try to install limine tools - first from official repos, then AUR
 # Try official repos first (some distros have these)
 sudo pacman -S --needed --noconfirm limine-snapper-sync limine-mkinitcpio-hook 2>/dev/null || {
     echo "Limine tools not in official repos, trying AUR..."
@@ -26,37 +29,40 @@ sudo pacman -S --needed --noconfirm limine-snapper-sync limine-mkinitcpio-hook 2
 }
 
 echo "Configuring mkinitcpio hooks..."
-# Check if hooks config already exists with our configuration
-HOOKS_CONFIG="/etc/mkinitcpio.conf.d/workstation_hooks.conf"
-EXPECTED_HOOKS="base udev plymouth keyboard autodetect microcode modconf kms keymap consolefont block filesystems fsck"
+# Update the main mkinitcpio.conf with proper hooks including Plymouth and BTRFS support
+MKINITCPIO_CONF="/etc/mkinitcpio.conf"
 
-if [ -f "$HOOKS_CONFIG" ] && grep -q "plymouth" "$HOOKS_CONFIG"; then
-    echo "mkinitcpio hooks already configured"
+# Check if plymouth hook is already present
+if ! grep -q "plymouth" "$MKINITCPIO_CONF"; then
+    echo "Adding Plymouth and BTRFS hooks to mkinitcpio..."
+    
+    # Backup the config
+    if [ ! -f "$MKINITCPIO_CONF.backup" ]; then
+        sudo cp "$MKINITCPIO_CONF" "$MKINITCPIO_CONF.backup"
+    fi
+    
+    # Replace the HOOKS line with our complete configuration
+    sudo sed -i 's/^HOOKS=.*/HOOKS=(base udev plymouth keyboard autodetect microcode modconf kms keymap consolefont block btrfs filesystems fsck)/' "$MKINITCPIO_CONF"
+    
+    echo "mkinitcpio hooks updated with Plymouth and BTRFS support"
 else
-    # Create omarchy-style hooks config
-    sudo tee "$HOOKS_CONFIG" > /dev/null << 'EOF'
-HOOKS=(base udev plymouth keyboard autodetect microcode modconf kms keymap consolefont block filesystems fsck)
-EOF
-    echo "Plymouth and limine hooks configured"
+    echo "Plymouth hook already configured in mkinitcpio"
 fi
 # Note: Initramfs will be rebuilt by Plymouth when theme is set
 
 echo "Configuring Limine with Tokyo Night theme..."
 
-# Check if limine bootloader is installed (check for config files)
-if [ -f /boot/limine.conf ] || [ -f /boot/EFI/limine/limine.conf ] || [ -f /boot/limine/limine.conf ]; then
-    
-    # Determine config location - check all possible locations
-    if [ -f /boot/EFI/limine/limine.conf ]; then
-        LIMINE_CONFIG="/boot/EFI/limine/limine.conf"
-        EFI=true
-    elif [ -f /boot/limine/limine.conf ]; then
-        LIMINE_CONFIG="/boot/limine/limine.conf"  
-        EFI=false
-    elif [ -f /boot/limine.conf ]; then
-        LIMINE_CONFIG="/boot/limine.conf"
-        EFI=false
-    fi
+# Always configure limine - use the main config location where boot entries exist
+# Check EFI vs BIOS setup
+if [ -d /sys/firmware/efi ]; then
+    LIMINE_CONFIG="/boot/EFI/limine/limine.conf"
+    EFI=true
+else
+    LIMINE_CONFIG="/boot/limine.conf"
+    EFI=false
+fi
+
+echo "Using limine config at: $LIMINE_CONFIG"
     
     # Get existing kernel command line if config exists
     if [ -f "$LIMINE_CONFIG" ]; then
@@ -113,7 +119,39 @@ else
     echo "Warning: Limine not found, skipping configuration"
 fi
 
-# Note: Kernel command line is configured via /etc/default/limine above
+# Configure snapper for snapshots (following omarchy approach)
+echo "Configuring snapper for system snapshots..."
+
+# Create snapper configs if they don't exist
+if ! sudo snapper list-configs 2>/dev/null | grep -q "root"; then
+    echo "Creating root snapper configuration..."
+    sudo snapper -c root create-config /
+fi
+
+if ! sudo snapper list-configs 2>/dev/null | grep -q "home"; then
+    echo "Creating home snapper configuration..."
+    sudo snapper -c home create-config /home
+fi
+
+# Configure snapper settings (omarchy's tweaks)
+echo "Configuring snapper timeline and limits..."
+sudo sed -i 's/^TIMELINE_CREATE="yes"/TIMELINE_CREATE="no"/' /etc/snapper/configs/root 2>/dev/null || true
+sudo sed -i 's/^NUMBER_LIMIT="50"/NUMBER_LIMIT="5"/' /etc/snapper/configs/root 2>/dev/null || true 
+sudo sed -i 's/^NUMBER_LIMIT_IMPORTANT="10"/NUMBER_LIMIT_IMPORTANT="5"/' /etc/snapper/configs/root 2>/dev/null || true
+
+sudo sed -i 's/^TIMELINE_CREATE="yes"/TIMELINE_CREATE="no"/' /etc/snapper/configs/home 2>/dev/null || true
+sudo sed -i 's/^NUMBER_LIMIT="50"/NUMBER_LIMIT="5"/' /etc/snapper/configs/home 2>/dev/null || true
+sudo sed -i 's/^NUMBER_LIMIT_IMPORTANT="10"/NUMBER_LIMIT_IMPORTANT="5"/' /etc/snapper/configs/home 2>/dev/null || true
+
+# Enable limine-snapper-sync service if available
+if systemctl list-unit-files | grep -q "limine-snapper-sync.service"; then
+    echo "Enabling limine-snapper-sync service..."
+    sudo systemctl enable limine-snapper-sync.service
+else
+    echo "limine-snapper-sync service not available"
+fi
+
+# Note: Kernel command line is configured via /etc/default/limine above  
 # Note: Initramfs rebuild will be handled by Plymouth theme setup
 
-echo "Limine bootloader configured"
+echo "Limine bootloader and snapshots configured"
