@@ -2,15 +2,9 @@ name: Validate Bash Scripts
 
 on:
   push:
-    branches: [ main, sept25-updates, bash-conversion ]
-    paths: 
-      - 'scripts/**'
-      - 'setup.sh'
+    branches: [main]
   pull_request:
-    branches: [ main, sept25-updates ]
-    paths:
-      - 'scripts/**' 
-      - 'setup.sh'
+    branches: [main]
 
 jobs:
   shellcheck:
