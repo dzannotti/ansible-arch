@@ -2,91 +2,22 @@
 # Plymouth boot splash theme setup
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$SCRIPT_DIR/../configs"
+
 echo "Setting up Plymouth boot splash..."
 
 # Create theme directory
 echo "Creating Plymouth theme directory..."
 sudo mkdir -p /usr/share/plymouth/themes/tokyo-night
 
-# Create Plymouth theme configuration
+# Copy Plymouth theme configuration
 echo "Creating Plymouth theme configuration..."
-sudo tee /usr/share/plymouth/themes/tokyo-night/tokyo-night.plymouth > /dev/null <<'EOF'
-[Plymouth Theme]
-Name=Tokyo Night
-Description=Tokyo Night themed boot splash
-ModuleName=script
+sudo cp "$CONFIG_DIR/plymouth-theme.plymouth" /usr/share/plymouth/themes/tokyo-night/tokyo-night.plymouth
 
-[script]
-ImageDir=/usr/share/plymouth/themes/tokyo-night
-ScriptFile=/usr/share/plymouth/themes/tokyo-night/tokyo-night.script
-ConsoleLogBackgroundColor=0x1a1b26
-MonospaceFont=JetBrainsMono Nerd Font 11
-Font=SF Pro Display 11
-EOF
-
-# Create Plymouth script file
+# Copy Plymouth script file
 echo "Creating Plymouth script file..."
-sudo tee /usr/share/plymouth/themes/tokyo-night/tokyo-night.script > /dev/null <<'EOF'
-# Tokyo Night Plymouth Theme Script
-
-# Set background color
-Window.SetBackgroundTopColor(0.102, 0.107, 0.149);     # #1a1b26
-Window.SetBackgroundBottomColor(0.102, 0.107, 0.149);  # #1a1b26
-
-# Create and position logo if available
-logo.image = Image("logo.png");
-if (logo.image) {
-    logo.sprite = Sprite(logo.image);
-    logo.sprite.SetPosition(Window.GetWidth() / 2 - logo.image.GetWidth() / 2, 
-                          Window.GetHeight() / 2 - logo.image.GetHeight() / 2 - 100);
-}
-
-# Progress bar setup
-progress_box.image = Image("progress_box.png");
-progress_bar.image = Image("progress_bar.png");
-
-if (progress_box.image && progress_bar.image) {
-    progress_box.sprite = Sprite(progress_box.image);
-    progress_bar.sprite = Sprite(progress_bar.image);
-    
-    progress_box.sprite.SetPosition(Window.GetWidth() / 2 - progress_box.image.GetWidth() / 2,
-                                   Window.GetHeight() / 2 + 50);
-    progress_bar.sprite.SetPosition(Window.GetWidth() / 2 - progress_bar.image.GetWidth() / 2,
-                                   Window.GetHeight() / 2 + 50);
-}
-
-# Progress callback
-fun progress_callback (duration, progress) {
-    if (progress_bar.sprite && progress_box.sprite) {
-        progress_bar.sprite.SetImage(progress_bar.image.Scale(progress_bar.image.GetWidth() * progress, 
-                                                             progress_bar.image.GetHeight()));
-    }
-}
-Plymouth.SetBootProgressFunction(progress_callback);
-
-# Message display
-message_sprite = Sprite();
-message_sprite.SetPosition(Window.GetWidth() / 2, Window.GetHeight() / 2 + 120, 0.5, 1);
-
-fun display_normal_callback () {
-    message_sprite.SetImage(Image.Text("", 0.478, 0.792, 0.956));  # Tokyo Night blue
-}
-
-fun display_password_callback (prompt, bullets) {
-    message = Image.Text(prompt, 0.478, 0.792, 0.956);
-    bullet_image = Image.Text("•", 0.478, 0.792, 0.956);
-    
-    message_sprite.SetImage(message);
-    
-    for (i = 0; i < bullets; i++) {
-        bullet_sprite = Sprite(bullet_image);
-        bullet_sprite.SetPosition(Window.GetWidth() / 2 + i * 20, Window.GetHeight() / 2 + 150);
-    }
-}
-
-Plymouth.SetDisplayNormalFunction(display_normal_callback);
-Plymouth.SetDisplayPasswordFunction(display_password_callback);
-EOF
+sudo cp "$CONFIG_DIR/plymouth-theme.script" /usr/share/plymouth/themes/tokyo-night/tokyo-night.script
 
 # Create simple placeholder graphics if ImageMagick is available
 if command -v convert &> /dev/null; then

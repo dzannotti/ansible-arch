@@ -2,22 +2,23 @@
 # Limine bootloader configuration with Tokyo Night theme
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$SCRIPT_DIR/../configs"
+
 echo "Installing Limine bootloader..."
 sudo pacman -S --needed --noconfirm \
     limine \
     plymouth
 
-echo "Configuring mkinitcpio hooks for Plymouth..."
-if [ ! -f /etc/mkinitcpio.conf.d/plymouth_hooks.conf ]; then
-    sudo mkdir -p /etc/mkinitcpio.conf.d
-    sudo tee /etc/mkinitcpio.conf.d/plymouth_hooks.conf > /dev/null <<'EOF'
-# Add Plymouth for smooth boot splash
-HOOKS=(base udev plymouth autodetect microcode modconf kms keymap consolefont block filesystems fsck)
-EOF
-    echo "Plymouth hooks configured"
+echo "Adding Plymouth to mkinitcpio hooks..."
+# Instead of overwriting, we'll modify the main mkinitcpio.conf
+if ! grep -q "plymouth" /etc/mkinitcpio.conf; then
+    # Get current HOOKS line and insert plymouth after udev
+    sudo sed -i '/^HOOKS=/s/udev/udev plymouth/' /etc/mkinitcpio.conf
+    echo "Plymouth hook added to mkinitcpio.conf"
     REBUILD_INITRAMFS=true
 else
-    echo "Plymouth hooks already configured"
+    echo "Plymouth hook already in mkinitcpio.conf"
     REBUILD_INITRAMFS=false
 fi
 
@@ -37,30 +38,13 @@ else
 fi
 
 if [ -n "$LIMINE_CONFIG" ]; then
-    sudo tee "$LIMINE_CONFIG" > /dev/null <<'EOF'
-### Limine bootloader configuration with Tokyo Night theme
-timeout: 3
-default_entry: 0
-interface_branding: Arch Linux
-interface_branding_color: 2
-hash_mismatch_panic: no
-
-# Tokyo Night color scheme
-term_background: 1a1b26
-backdrop: 1a1b26
-
-# Terminal colors (Tokyo Night palette)
-term_palette: 15161e;f7768e;9ece6a;e0af68;7aa2f7;bb9af7;7dcfff;a9b1d6
-term_palette_bright: 414868;f7768e;9ece6a;e0af68;7aa2f7;bb9af7;7dcfff;c0caf5
-
-# Text colors
-term_foreground: c0caf5
-term_foreground_bright: c0caf5
-term_background_bright: 24283b
-
-# Kernel entries will be automatically added by limine-update
-EOF
-    echo "Limine configuration created at $LIMINE_CONFIG"
+    # Check if config needs updating
+    if [ ! -f "$LIMINE_CONFIG" ] || ! grep -q "Tokyo Night" "$LIMINE_CONFIG" 2>/dev/null; then
+        sudo cp "$CONFIG_DIR/limine.conf" "$LIMINE_CONFIG"
+        echo "Limine configuration updated at $LIMINE_CONFIG"
+    else
+        echo "Limine configuration already set"
+    fi
 fi
 
 echo "Updating kernel command line for quiet boot..."
