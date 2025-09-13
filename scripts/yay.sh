@@ -5,7 +5,7 @@ set -euo pipefail
 # Check if yay is already installed
 if command -v yay &> /dev/null; then
     echo "yay is already installed"
-    exit 0
+    return 0
 fi
 
 echo "Installing yay AUR helper..."
