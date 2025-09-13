@@ -43,8 +43,10 @@ fi
 
 echo "Configuring Limine with Tokyo Night theme..."
 
-# Check if limine is installed
-if command -v limine &>/dev/null; then
+# Check if limine bootloader is installed (check for config files, not command)
+echo "DEBUG: Checking for limine installation..."
+if [ -f /boot/EFI/limine/limine.conf ] || [ -f /boot/limine/limine.conf ] || [ -d /boot/EFI/limine ] || [ -d /boot/limine ]; then
+    echo "DEBUG: limine bootloader found"
     # Determine if EFI or BIOS
     [[ -f /boot/EFI/limine/limine.conf ]] && EFI=true || EFI=false
     
