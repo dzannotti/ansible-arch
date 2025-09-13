@@ -2,7 +2,12 @@
 # GNOME theming - Tokyonight GTK theme and Bibata Ice cursor
 set -euo pipefail
 
-echo "Installing cursor theme from AUR..."
+echo "Installing theme dependencies and cursor theme..."
+sudo pacman -S --needed --noconfirm \
+    gtk-engine-murrine \
+    gnome-themes-extra \
+    sassc
+
 yay -S --needed --noconfirm \
     bibata-cursor-theme
 
@@ -14,11 +19,14 @@ if [ ! -d "$HOME/.themes/Tokyonight-Dark-BL-LB" ]; then
     
     echo "Installing Tokyonight theme..."
     cd /tmp/tokyonight-gtk-theme
+    chmod +x install.sh
     ./install.sh -s compact -l --tweaks macos
     
     echo "Installing Tokyonight icons..."
     mkdir -p "$HOME/.local/share/icons"
-    cp -r /tmp/tokyonight-gtk-theme/icons/Tokyonight-* "$HOME/.local/share/icons/" 2>/dev/null || true
+    if [ -d "icons" ]; then
+        cp -r icons/Tokyonight-* "$HOME/.local/share/icons/" 2>/dev/null || true
+    fi
     
     # Also ensure legacy location exists in case some apps still use it
     if [ ! -d "$HOME/.icons" ]; then

@@ -15,7 +15,7 @@ yay -S --needed --noconfirm \
     ttf-firacode-nerd \
     ttf-geist \
     ttf-geist-mono \
-    ttf-ms-fonts \
+    ttf-ms-win11-auto \
     otf-san-francisco
 
 echo "Fonts installed"
