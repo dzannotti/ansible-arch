@@ -4,8 +4,6 @@ set -euo pipefail
 
 echo "Installing development packages..."
 yay -S --needed --noconfirm \
-    python \
-    python-pip \
     clang \
     llvm \
     gcc \
@@ -34,10 +32,11 @@ yay -S --needed --noconfirm \
 echo "Installing runtime languages via mise..."
 if [ ! -d ~/.local/share/mise/installs/node ]; then
     # Install latest versions as global defaults
+    mise install python@latest
     mise install node@latest
     mise install go@latest
     mise install rust@latest
-    mise global node@latest go@latest rust@latest
+    mise global python@latest node@latest go@latest rust@latest
     
     # Install JS package managers
     mise exec -- npm install -g pnpm bun
