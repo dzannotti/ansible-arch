@@ -15,8 +15,9 @@ for dm in sddm lightdm; do
     fi
 done
 
-echo "Enabling GDM service..."
+echo "Enabling GDM service (will start on next boot)..."
+# Only enable, don't start - to avoid interrupting the setup
 sudo systemctl enable gdm
-sudo systemctl daemon-reload
 
-echo "GDM display manager configured"
+echo "GDM display manager configured (will be active after reboot)"
+echo "Note: GDM will start automatically on next boot"
