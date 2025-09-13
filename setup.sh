@@ -23,13 +23,12 @@ scripts/hardware.sh
 
 # Display and desktop
 scripts/display.sh
+scripts/fonts.sh
 scripts/desktop.sh
 
 # Applications
 scripts/development.sh
 scripts/applications.sh
-scripts/gaming.sh
-scripts/fonts.sh
 
 # System configuration
 scripts/swap.sh
