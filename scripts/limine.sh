@@ -52,17 +52,9 @@ fi
 
 echo "Configuring Limine with Tokyo Night theme..."
 
-# Always configure limine - use the main config location where boot entries exist
-# Check EFI vs BIOS setup
-if [ -d /sys/firmware/efi ]; then
-    LIMINE_CONFIG="/boot/EFI/limine/limine.conf"
-    EFI=true
-else
-    LIMINE_CONFIG="/boot/limine.conf"
-    EFI=false
-fi
-
-echo "Using limine config at: $LIMINE_CONFIG"
+# Use the main limine config where boot entries exist
+LIMINE_CONFIG="/boot/limine.conf"
+echo "Configuring limine at: $LIMINE_CONFIG"
 
 # Get existing kernel command line if config exists
 if [ -f "$LIMINE_CONFIG" ]; then

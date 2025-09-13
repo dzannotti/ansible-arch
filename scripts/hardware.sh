@@ -41,10 +41,19 @@ if [ ! -f "$MKINITCPIO_CONF.backup" ]; then
     sudo cp "$MKINITCPIO_CONF" "$MKINITCPIO_CONF.backup"
 fi
 
-# Check if any NVIDIA modules are missing
-if ! grep -q "nvidia" "$MKINITCPIO_CONF"; then
-    echo "Adding NVIDIA modules to mkinitcpio.conf"
-    # Remove any old nvidia modules to prevent duplicates (omarchy approach)
+# Always add NVIDIA modules (they should be in MODULES line)
+echo "Ensuring NVIDIA modules are in mkinitcpio.conf..."
+
+# Check current MODULES line
+CURRENT_MODULES=$(grep "^MODULES=" "$MKINITCPIO_CONF" || echo "")
+echo "Current MODULES line: $CURRENT_MODULES"
+
+if echo "$CURRENT_MODULES" | grep -q "nvidia nvidia_modeset nvidia_uvm nvidia_drm"; then
+    echo "All NVIDIA modules already present"
+else
+    echo "Adding NVIDIA modules to MODULES line"
+    
+    # Remove any old nvidia modules to prevent duplicates
     sudo sed -i -E 's/ nvidia_drm//g; s/ nvidia_uvm//g; s/ nvidia_modeset//g; s/ nvidia//g;' "$MKINITCPIO_CONF"
     
     # Add the new modules at the start of the MODULES array
@@ -53,10 +62,11 @@ if ! grep -q "nvidia" "$MKINITCPIO_CONF"; then
     # Clean up potential double spaces
     sudo sed -i -E 's/  +/ /g' "$MKINITCPIO_CONF"
     
+    # Show the updated line
+    NEW_MODULES=$(grep "^MODULES=" "$MKINITCPIO_CONF")
+    echo "Updated MODULES line: $NEW_MODULES"
+    
     echo "NVIDIA modules added to mkinitcpio.conf"
-    echo "Note: Initramfs will be rebuilt by Plymouth configuration"
-else
-    echo "NVIDIA modules already present in mkinitcpio.conf"
 fi
 
 echo "Enabling NVIDIA power management services..."
