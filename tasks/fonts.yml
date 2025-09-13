@@ -24,9 +24,7 @@
       # System compatibility fonts
       - ttf-ms-fonts              # Windows fonts (Arial, Times New Roman, etc.)
       # System font
-      - otf-san-francisco-pro     # SF Pro for system UI (if available)
-      # Icon fonts for development
-      - ttf-nerd-fonts-symbols    # Nerd Font symbols
+      - otf-san-francisco         # SF Pro for system UI
     use: paru
     state: present
   changed_when: false

@@ -24,6 +24,22 @@
       - fd                # Better find
       - fzf               # Fuzzy finder
       - ripgrep           # Better grep
+      # Version management
+      - mise              # Universal runtime manager
+      # Git and development tools
+      - git-delta         # Beautiful git diffs
+      - lazygit           # TUI git interface
+      - github-cli        # GitHub CLI
+      - starship          # Modern shell prompt
+      - zoxide            # Smarter cd command
+    state: present
+  changed_when: false
+
+- name: Install terminal from official repos
+  become: true
+  community.general.pacman:
+    name:
+      - ghostty           # Modern terminal emulator
     state: present
   changed_when: false
 
@@ -31,20 +47,9 @@
   become: true
   kewlfft.aur.aur:
     name:
-      # Runtime version management
-      - mise              # Universal runtime manager (replaces nvm)
       # Editors and IDEs
       - neovim-git
       - visual-studio-code-bin
-      # Terminal
-      - ghostty
-      # Git tools
-      - git-delta         # Beautiful git diffs
-      - lazygit           # TUI git interface
-      - github-cli        # GitHub CLI
-      # Shell enhancements
-      - starship          # Modern shell prompt
-      - zoxide            # Smarter cd command
       # API/Development tools
       - postman-bin       # API testing
     use: paru

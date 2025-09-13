@@ -12,6 +12,21 @@
       # Launcher and utilities
       - rofi                # Application launcher
       - copyq               # Clipboard manager
+      # Media and productivity
+      - obsidian            # Note-taking
+      - flameshot           # Screenshot annotation
+      - qbittorrent         # Torrent client
+      # Download tools
+      - yt-dlp              # YouTube downloader
+      - aria2               # Multi-protocol downloader
+    state: present
+  changed_when: false
+
+- name: Install password management from official repos
+  become: true  
+  community.general.pacman:
+    name:
+      - bitwarden          # Password manager
     state: present
   changed_when: false
 
@@ -21,23 +36,13 @@
     name:
       # Browser
       - brave-bin
-      # Password management
-      - bitwarden
       # Media and entertainment
       - spotify
       # Download tools
-      - yt-dlp
       - gallery-dl
-      - aria2
       # Communication
       - ferdium
       - zoom
-      # Productivity
-      - obsidian
-      # Screenshot annotation
-      - flameshot
-      # Torrents
-      - qbittorrent
     use: paru
     state: present
   changed_when: false

@@ -1,20 +1,12 @@
 ---
 # Gaming platform and optimization tools
-- name: Install gaming platform
+- name: Install gaming platform and tools
   become: true
   community.general.pacman:
     name:
-      - steam              # Gaming platform
+      - steam              # Gaming platform (multilib)
       - gamemode           # System optimization for gaming
-    state: present
-  changed_when: false
-
-- name: Install gaming tools from AUR
-  become: true
-  kewlfft.aur.aur:
-    name:
       - mangohud           # Gaming performance overlay
-    use: paru
     state: present
   changed_when: false
 

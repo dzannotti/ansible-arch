@@ -35,8 +35,8 @@
   become: true
   kewlfft.aur.aur:
     name:
-      - bibata-cursor-theme-bin
       - gnome-shell-extension-dash-to-dock
+      - extension-manager           # GNOME extensions GUI manager
     use: paru
     state: present
   changed_when: false
