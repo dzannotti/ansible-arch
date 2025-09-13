@@ -15,7 +15,6 @@
       - jq                # JSON processor
       - universal-ctags   # Code navigation
       - shellcheck        # Shell script linting
-      - openssh           # SSH client/server
       - gnupg             # GPG encryption
       - imagemagick       # Image manipulation
       # Modern CLI alternatives

@@ -30,12 +30,3 @@
       - lib32-glibc         # 32-bit C library
     state: present
   changed_when: false
-
-- name: Install 32-bit NVIDIA libraries
-  become: true
-  community.general.pacman:
-    name:
-      - lib32-nvidia-utils
-    state: present
-  when: enable_nvidia | default(false)
-  changed_when: false

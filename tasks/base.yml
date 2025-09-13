@@ -31,9 +31,7 @@
       # System utilities
       - bc
       - stow
-      - btop
       - fastfetch
-      - man-db
       - inetutils
       - whois
       - plocate

@@ -9,15 +9,6 @@
     state: present
   changed_when: false
 
-- name: Install Tokyonight theme dependencies
-  become: true
-  community.general.pacman:
-    name:
-      - gtk-engine-murrine  # Required for the theme
-      - sassc               # Required for theme compilation
-    state: present
-  changed_when: false
-
 - name: Clone Tokyonight GTK theme repository
   become: false
   git:

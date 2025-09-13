@@ -23,6 +23,8 @@
       - gtk3
       - gtk4
       - libadwaita
+      - gtk-engine-murrine  # Required for GTK themes
+      - sassc               # Required for theme compilation
       # Qt support for Qt apps
       - qt6-svg
       - qt6-virtualkeyboard  

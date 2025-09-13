@@ -16,7 +16,6 @@
       - btop
       - cpupower
       - turbostat
-      - fastfetch
       - lm_sensors
     state: present
   changed_when: false
