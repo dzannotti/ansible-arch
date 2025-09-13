@@ -33,6 +33,7 @@
       - zoxide            # Smarter cd command
       # Editors
       - neovim            # Modern vim fork
+      - code              # VS Code (open source build)
     state: present
   changed_when: false
 
@@ -48,8 +49,6 @@
   become: false
   kewlfft.aur.aur:
     name:
-      # IDEs
-      - visual-studio-code-bin
       # API/Development tools
       - postman-bin       # API testing
     use: yay
