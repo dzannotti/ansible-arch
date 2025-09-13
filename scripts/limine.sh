@@ -63,11 +63,20 @@ if [ -f /boot/limine.conf ] || [ -f /boot/EFI/limine/limine.conf ] || [ -f /boot
     echo "DEBUG: Using limine config at: $LIMINE_CONFIG"
     
     # Get existing kernel command line if config exists
+    echo "DEBUG: Reading existing cmdline from config..."
     if [ -f "$LIMINE_CONFIG" ]; then
-        CMDLINE=$(grep "^[[:space:]]*cmdline:" "$LIMINE_CONFIG" | head -1 | sed 's/^[[:space:]]*cmdline:[[:space:]]*//')
+        CMDLINE=$(grep "^[[:space:]]*cmdline:" "$LIMINE_CONFIG" | head -1 | sed 's/^[[:space:]]*cmdline:[[:space:]]*//' || echo "")
+        if [ -z "$CMDLINE" ]; then
+            # Default cmdline if none found in config
+            CMDLINE="root=UUID=$(findmnt -no UUID /) rw"
+            echo "DEBUG: No cmdline found in config, using default: $CMDLINE"
+        else
+            echo "DEBUG: Found existing cmdline: $CMDLINE"
+        fi
     else
         # Default cmdline
         CMDLINE="root=UUID=$(findmnt -no UUID /) rw"
+        echo "DEBUG: Config file not found, using default cmdline: $CMDLINE"
     fi
     
     # Create /etc/default/limine config
