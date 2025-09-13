@@ -5,7 +5,6 @@ set -euo pipefail
 # Variables from config.sh (sourced by setup.sh)
 
 # Set variables from config
-USERNAME="${USER}"
 SSH_KEY_PATH="$HOME/.ssh/id_ed25519"
 SSH_EMAIL="$SETUP_EMAIL"
 

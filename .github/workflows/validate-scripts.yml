@@ -2,7 +2,7 @@ name: Validate Bash Scripts
 
 on:
   push:
-    branches: [main]
+    branches: [main, bash-conversion]
   pull_request:
     branches: [main]
 
