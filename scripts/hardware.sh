@@ -21,8 +21,7 @@ echo "Installing NVIDIA drivers..."
 sudo pacman -S --needed --noconfirm \
     nvidia \
     nvidia-utils \
-    nvidia-settings \
-    lib32-nvidia-utils
+    nvidia-settings
 
 echo "Configuring NVIDIA DRM kernel mode setting for Wayland..."
 if [ ! -f /etc/modprobe.d/nvidia.conf ] || ! cmp -s "$CONFIG_DIR/nvidia-modprobe.conf" /etc/modprobe.d/nvidia.conf 2>/dev/null; then

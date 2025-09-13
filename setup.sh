@@ -1,55 +1,61 @@
 #!/bin/bash
 
 # Main script for Arch Linux workstation setup
-# Direct port of site.yml structure to bash
+# Sources all scripts to maintain sudo session and shared config
 
 set -euo pipefail
 
 echo "Configure Arch Linux workstation"
 
-# Establish sudo session at the beginning
-sudo echo "Starting system setup (sudo session established)..."
+# Load configuration once for all scripts
+source config.sh
+
+# Establish and maintain sudo session
+sudo -v
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+echo "Starting system setup (sudo session established)..."
 
 # System update
-scripts/update.sh
+source scripts/update.sh
 
 # Core system setup
-scripts/base.sh
+source scripts/base.sh
 
 # Boot experience (early for visual feedback)
-scripts/limine.sh
-scripts/plymouth.sh
+source scripts/limine.sh
+source scripts/plymouth.sh
 
 # System services
-scripts/yay.sh
-scripts/audio.sh
-scripts/hardware.sh
+source scripts/yay.sh
+source scripts/audio.sh
+source scripts/hardware.sh
 
 # System configuration
-scripts/system-config.sh
-scripts/swap.sh
-scripts/other-services.sh
+source scripts/system-config.sh
+source scripts/swap.sh
+source scripts/other-services.sh
 
 # Display and desktop
-scripts/display.sh
-scripts/fonts.sh
-scripts/desktop.sh
-scripts/gdm.sh
+source scripts/display.sh
+source scripts/fonts.sh
+source scripts/desktop.sh
+source scripts/gdm.sh
 
 # Applications
-scripts/development.sh
-scripts/applications.sh
+source scripts/development.sh
+source scripts/applications.sh
 
 # User configuration
-scripts/user-config.sh
-scripts/zsh.sh
-scripts/genssh.sh
-scripts/git-config.sh
+source scripts/user-config.sh
+source scripts/zsh.sh
+source scripts/genssh.sh
+source scripts/git-config.sh
 
 # Desktop theming
-scripts/theming.sh
+source scripts/theming.sh
 
 # Final upgrade
-scripts/upgrade.sh
+source scripts/upgrade.sh
 
 echo "Arch Linux workstation setup complete!"
