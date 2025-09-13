@@ -13,8 +13,7 @@
   become: false
   shell: |
     cd /tmp/paru
-    makepkg --noconfirm --needed
-    sudo pacman -U *.pkg.tar.* --noconfirm
+    makepkg -si --noconfirm --needed
   args:
     creates: /usr/bin/paru
   
