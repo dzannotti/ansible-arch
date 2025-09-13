@@ -10,8 +10,7 @@ echo "Enabling network discovery (Avahi)..."
 sudo systemctl enable avahi-daemon
 sudo systemctl start avahi-daemon
 
-echo "Enabling GNOME Keyring..."
-systemctl --user enable gnome-keyring-daemon
+echo "GNOME Keyring will be started automatically by desktop session..."
 
 echo "Enabling power profiles daemon..."
 sudo systemctl enable power-profiles-daemon
