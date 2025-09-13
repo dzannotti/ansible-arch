@@ -18,14 +18,14 @@ if [ ! -d "$HOME/.themes/Tokyonight-Dark-BL-LB" ]; then
     git clone https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme.git /tmp/tokyonight-gtk-theme
     
     echo "Installing Tokyonight theme..."
-    cd /tmp/tokyonight-gtk-theme
+    cd /tmp/tokyonight-gtk-theme/themes
     chmod +x install.sh
     ./install.sh -s compact -l --tweaks macos
     
     echo "Installing Tokyonight icons..."
     mkdir -p "$HOME/.local/share/icons"
-    if [ -d "icons" ]; then
-        cp -r icons/Tokyonight-* "$HOME/.local/share/icons/" 2>/dev/null || true
+    if [ -d "../icons" ]; then
+        cp -r ../icons/Tokyonight-* "$HOME/.local/share/icons/" 2>/dev/null || true
     fi
     
     # Also ensure legacy location exists in case some apps still use it
