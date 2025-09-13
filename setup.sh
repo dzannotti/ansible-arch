@@ -33,77 +33,97 @@ info() { echo -e "${BLUE}ℹ️  $1${NC}"; }
 highlight() { echo -e "${CYAN}$1${NC}"; }
 
 # Establish sudo session
-echo "=== Establishing sudo session ==="
+info "=== Establishing sudo session ==="
 sudo echo "Established sudo session" 
 
 # System update
-echo "=== System Update ==="
+info "=== System Update ==="
 source scripts/update.sh
+success "✅ System update completed"
 cd "$SCRIPT_DIR"
 
 # Core system setup
-echo "=== Core System Setup ==="
+info "=== Core System Setup ==="
 source scripts/base.sh
+success "✅ Core system setup completed"
 cd "$SCRIPT_DIR"
 
 # Install yay early (needed for AUR packages in other scripts)
-echo "=== Installing AUR Helper ==="
+info "=== Installing AUR Helper ==="
 source scripts/yay.sh
+success "✅ AUR helper installation completed"
 cd "$SCRIPT_DIR"
 
 # Boot experience (early for visual feedback)
-echo "=== Boot Experience ==="
+info "=== Boot Experience ==="
 source scripts/limine.sh
+success "✅ Limine bootloader configuration completed"
 cd "$SCRIPT_DIR"
 source scripts/plymouth.sh
+success "✅ Plymouth boot splash configuration completed"
 cd "$SCRIPT_DIR"
 
 # System services
-echo "=== System Services ==="
+info "=== System Services ==="
 source scripts/audio.sh
+success "✅ Audio system configuration completed"
 cd "$SCRIPT_DIR"
 source scripts/hardware.sh
+success "✅ Hardware support configuration completed"
 cd "$SCRIPT_DIR"
 source scripts/other-services.sh
+success "✅ System services configuration completed"
 cd "$SCRIPT_DIR"
 
 # Display and desktop
-echo "=== Display and Desktop ==="
+info "=== Display and Desktop ===
 source scripts/display.sh
+success "✅ Display system configuration completed"
 cd "$SCRIPT_DIR"
 source scripts/fonts.sh
+success "✅ Font installation completed"
 cd "$SCRIPT_DIR"
 source scripts/desktop.sh
+success "✅ Desktop environment installation completed"
 cd "$SCRIPT_DIR"
 source scripts/gdm.sh
+success "✅ GDM display manager configuration completed"
 cd "$SCRIPT_DIR"
 
 # Applications
-echo "=== Applications ==="
+info "=== Applications ===
 source scripts/development.sh
+success "✅ Development tools installation completed"
 cd "$SCRIPT_DIR"
 source scripts/applications.sh
+success "✅ Desktop applications installation completed"
 cd "$SCRIPT_DIR"
 
 # User configuration
-echo "=== User Configuration ==="
+info "=== User Configuration ===
 source scripts/user-config.sh
+success "✅ User configuration completed"
 cd "$SCRIPT_DIR"
 source scripts/zsh.sh
+success "✅ Zsh shell configuration completed"
 cd "$SCRIPT_DIR"
 source scripts/genssh.sh
+success "✅ SSH key generation completed"
 cd "$SCRIPT_DIR"
 source scripts/git-config.sh
+success "✅ Git configuration completed"
 cd "$SCRIPT_DIR"
 
 # Desktop theming
-echo "=== Desktop Theming ==="
+info "=== Desktop Theming ===
 source scripts/theming.sh
+success "✅ Desktop theming completed"
 cd "$SCRIPT_DIR"
 
 # Final upgrade
-echo "=== Final Upgrade ==="
+info "=== Final Upgrade ==="
 source scripts/upgrade.sh
+success "✅ Final system upgrade completed"
 cd "$SCRIPT_DIR"
 
 echo "Arch Linux workstation setup complete!"
