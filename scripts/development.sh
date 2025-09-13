@@ -30,7 +30,7 @@ yay -S --needed --noconfirm \
     postman-bin
 
 echo "Installing runtime languages via mise..."
-if [ ! -d ~/.local/share/mise/installs/node ]; then
+if [ ! -f ~/.config/mise/config.toml ] || ! mise list | grep -q "python\|node\|go\|rust"; then
     # Install latest versions as global defaults
     mise install python@latest
     mise install node@latest

@@ -36,9 +36,10 @@ fi
 
 echo "Adding NVIDIA modules to mkinitcpio.conf..."
 if ! grep -q "nvidia" /etc/mkinitcpio.conf; then
-    sudo sed -i 's/^MODULES=(\(.*\))/MODULES=(\1 nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
-    sudo sed -i 's/MODULES=( /MODULES=(/' /etc/mkinitcpio.conf
-    sudo sed -i 's/  / /g' /etc/mkinitcpio.conf
+    # Get current modules and add nvidia modules if not present
+    current_modules=$(grep "^MODULES=" /etc/mkinitcpio.conf | sed 's/MODULES=(\(.*\))/\1/')
+    new_modules="$current_modules nvidia nvidia_modeset nvidia_uvm nvidia_drm"
+    sudo sed -i "s/^MODULES=.*/MODULES=($new_modules)/" /etc/mkinitcpio.conf
     
     echo "Rebuilding initramfs..."
     sudo mkinitcpio -P
