@@ -10,6 +10,7 @@ sudo pacman -S --needed --noconfirm \
     linux \
     linux-firmware \
     linux-headers \
+    mkinitcpio \
     sudo \
     man-db \
     man-pages \
