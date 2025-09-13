@@ -36,10 +36,9 @@ if [ ! -d ~/.local/share/mise/installs/node ]; then
     mise install node@latest
     mise install go@latest
     mise install rust@latest
-    mise global python@latest node@latest go@latest rust@latest
-    
-    # Install JS package managers
-    mise exec -- npm install -g pnpm bun
+    mise install pnpm@latest
+    mise install bun@latest
+    mise global python@latest node@latest go@latest rust@latest pnpm@latest bun@latest
     
     echo "Runtime languages installed via mise"
 else
