@@ -7,6 +7,9 @@ set -euo pipefail
 
 echo "Configure Arch Linux workstation"
 
+# Establish sudo session at the beginning
+sudo echo "Starting system setup (sudo session established)..."
+
 # System update
 scripts/update.sh
 
@@ -14,7 +17,6 @@ scripts/update.sh
 scripts/base.sh
 
 # System services
-scripts/multilib.sh
 scripts/yay.sh
 scripts/audio.sh
 scripts/hardware.sh

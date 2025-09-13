@@ -1,114 +1,82 @@
-# Ansible Arch Linux Setup
+# Arch Linux Workstation Setup
 
-Personal Ansible playbook for automated Arch Linux workstation configuration.
-
-> **🚧 Migration to Bash in Progress**: This branch (`bash-conversion`) is incrementally converting the Ansible setup to bash scripts. The `tasks/` directory contains the original Ansible tasks for reference, while `scripts/` will contain the equivalent bash scripts.
+Automated setup for Arch Linux development workstations using bash scripts. **Goal: <30 minute restore time.**
 
 ## Quick Start
 
-### Current (Ansible)
 ```bash
-make run
-```
-
-### Future (Bash - Work in Progress)
-```bash
+git clone https://github.com/dzannotti/ansible-arch.git
+cd ansible-arch
 ./setup.sh
 ```
+
+## What Gets Installed
+
+### Base System
+- Essential packages (base-devel, networking, tools)  
+- Modern CLI tools (eza, bat, fd, ripgrep, etc.)
+- Shell setup (zsh + starship prompt)
+
+### Desktop Environment  
+- **GNOME** on Wayland with X11 compatibility
+- **PipeWire** audio system
+- **GDM** display manager
+- Essential GNOME applications
+
+### Development Tools
+- **Editors**: Neovim, VS Code
+- **Languages**: Managed by `mise` (Node.js, Go, Rust)
+- **Tools**: Git, GitHub CLI, Postman, Ghostty terminal
+- **Modern CLI**: lazygit, git-delta, starship, zoxide
+
+### Hardware Support
+- NVIDIA drivers
+- Bluetooth stack  
+- AMD microcode
+- Hardware monitoring tools
+
+### Boot Experience
+- **Limine** bootloader theming
+- **Plymouth** boot splash screen
+- **Tokyo Night** theme integration
 
 ## Structure
 
 ```
 .
-├── site.yml              # Main Ansible playbook
-├── setup.sh              # 🚧 NEW: Main bash script
-├── tasks/                # Ansible tasks (reference for conversion)
-├── scripts/               # 🚧 NEW: Bash scripts (work in progress)
-├── config.yml            # Configuration overrides
-├── Makefile              # Ansible convenience commands
-└── requirements.yml      # Ansible dependencies
+├── setup.sh              # Main script - runs all setup phases
+├── scripts/               # Individual setup scripts  
+│   ├── base.sh           # Base system packages
+│   ├── desktop.sh        # GNOME desktop environment
+│   ├── development.sh    # Development tools
+│   ├── yay.sh            # AUR helper installation
+│   └── ...               # Other setup phases
+└── README.md             # This file
 ```
 
-## Migration Progress
+## Development
 
-- [x] Main setup.sh structure created
-- [x] GitHub workflow for bash script validation
-- [ ] scripts/update.sh (from tasks/update.yml)
-- [ ] scripts/base.sh (from tasks/base.yml)
-- [ ] scripts/multilib.sh (from tasks/multilib.yml)
-- [ ] scripts/yay.sh (from tasks/yay.yml)
-- [ ] scripts/audio.sh (from tasks/audio.yml)
-- [ ] scripts/hardware.sh (from tasks/hardware.yml)
-- [ ] scripts/display.sh (from tasks/display.yml)
-- [ ] scripts/desktop.sh (from tasks/desktop.yml)
-- [ ] scripts/development.sh (from tasks/development.yml)
-- [ ] scripts/applications.sh (from tasks/applications.yml)
-- [ ] scripts/gaming.sh (from tasks/gaming.yml)
-- [ ] scripts/fonts.sh (from tasks/fonts.yml)
-- [ ] scripts/swap.sh (from tasks/swap.yml)
-- [ ] scripts/other-services.sh (from tasks/other-services.yml)
-- [ ] scripts/zsh.sh (from tasks/zsh.yml)
-- [ ] scripts/genssh.sh (from tasks/genssh.yml)
-- [ ] scripts/git-config.sh (from tasks/git-config.yml)
-- [ ] scripts/gdm.sh (from tasks/gdm.yml)
-- [ ] scripts/theming.sh (from tasks/theming.yml)
-- [ ] scripts/limine.sh (from tasks/limine.yml)
-- [ ] scripts/plymouth.sh (from tasks/plymouth.yml)
-- [ ] scripts/upgrade.sh (from tasks/upgrade.yml)
-- [ ] Test complete bash setup
-- [ ] Remove Ansible dependencies
+Each script in `scripts/` handles a specific setup phase. Scripts are called in sequence by `setup.sh`.
 
-## Conversion Guidelines
+### Adding New Scripts
+1. Create script in `scripts/` directory
+2. Make it executable: `chmod +x scripts/new-script.sh`  
+3. Add call to `setup.sh` in appropriate location
 
-When converting from Ansible tasks to bash scripts:
+### Script Guidelines
+- Use `set -euo pipefail` for error handling
+- Test package availability before installation
+- Use `yay -S --needed --noconfirm` for mixed official + AUR packages
+- Add appropriate logging/output
 
-1. **Package Installation**: 
-   ```bash
-   # Use yay for mixed official + AUR packages (handles sudo properly)
-   yay -S --needed --noconfirm package1 package2 aur-package
-   ```
+## Why Bash?
 
-2. **Error Handling**: 
-   ```bash
-   set -euo pipefail  # At top of each script
-   ```
+- **Simpler**: No complex YAML syntax or modules
+- **Faster**: Direct execution, no overhead  
+- **Easier debugging**: See exactly what failed
+- **More transparent**: Clear what each command does
+- **No dependencies**: Just bash, pacman, and yay
 
-3. **Service Management**:
-   ```bash
-   sudo systemctl enable service-name
-   systemctl --user enable user-service
-   ```
+## CI/CD
 
-4. **Reference Original**: Always check the corresponding `tasks/*.yml` file for the exact logic
-
-## Current Ansible Features
-
-- **Automated package installation** (base, dev, desktop)
-- **AUR support** via yay
-- **Desktop environment** (GNOME on Wayland, GDM)
-- **Development tools** (neovim, vscode, various languages via mise)
-- **System services** (pipewire, bluetooth, etc.)
-- **Hardware support** (NVIDIA, bluetooth)
-- **Boot customization** (Limine, Plymouth)
-
-## Usage
-
-### Ansible (Current)
-```bash
-make help        # Show all available commands
-make lint        # Run ansible-lint and yamllint
-make check       # Syntax check
-make run         # Run the playbook
-make debug       # Run with verbose output
-make dry-run     # Test run without making changes
-```
-
-### Configuration
-Edit `config.yml` to override defaults:
-
-```yaml
-# Example overrides
-enable_nvidia: false
-enable_gaming: true
-swapfile_size: 16G
-```
+GitHub Actions automatically validates all bash scripts with ShellCheck and syntax checking.

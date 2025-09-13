@@ -1,1 +1,12 @@
-*.retry
+# Conversion planning (local only)
+plan.md
+
+# User config
+config.sh
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+.DS_Store
