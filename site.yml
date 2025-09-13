@@ -3,7 +3,7 @@
 - name: Configure Arch Linux workstation
   hosts: localhost
   connection: local
-  become: true
+  gather_facts: true
   vars_files:
     - default.config.yml
     - config.yml
@@ -12,6 +12,7 @@
       prompt: SSH key passphrase (leave empty for no passphrase)
       private: true
       confirm: false
+      default: ""
       
   tasks:
     # System update

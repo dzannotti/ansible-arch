@@ -14,13 +14,13 @@ check: ## Check playbook syntax
 	ansible-playbook site.yml --syntax-check
 
 run: deps ## Run the playbook
-	ansible-playbook site.yml
+	ansible-playbook site.yml --ask-become-pass
 
 debug: ## Run playbook in verbose mode
-	ansible-playbook site.yml -vvv
+	ansible-playbook site.yml -vvv --ask-become-pass
 
 dry-run: ## Run playbook in check mode (no changes)
-	ansible-playbook site.yml --check --diff
+	ansible-playbook site.yml --check --diff --ask-become-pass
 
 clean: ## Clean cache and temp files
 	rm -rf /tmp/ansible_facts_cache
