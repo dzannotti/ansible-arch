@@ -31,6 +31,8 @@
       - github-cli        # GitHub CLI
       - starship          # Modern shell prompt
       - zoxide            # Smarter cd command
+      # Editors
+      - neovim            # Modern vim fork
     state: present
   changed_when: false
 
@@ -46,8 +48,7 @@
   become: false
   kewlfft.aur.aur:
     name:
-      # Editors and IDEs
-      - neovim-git
+      # IDEs
       - visual-studio-code-bin
       # API/Development tools
       - postman-bin       # API testing
