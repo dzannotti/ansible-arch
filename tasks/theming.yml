@@ -1,0 +1,74 @@
+---
+# GNOME theming - Tokyonight GTK theme and Bibata Ice cursor
+- name: Install cursor theme from AUR
+  become: true
+  kewlfft.aur.aur:
+    name:
+      - bibata-cursor-theme  # Includes Bibata Ice variant
+    use: paru
+    state: present
+  changed_when: false
+
+- name: Install Tokyonight theme dependencies
+  become: true
+  community.general.pacman:
+    name:
+      - gtk-engine-murrine  # Required for the theme
+      - sassc               # Required for theme compilation
+    state: present
+  changed_when: false
+
+- name: Clone Tokyonight GTK theme repository
+  become: false
+  git:
+    repo: https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme.git
+    dest: /tmp/tokyonight-gtk-theme
+    version: main
+    force: true
+  changed_when: true
+
+- name: Run Tokyonight theme installer
+  become: false
+  shell: |
+    cd /tmp/tokyonight-gtk-theme
+    ./install.sh -s compact -l --tweaks macos
+  args:
+    creates: "{{ ansible_env.HOME }}/.themes/Tokyonight-Dark-BL-LB"
+  changed_when: true
+
+- name: Copy Tokyonight icons to user icons directory
+  become: false
+  shell: |
+    mkdir -p {{ ansible_env.HOME }}/.local/share/icons
+    cp -r /tmp/tokyonight-gtk-theme/icons/Tokyonight-* {{ ansible_env.HOME }}/.local/share/icons/
+  args:
+    creates: "{{ ansible_env.HOME }}/.local/share/icons/Tokyonight-Dark"
+  changed_when: true
+
+- name: Set GTK theme via dconf
+  become: false
+  dconf:
+    key: "/org/gnome/desktop/interface/gtk-theme"
+    value: "'Tokyonight-Dark-BL-LB'"
+  changed_when: true
+
+- name: Set icon theme via dconf
+  become: false
+  dconf:
+    key: "/org/gnome/desktop/interface/icon-theme"
+    value: "'Tokyonight-Dark'"
+  changed_when: true
+
+- name: Set cursor theme via dconf
+  become: false
+  dconf:
+    key: "/org/gnome/desktop/interface/cursor-theme"
+    value: "'Bibata-Modern-Ice'"
+  changed_when: true
+
+- name: Clean up theme build directory
+  become: false
+  file:
+    path: /tmp/tokyonight-gtk-theme
+    state: absent
+  changed_when: false

@@ -20,7 +20,7 @@
     passphrase: "{{ ssh_pass }}"
     force: true
     owner: "{{ lookup('env', 'USER') }}"
-    comment: jimallen@gmail.com
+    comment: d.zannotti@me.com
   when: not key_exists.stat.exists
 
 - name: Evaluating the authentication agent & adding the key...

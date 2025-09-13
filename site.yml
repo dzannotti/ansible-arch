@@ -62,8 +62,6 @@
     # User configuration
     - name: Configure zsh shell
       import_tasks: tasks/zsh.yml
-    - name: Setup zsh catppuccin theme
-      import_tasks: tasks/zsh-catppuccin.yml
     - name: Generate SSH key
       import_tasks: tasks/genssh.yml
       when: generate_ssh_key | default(true)
@@ -75,13 +73,11 @@
       import_tasks: tasks/gdm.yml
       when: enable_gdm | default(true)
     
-    # Dotfiles and final setup
-    - name: Install dotfiles
-      import_tasks: tasks/install-dotfiles.yml
-    - name: Setup development environment
-      import_tasks: tasks/dev-setup.yml
-      when: enable_development | default(true)
-    
+    # Desktop theming
+    - name: Configure GNOME theming
+      import_tasks: tasks/theming.yml
+      when: enable_desktop | default(true)
+       
     # Final upgrade
     - name: Upgrade all packages
       import_tasks: tasks/upgrade.yml

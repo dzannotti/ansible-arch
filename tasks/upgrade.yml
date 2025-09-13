@@ -1,9 +1,8 @@
 ---
-- name: Update all packages
+- name: Upgrade all packages (pacman + AUR)
   become: true
   kewlfft.aur.aur:
     upgrade: true
-    use: yay
+    use: paru
     state: present
   changed_when: false
-  when: update | default(false) | bool
