@@ -1,10 +1,11 @@
 ---
 # Development tools and environments
-- name: Install development languages and runtimes
+- name: Install development packages (official + AUR)
   become: true
-  community.general.pacman:
+  kewlfft.aur.aur:
     name:
-      - python            # System Python (Arch default)
+      # Languages and runtimes
+      - python            # System Python (Arch default) 
       - python-pip
       # Compilers and build tools
       - clang
@@ -31,25 +32,11 @@
       - github-cli        # GitHub CLI
       - starship          # Modern shell prompt
       - zoxide            # Smarter cd command
-      # Editors
+      # Editors and IDEs
       - neovim            # Modern vim fork
-      - code              # VS Code (open source build)
-    state: present
-  changed_when: false
-
-- name: Install terminal from official repos
-  become: true
-  community.general.pacman:
-    name:
+      - visual-studio-code-bin  # VS Code binary
       - ghostty           # Modern terminal emulator
-    state: present
-  changed_when: false
-
-- name: Install development tools from AUR
-  become: false
-  kewlfft.aur.aur:
-    name:
-      # API/Development tools
+      # API/Development tools  
       - postman-bin       # API testing
     use: yay
     state: present
