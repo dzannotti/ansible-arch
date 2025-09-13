@@ -1,7 +1,7 @@
 ---
 # GNOME theming - Tokyonight GTK theme and Bibata Ice cursor
 - name: Install cursor theme from AUR
-  become: true
+  become: false
   kewlfft.aur.aur:
     name:
       - bibata-cursor-theme  # Includes Bibata Ice variant

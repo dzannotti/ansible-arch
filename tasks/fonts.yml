@@ -13,7 +13,7 @@
   changed_when: false
 
 - name: Install programming and custom fonts from AUR
-  become: true
+  become: false
   kewlfft.aur.aur:
     name:
       # Programming fonts (Nerd Font variants preferred)

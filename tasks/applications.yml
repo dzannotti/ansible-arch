@@ -31,7 +31,7 @@
   changed_when: false
 
 - name: Install desktop applications from AUR
-  become: true
+  become: false
   kewlfft.aur.aur:
     name:
       # Browser

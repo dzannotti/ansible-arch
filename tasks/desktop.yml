@@ -33,7 +33,7 @@
   changed_when: false
 
 - name: Install AUR desktop packages
-  become: true
+  become: false
   kewlfft.aur.aur:
     name:
       - gnome-shell-extension-dash-to-dock

@@ -43,7 +43,7 @@
   changed_when: false
 
 - name: Install development tools from AUR
-  become: true
+  become: false
   kewlfft.aur.aur:
     name:
       # Editors and IDEs
