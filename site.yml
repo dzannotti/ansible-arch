@@ -77,6 +77,14 @@
     - name: Configure GNOME theming
       import_tasks: tasks/theming.yml
       when: enable_desktop | default(true)
+    
+    # Boot experience
+    - name: Configure Limine bootloader
+      import_tasks: tasks/limine.yml
+      when: enable_limine | default(false)
+    - name: Configure Plymouth boot splash
+      import_tasks: tasks/plymouth.yml
+      when: enable_plymouth | default(true)
        
     # Final upgrade
     - name: Upgrade all packages

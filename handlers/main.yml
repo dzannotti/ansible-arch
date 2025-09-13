@@ -1,0 +1,19 @@
+---
+# Ansible handlers for system updates
+- name: Rebuild initramfs
+  become: true
+  command: mkinitcpio -P
+  listen: rebuild initramfs
+
+- name: Update grub
+  become: true
+  command: grub-mkconfig -o /boot/grub/grub.cfg
+  listen: update grub
+  when: ansible_facts['os_family'] == "Archlinux"
+
+- name: Restart gdm
+  become: true
+  systemd:
+    name: gdm
+    state: restarted
+  listen: restart gdm

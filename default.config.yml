@@ -26,6 +26,10 @@ enable_bluetooth: true
 enable_gdm: true
 enable_docker: false
 
+# Boot experience
+enable_limine: true       # Limine bootloader theming
+enable_plymouth: true     # Plymouth boot splash screen
+
 # SSH configuration
 generate_ssh_key: true
 ssh_key_comment: "{{ user }}@archlinux"
