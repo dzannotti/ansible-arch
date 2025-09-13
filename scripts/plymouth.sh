@@ -8,6 +8,12 @@ echo "Setting up Plymouth boot splash..."
 echo "Creating Plymouth theme directory..."
 sudo mkdir -p /usr/share/plymouth/themes/workstation
 
+# Backup existing theme if it exists and hasn't been backed up
+if [ -d "/usr/share/plymouth/themes/workstation" ] && [ ! -d "/usr/share/plymouth/themes/workstation.backup" ]; then
+    sudo cp -r /usr/share/plymouth/themes/workstation /usr/share/plymouth/themes/workstation.backup
+    echo "Backed up existing Plymouth theme"
+fi
+
 # Create Plymouth theme configuration
 echo "Creating Plymouth theme configuration..."
 sudo tee /usr/share/plymouth/themes/workstation/workstation.plymouth > /dev/null << 'EOF'

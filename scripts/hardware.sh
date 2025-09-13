@@ -41,8 +41,10 @@ if [ ! -f "$MKINITCPIO_CONF.backup" ]; then
     sudo cp "$MKINITCPIO_CONF" "$MKINITCPIO_CONF.backup"
 fi
 
-# Check if NVIDIA modules are already present
-if ! grep -q "nvidia" "$MKINITCPIO_CONF"; then
+# Check if all NVIDIA modules are already present
+if grep -q "nvidia nvidia_modeset nvidia_uvm nvidia_drm" "$MKINITCPIO_CONF"; then
+    echo "All NVIDIA modules already present in mkinitcpio.conf"
+else
     # Remove any old nvidia modules to prevent duplicates (omarchy approach)
     sudo sed -i -E 's/ nvidia_drm//g; s/ nvidia_uvm//g; s/ nvidia_modeset//g; s/ nvidia//g;' "$MKINITCPIO_CONF"
     
@@ -54,8 +56,6 @@ if ! grep -q "nvidia" "$MKINITCPIO_CONF"; then
     
     echo "NVIDIA modules added to mkinitcpio.conf"
     echo "Note: Initramfs will be rebuilt by Plymouth configuration"
-else
-    echo "NVIDIA modules already present in mkinitcpio.conf"
 fi
 
 echo "Enabling NVIDIA power management services..."

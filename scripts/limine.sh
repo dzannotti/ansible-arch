@@ -26,12 +26,19 @@ sudo pacman -S --needed --noconfirm limine-snapper-sync limine-mkinitcpio-hook 2
 }
 
 echo "Configuring mkinitcpio hooks..."
-# Create omarchy-style hooks config
-sudo tee /etc/mkinitcpio.conf.d/workstation_hooks.conf > /dev/null << 'EOF'
+# Check if hooks config already exists with our configuration
+HOOKS_CONFIG="/etc/mkinitcpio.conf.d/workstation_hooks.conf"
+EXPECTED_HOOKS="base udev plymouth keyboard autodetect microcode modconf kms keymap consolefont block filesystems fsck"
+
+if [ -f "$HOOKS_CONFIG" ] && grep -q "plymouth" "$HOOKS_CONFIG"; then
+    echo "mkinitcpio hooks already configured"
+else
+    # Create omarchy-style hooks config
+    sudo tee "$HOOKS_CONFIG" > /dev/null << 'EOF'
 HOOKS=(base udev plymouth keyboard autodetect microcode modconf kms keymap consolefont block filesystems fsck)
 EOF
-
-echo "Plymouth and limine hooks configured"
+    echo "Plymouth and limine hooks configured"
+fi
 # Note: Initramfs will be rebuilt by Plymouth when theme is set
 
 echo "Configuring Limine with Tokyo Night theme..."
@@ -71,6 +78,12 @@ ENABLE_LIMINE_FALLBACK=yes
 FIND_BOOTLOADERS=yes
 EOF
 
+    # Backup existing config if it exists and hasn't been backed up
+    if [ -f "$LIMINE_CONFIG" ] && [ ! -f "$LIMINE_CONFIG.backup" ]; then
+        sudo cp "$LIMINE_CONFIG" "$LIMINE_CONFIG.backup"
+        echo "Backed up existing limine config to $LIMINE_CONFIG.backup"
+    fi
+    
     # Use our existing config file - limine-update will add boot entries to it
     if [ ! -f "$LIMINE_CONFIG" ] || ! grep -q "Tokyo Night" "$LIMINE_CONFIG" 2>/dev/null; then
         sudo cp "$CONFIG_DIR/limine.conf" "$LIMINE_CONFIG"

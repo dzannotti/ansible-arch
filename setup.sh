@@ -28,6 +28,11 @@ echo "=== Core System Setup ==="
 source scripts/base.sh
 cd "$SCRIPT_DIR"
 
+# Install yay early (needed for AUR packages in other scripts)
+echo "=== Installing AUR Helper ==="
+source scripts/yay.sh
+cd "$SCRIPT_DIR"
+
 # Boot experience (early for visual feedback)
 echo "=== Boot Experience ==="
 source scripts/limine.sh
@@ -37,8 +42,6 @@ cd "$SCRIPT_DIR"
 
 # System services
 echo "=== System Services ==="
-source scripts/yay.sh
-cd "$SCRIPT_DIR"
 source scripts/audio.sh
 cd "$SCRIPT_DIR"
 source scripts/hardware.sh
