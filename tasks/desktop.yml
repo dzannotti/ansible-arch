@@ -1,20 +1,30 @@
 ---
-# Desktop environment - Wayland desktop components  
-- name: Install Wayland desktop components
+# Desktop environment - GNOME on Wayland
+- name: Install GNOME desktop components
   become: true
   community.general.pacman:
     name:
-      # Desktop components
+      # Core GNOME
       - libnotify
-      - polkit-gnome
-      - xclip  # Clipboard utility
-      # File manager
+      - gnome-keyring
+      - gnome-control-center
+      - gnome-tweaks
+      - gnome-shell
+      - gnome-shell-extensions
+      - gnome-themes-extra
+      - extension-manager     # GUI for managing GNOME extensions
+      # File manager and utilities
       - nautilus
-      # Theming
-      - lxappearance
+      - file-roller       # Archive manager
+      - evince            # PDF viewer
+      - gnome-calculator
+      - gnome-text-editor
+      - gnome-disk-utility
+      # GTK theming
+      - gtk3
       - gtk4
       - libadwaita
-      # Qt support
+      # Qt support for Qt apps
       - qt6-svg
       - qt6-virtualkeyboard  
       - qt6-multimedia-ffmpeg
@@ -26,6 +36,7 @@
   kewlfft.aur.aur:
     name:
       - bibata-cursor-theme-bin
-    use: yay
+      - gnome-shell-extension-dash-to-dock
+    use: paru
     state: present
   changed_when: false

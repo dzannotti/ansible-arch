@@ -4,13 +4,26 @@
   become: true
   community.general.pacman:
     name:
-      - python
+      - python            # System Python (Arch default)
       - python-pip
-      - nodejs
-      - npm
-      - go
-      - rust
-      - tmux  # Terminal multiplexer
+      # Compilers and build tools
+      - clang
+      - llvm
+      - gcc
+      # Development tools
+      - tmux              # Terminal multiplexer
+      - jq                # JSON processor
+      - universal-ctags   # Code navigation
+      - shellcheck        # Shell script linting
+      - openssh           # SSH client/server
+      - gnupg             # GPG encryption
+      - imagemagick       # Image manipulation
+      # Modern CLI alternatives
+      - eza               # Better ls
+      - bat               # Better cat
+      - fd                # Better find
+      - fzf               # Fuzzy finder
+      - ripgrep           # Better grep
     state: present
   changed_when: false
 
@@ -18,13 +31,36 @@
   become: true
   kewlfft.aur.aur:
     name:
+      # Runtime version management
+      - mise              # Universal runtime manager (replaces nvm)
       # Editors and IDEs
-      - neovim
+      - neovim-git
       - visual-studio-code-bin
-      # Terminals
+      # Terminal
       - ghostty
       # Git tools
-      - gitkraken
-    use: yay
+      - git-delta         # Beautiful git diffs
+      - lazygit           # TUI git interface
+      - github-cli        # GitHub CLI
+      # Shell enhancements
+      - starship          # Modern shell prompt
+      - zoxide            # Smarter cd command
+      # API/Development tools
+      - postman-bin       # API testing
+    use: paru
     state: present
   changed_when: false
+
+- name: Install runtime languages via mise
+  become: false
+  shell: |
+    # Install latest versions as global defaults
+    mise install node@latest
+    mise install go@latest  
+    mise install rust@latest
+    mise global node@latest go@latest rust@latest
+    # Install JS package managers
+    mise exec -- npm install -g pnpm bun
+  args:
+    creates: ~/.local/share/mise/installs/node
+  changed_when: true

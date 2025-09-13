@@ -24,4 +24,3 @@
     - sddm
     - lightdm
   failed_when: false
-  ignore_errors: true

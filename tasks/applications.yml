@@ -5,11 +5,13 @@
   community.general.pacman:
     name:
       # Media
-      - mpv
-      - mpv-mpris
+      - vlc
       - ffmpeg
-      # Utilities
-      - pass  # Password manager
+      # Productivity
+      - libreoffice-fresh
+      # Launcher and utilities
+      - rofi                # Application launcher
+      - copyq               # Clipboard manager
     state: present
   changed_when: false
 
@@ -17,23 +19,25 @@
   become: true
   kewlfft.aur.aur:
     name:
-      # Browsers
-      - firefox
-      - google-chrome
-      - brave
-      - browserpass-firefox
-      - browserpass-chromium
+      # Browser
+      - brave-bin
+      # Password management
+      - bitwarden
       # Media and entertainment
       - spotify
-      - spotify-adblock-git
       # Download tools
       - yt-dlp
       - gallery-dl
       - aria2
       # Communication
       - ferdium
-      # Email
-      - geary
-    use: yay
+      - zoom
+      # Productivity
+      - obsidian
+      # Screenshot annotation
+      - flameshot
+      # Torrents
+      - qbittorrent
+    use: paru
     state: present
   changed_when: false

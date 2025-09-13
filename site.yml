@@ -22,14 +22,12 @@
     # Core system setup
     - name: Install base system packages
       import_tasks: tasks/base.yml
-    - name: Install modern CLI utilities
-      import_tasks: tasks/utilities.yml
     
     # System services
     - name: Enable multilib repository
       import_tasks: tasks/multilib.yml
-    - name: Add Chaotic-AUR repository
-      import_tasks: tasks/chaotic-aur.yml
+    - name: Install paru AUR helper
+      import_tasks: tasks/paru.yml
     - name: Setup audio system
       import_tasks: tasks/audio.yml
     - name: Setup hardware support
@@ -49,6 +47,9 @@
     - name: Install desktop applications
       import_tasks: tasks/applications.yml
       when: enable_desktop | default(true)
+    - name: Install gaming platform
+      import_tasks: tasks/gaming.yml
+      when: enable_gaming | default(true)
     - name: Install fonts
       import_tasks: tasks/fonts.yml
     

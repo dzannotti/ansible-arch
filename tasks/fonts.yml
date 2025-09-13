@@ -1,28 +1,32 @@
 ---
 # Font installation
-- name: Install fonts
+- name: Install essential system fonts from pacman
+  become: true
+  community.general.pacman:
+    name:
+      # Essential GNOME fonts
+      - noto-fonts          # Universal fonts
+      - noto-fonts-cjk      # Asian language support
+      - noto-fonts-emoji    # Emoji support
+      - ttf-liberation      # Microsoft font replacements
+    state: present
+  changed_when: false
+
+- name: Install programming and custom fonts from AUR
   become: true
   kewlfft.aur.aur:
     name:
-      - ttf-fira-code
-      - ttf-fira-sans
-      - ttf-font-awesome
-      - ttf-hack
-      - ttf-cascadia-code
-      - ttf-jetbrains-mono
-      - ttf-ubuntu-font-family
-      - ttf-roboto
-      - noto-fonts
-      - noto-fonts-cjk
-      - noto-fonts-emoji
-      - ttf-liberation
-      - ttf-opensans
-      - ttf-droid
-      - ttf-ibm-plex
-      - otf-font-awesome
-      - ttf-material-design-icons-extended
-      - ttf-meslo-nerd-font-powerlevel10k
-      - ttf-sourcecodepro-nerd
-    use: yay
+      # Programming fonts (Nerd Font variants preferred)
+      - ttf-cascadia-code-nerd    # Your main coding font
+      - ttf-firacode-nerd         # Fira Code with icons
+      - ttf-geist                 # Geist family (if available)
+      - ttf-geist-mono            # Geist Mono (if available)
+      # System compatibility fonts
+      - ttf-ms-fonts              # Windows fonts (Arial, Times New Roman, etc.)
+      # System font
+      - otf-san-francisco-pro     # SF Pro for system UI (if available)
+      # Icon fonts for development
+      - ttf-nerd-fonts-symbols    # Nerd Font symbols
+    use: paru
     state: present
   changed_when: false

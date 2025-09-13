@@ -19,3 +19,23 @@
   become: true
   pacman:
     update_cache: true
+
+- name: Install essential 32-bit libraries for gaming/Steam
+  become: true
+  community.general.pacman:
+    name:
+      - lib32-mesa          # 32-bit graphics
+      - lib32-alsa-plugins  # 32-bit audio
+      - lib32-gtk3          # 32-bit GUI toolkit
+      - lib32-glibc         # 32-bit C library
+    state: present
+  changed_when: false
+
+- name: Install 32-bit NVIDIA libraries
+  become: true
+  community.general.pacman:
+    name:
+      - lib32-nvidia-utils
+    state: present
+  when: enable_nvidia | default(false)
+  changed_when: false

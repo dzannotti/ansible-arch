@@ -32,12 +32,23 @@
       - bc
       - stow
       - btop
+      - fastfetch
+      - man-db
+      - inetutils
+      - whois
+      - plocate
+      - tldr
+      - ufw
       # Filesystem support
       - dosfstools
       - ntfs-3g
       - exfatprogs
+      - gvfs              # Virtual filesystem (MTP, SMB support)
+      - gvfs-mtp          # Phone/device support
+      - gvfs-smb          # Network share support
+      - power-profiles-daemon  # Power management
+      # Compression
       - p7zip
       - unzip
     state: present
   changed_when: false
-

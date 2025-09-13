@@ -11,6 +11,8 @@
       - wireplumber
       - alsa-utils
       - pavucontrol
+      - gst-plugin-pipewire  # GStreamer PipeWire plugin for media apps
+      - pipewire-v4l2        # Camera/video support
     state: present
   changed_when: false
 
