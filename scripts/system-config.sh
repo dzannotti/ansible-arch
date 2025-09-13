@@ -2,7 +2,14 @@
 # System configuration - hostname and basic settings
 set -euo pipefail
 
-HOSTNAME="labyrinth"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load configuration
+source "$SCRIPT_DIR/../config.sh"
+
+# Set variables from config
+HOSTNAME="$SETUP_HOSTNAME"
+TIMEZONE="$SETUP_TIMEZONE"
 
 echo "Configuring system settings..."
 
@@ -32,8 +39,7 @@ else
     echo "Locale already set to en_US.UTF-8"
 fi
 
-# Set timezone if not already set to London
-TIMEZONE="Europe/London"
+# Set timezone if not already set
 if [ "$(timedatectl show --property=Timezone --value)" != "$TIMEZONE" ]; then
     echo "Setting timezone to $TIMEZONE..."
     sudo timedatectl set-timezone "$TIMEZONE"

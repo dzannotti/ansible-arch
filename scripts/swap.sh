@@ -2,9 +2,14 @@
 # Swap file configuration
 set -euo pipefail
 
-# Configuration
-SWAPFILE_PATH="/swapfile"
-SWAPFILE_SIZE="8G"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load configuration
+source "$SCRIPT_DIR/../config.sh"
+
+# Set variables from config
+SWAPFILE_PATH="$SETUP_SWAPFILE_PATH"
+SWAPFILE_SIZE="$SETUP_SWAPFILE_SIZE"
 
 echo "Configuring swap file..."
 
