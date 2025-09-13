@@ -31,13 +31,3 @@
       - qt6-multimedia-ffmpeg
     state: present
   changed_when: false
-
-- name: Install AUR desktop packages
-  become: false
-  kewlfft.aur.aur:
-    name:
-      - gnome-shell-extension-dash-to-dock
-      - extension-manager           # GNOME extensions GUI manager
-    use: yay
-    state: present
-  changed_when: false
