@@ -48,7 +48,7 @@ fi
 # Install Limine to the disk (not partition)
 echo "Installing Limine bootloader to disk..."
 # Find the disk that contains /boot
-BOOT_DISK=$(lsblk -no PKNAME $(findmnt -no SOURCE /boot) | head -1)
+BOOT_DISK=$(lsblk -no PKNAME "$(findmnt -no SOURCE /boot)" | head -1)
 if [ -n "$BOOT_DISK" ]; then
     echo "Installing Limine to disk: /dev/$BOOT_DISK"
     sudo limine bios-install /dev/$BOOT_DISK && success "Limine bootloader installed to /dev/$BOOT_DISK" || error "Failed to install Limine bootloader"

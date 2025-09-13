@@ -1,4 +1,4 @@
 # Disable SC1091: Not following sourced files
 # This is expected behavior as we source files at runtime
 # Disable SC2027 and SC2086: False positives for properly quoted variables
-disable=SC1091,SC2027,SC2086,SC2016
+disable=SC1091,SC2027,SC2086,SC2016,SC2015

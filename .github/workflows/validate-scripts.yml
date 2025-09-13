@@ -2,7 +2,7 @@ name: Validate Bash Scripts
 
 on:
   push:
-    branches: [main, bash-conversion]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -16,14 +16,14 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Run ShellCheck on setup.sh
-        run: shellcheck setup.sh
+        run: shellcheck --rcfile=.shellcheckrc setup.sh
         
       - name: Run ShellCheck on scripts directory
         run: |
           if [ -d scripts ] && [ "$(ls -A scripts)" ]; then
             find scripts -name "*.sh" -type f | while read -r script; do
               echo "Checking $script"
-              shellcheck "$script"
+              shellcheck --rcfile=.shellcheckrc "$script"
             done
           else
             echo "No scripts found to check"
