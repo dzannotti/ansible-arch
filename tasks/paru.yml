@@ -11,9 +11,11 @@
   
 - name: Build and install paru
   become: false
-  command: makepkg -si --noconfirm
+  shell: |
+    cd /tmp/paru
+    makepkg --noconfirm --needed
+    sudo pacman -U *.pkg.tar.* --noconfirm
   args:
-    chdir: /tmp/paru
     creates: /usr/bin/paru
   
 - name: Clean up paru build directory
