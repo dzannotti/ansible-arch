@@ -16,24 +16,29 @@ scripts/update.sh
 # Core system setup
 scripts/base.sh
 
+# Boot experience (early for visual feedback)
+scripts/limine.sh
+scripts/plymouth.sh
+
 # System services
 scripts/yay.sh
 scripts/audio.sh
 scripts/hardware.sh
 
-# Display and desktop
-scripts/display.sh
-scripts/fonts.sh
-scripts/desktop.sh
-
-# Applications
-scripts/development.sh
-scripts/applications.sh
-
 # System configuration
 scripts/system-config.sh
 scripts/swap.sh
 scripts/other-services.sh
+
+# Display and desktop
+scripts/display.sh
+scripts/fonts.sh
+scripts/desktop.sh
+scripts/gdm.sh
+
+# Applications
+scripts/development.sh
+scripts/applications.sh
 
 # User configuration
 scripts/user-config.sh
@@ -41,15 +46,8 @@ scripts/zsh.sh
 scripts/genssh.sh
 scripts/git-config.sh
 
-# Display manager
-scripts/gdm.sh
-
 # Desktop theming
 scripts/theming.sh
-
-# Boot experience
-scripts/limine.sh
-scripts/plymouth.sh
 
 # Final upgrade
 scripts/upgrade.sh
