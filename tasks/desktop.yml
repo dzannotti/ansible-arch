@@ -12,7 +12,6 @@
       - gnome-shell
       - gnome-shell-extensions
       - gnome-themes-extra
-      - extension-manager     # GUI for managing GNOME extensions
       # File manager and utilities
       - nautilus
       - file-roller       # Archive manager
