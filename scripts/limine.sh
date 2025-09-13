@@ -95,7 +95,7 @@ EOF
     # Update limine to generate boot entries if limine-update is available
     if command -v limine-update &>/dev/null; then
         echo "Updating limine boot entries..."
-        sudo limine-update
+        sudo limine-update || echo "Warning: limine-update failed - check your limine configuration"
     else
         echo "Warning: limine-update not available - boot entries must be configured manually"
         echo "Consider installing limine-mkinitcpio-hook from AUR for automatic boot entry generation"
@@ -106,17 +106,7 @@ else
     echo "Warning: Limine not found, skipping configuration"
 fi
 
-echo "Updating kernel command line for quiet boot..."
-if [ -f /etc/default/grub ]; then
-    if ! grep -q "quiet splash loglevel=3" /etc/default/grub; then
-        sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash loglevel=3 rd.systemd.show_status=false rd.udev.log_level=3 vt.global_cursor_default=0"/' /etc/default/grub
-        echo "Kernel command line updated"
-        sudo grub-mkconfig -o /boot/grub/grub.cfg 2>/dev/null || true
-    else
-        echo "Kernel command line already configured"
-    fi
-fi
-
+# Note: Kernel command line is configured via /etc/default/limine above
 # Note: Initramfs rebuild will be handled by Plymouth theme setup
 
 echo "Limine bootloader configured"

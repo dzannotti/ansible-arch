@@ -41,15 +41,4 @@ else
     echo "Tokyonight theme already installed"
 fi
 
-echo "Configuring GNOME themes..."
-
-# Set GTK theme
-dconf write /org/gnome/desktop/interface/gtk-theme "'Tokyonight-Dark-BL-LB'"
-
-# Set icon theme
-dconf write /org/gnome/desktop/interface/icon-theme "'Tokyonight-Dark'"
-
-# Set cursor theme
-dconf write /org/gnome/desktop/interface/cursor-theme "'Bibata-Modern-Ice'"
-
 echo "GNOME theming complete"
