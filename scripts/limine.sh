@@ -63,21 +63,21 @@ else
 fi
 
 echo "Using limine config at: $LIMINE_CONFIG"
-    
-    # Get existing kernel command line if config exists
-    if [ -f "$LIMINE_CONFIG" ]; then
-        CMDLINE=$(grep "^[[:space:]]*cmdline:" "$LIMINE_CONFIG" | head -1 | sed 's/^[[:space:]]*cmdline:[[:space:]]*//' || echo "")
-        if [ -z "$CMDLINE" ]; then
-            # Default cmdline if none found in config
-            CMDLINE="root=UUID=$(findmnt -no UUID /) rw"
-        fi
-    else
-        # Default cmdline
+
+# Get existing kernel command line if config exists
+if [ -f "$LIMINE_CONFIG" ]; then
+    CMDLINE=$(grep "^[[:space:]]*cmdline:" "$LIMINE_CONFIG" | head -1 | sed 's/^[[:space:]]*cmdline:[[:space:]]*//' || echo "")
+    if [ -z "$CMDLINE" ]; then
+        # Default cmdline if none found in config
         CMDLINE="root=UUID=$(findmnt -no UUID /) rw"
     fi
-    
-    # Create /etc/default/limine config
-    sudo tee /etc/default/limine > /dev/null << EOF
+else
+    # Default cmdline
+    CMDLINE="root=UUID=$(findmnt -no UUID /) rw"
+fi
+
+# Create /etc/default/limine config
+sudo tee /etc/default/limine > /dev/null << EOF
 TARGET_OS_NAME="Arch Linux"
 
 ESP_PATH="/boot"
@@ -91,33 +91,30 @@ ENABLE_LIMINE_FALLBACK=yes
 FIND_BOOTLOADERS=yes
 EOF
 
-    # Backup existing config if it exists and hasn't been backed up
-    if [ -f "$LIMINE_CONFIG" ] && [ ! -f "$LIMINE_CONFIG.backup" ]; then
-        sudo cp "$LIMINE_CONFIG" "$LIMINE_CONFIG.backup"
-        echo "Backed up existing limine config to $LIMINE_CONFIG.backup"
-    fi
-    
-    # Use our existing config file - limine-update will add boot entries to it
-    if [ ! -f "$LIMINE_CONFIG" ] || ! grep -q "Tokyo Night" "$LIMINE_CONFIG" 2>/dev/null; then
-        sudo cp "$CONFIG_DIR/limine.conf" "$LIMINE_CONFIG"
-        echo "Limine theme configuration copied"
-    else
-        echo "Limine theme already configured"
-    fi
-
-    # Update limine to generate boot entries if limine-update is available
-    if command -v limine-update &>/dev/null; then
-        echo "Updating limine boot entries..."
-        sudo limine-update || echo "Warning: limine-update failed - check your limine configuration"
-    else
-        echo "Warning: limine-update not available - boot entries must be configured manually"
-        echo "Consider installing limine-mkinitcpio-hook from AUR for automatic boot entry generation"
-    fi
-    
-    echo "Limine configuration updated with Tokyo Night theme"
-else
-    echo "Warning: Limine not found, skipping configuration"
+# Backup existing config if it exists and hasn't been backed up
+if [ -f "$LIMINE_CONFIG" ] && [ ! -f "$LIMINE_CONFIG.backup" ]; then
+    sudo cp "$LIMINE_CONFIG" "$LIMINE_CONFIG.backup"
+    echo "Backed up existing limine config to $LIMINE_CONFIG.backup"
 fi
+
+# Use our existing config file - limine-update will add boot entries to it
+if [ ! -f "$LIMINE_CONFIG" ] || ! grep -q "Tokyo Night" "$LIMINE_CONFIG" 2>/dev/null; then
+    sudo cp "$CONFIG_DIR/limine.conf" "$LIMINE_CONFIG"
+    echo "Limine theme configuration copied"
+else
+    echo "Limine theme already configured"
+fi
+
+# Update limine to generate boot entries if limine-update is available
+if command -v limine-update &>/dev/null; then
+    echo "Updating limine boot entries..."
+    sudo limine-update || echo "Warning: limine-update failed - check your limine configuration"
+else
+    echo "Warning: limine-update not available - boot entries must be configured manually"
+    echo "Consider installing limine-mkinitcpio-hook from AUR for automatic boot entry generation"
+fi
+
+echo "Limine configuration updated with Tokyo Night theme"
 
 # Configure snapper for snapshots (following omarchy approach)
 echo "Configuring snapper for system snapshots..."
