@@ -31,10 +31,12 @@ scripts/development.sh
 scripts/applications.sh
 
 # System configuration
+scripts/system-config.sh
 scripts/swap.sh
 scripts/other-services.sh
 
 # User configuration
+scripts/user-config.sh
 scripts/zsh.sh
 scripts/genssh.sh
 scripts/git-config.sh
