@@ -32,8 +32,8 @@ else
     echo "Locale already set to en_US.UTF-8"
 fi
 
-# Set timezone if not already set to US/Eastern (adjust as needed)
-TIMEZONE="America/New_York"
+# Set timezone if not already set to London
+TIMEZONE="Europe/London"
 if [ "$(timedatectl show --property=Timezone --value)" != "$TIMEZONE" ]; then
     echo "Setting timezone to $TIMEZONE..."
     sudo timedatectl set-timezone "$TIMEZONE"
