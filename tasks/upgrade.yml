@@ -1,8 +1,0 @@
----
-- name: Upgrade all packages (pacman + AUR)
-  become: false
-  kewlfft.aur.aur:
-    upgrade: true
-    use: yay
-    state: present
-  changed_when: false
