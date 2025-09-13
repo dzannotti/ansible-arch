@@ -14,6 +14,24 @@ echo "Configure Arch Linux workstation"
 # Load configuration once for all scripts
 source config.sh
 
+# Define global colors for all scripts
+export RED='\033[0;31m'
+export GREEN='\033[0;32m'
+export YELLOW='\033[1;33m'
+export BLUE='\033[0;34m'
+export PURPLE='\033[0;35m'
+export CYAN='\033[0;36m'
+export WHITE='\033[1;37m'
+export BOLD='\033[1m'
+export NC='\033[0m' # No Color
+
+# Helper functions for colored output
+success() { echo -e "${GREEN}✅ $1${NC}"; }
+error() { echo -e "${RED}❌ $1${NC}"; }
+warning() { echo -e "${YELLOW}⚠️  $1${NC}"; }
+info() { echo -e "${BLUE}ℹ️  $1${NC}"; }
+highlight() { echo -e "${CYAN}$1${NC}"; }
+
 # Establish sudo session
 echo "=== Establishing sudo session ==="
 sudo echo "Established sudo session" 

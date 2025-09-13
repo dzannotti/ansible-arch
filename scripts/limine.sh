@@ -18,13 +18,18 @@ sudo pacman -S --needed --noconfirm \
 # Try to install limine tools - first from official repos, then AUR
 # Try official repos first (some distros have these)
 sudo pacman -S --needed --noconfirm limine-snapper-sync limine-mkinitcpio-hook 2>/dev/null || {
-    echo "Limine tools not in official repos, trying AUR..."
+    echo "Limine tools not in official repos, installing from AUR..."
     if command -v yay &>/dev/null; then
-        yay -S --needed --noconfirm limine-mkinitcpio-hook || echo "limine-mkinitcpio-hook not available in AUR"
-        yay -S --needed --noconfirm limine-snapper-sync || echo "limine-snapper-sync not available in AUR"
+        info "Installing limine-mkinitcpio-hook from AUR..."
+        yay -S --needed --noconfirm limine-mkinitcpio-hook && success "limine-mkinitcpio-hook installed" || error "Failed to install limine-mkinitcpio-hook"
+        
+        info "Installing limine-snapper-sync from AUR..."  
+        yay -S --needed --noconfirm limine-snapper-sync && success "limine-snapper-sync installed" || error "Failed to install limine-snapper-sync"
+        
+        success "AUR limine tools installation completed"
     else
         echo "yay not available, cannot install AUR limine packages"
-        echo "Note: limine-update command will not be available without limine-mkinitcpio-hook"
+        echo "Note: Install yay first to get limine tools from AUR"
     fi
 }
 
@@ -44,9 +49,9 @@ if ! grep -q "plymouth" "$MKINITCPIO_CONF"; then
     # Replace the HOOKS line with our complete configuration
     sudo sed -i 's/^HOOKS=.*/HOOKS=(base udev plymouth keyboard autodetect microcode modconf kms keymap consolefont block btrfs filesystems fsck)/' "$MKINITCPIO_CONF"
     
-    echo "mkinitcpio hooks updated with Plymouth and BTRFS support"
+    success "mkinitcpio hooks updated with Plymouth and BTRFS support"
 else
-    echo "Plymouth hook already configured in mkinitcpio"
+    info "Plymouth hook already configured in mkinitcpio"
 fi
 # Note: Initramfs will be rebuilt by Plymouth when theme is set
 
@@ -92,18 +97,18 @@ fi
 # Use our existing config file - limine-update will add boot entries to it
 if [ ! -f "$LIMINE_CONFIG" ] || ! grep -q "Tokyo Night" "$LIMINE_CONFIG" 2>/dev/null; then
     sudo cp "$CONFIG_DIR/limine.conf" "$LIMINE_CONFIG"
-    echo "Limine theme configuration copied"
+    success "Limine theme configuration copied"
 else
-    echo "Limine theme already configured"
+    info "Limine theme already configured"
 fi
 
 # Update limine to generate boot entries if limine-update is available
 if command -v limine-update &>/dev/null; then
     echo "Updating limine boot entries..."
-    sudo limine-update || echo "Warning: limine-update failed - check your limine configuration"
+    sudo limine-update && success "Limine boot entries updated" || error "limine-update failed - check your limine configuration"
 else
-    echo "Warning: limine-update not available - boot entries must be configured manually"
-    echo "Consider installing limine-mkinitcpio-hook from AUR for automatic boot entry generation"
+    warning "limine-update not available - boot entries must be configured manually"
+    info "Consider installing limine-mkinitcpio-hook from AUR for automatic boot entry generation"
 fi
 
 echo "Limine configuration updated with Tokyo Night theme"
@@ -132,12 +137,21 @@ sudo sed -i 's/^TIMELINE_CREATE="yes"/TIMELINE_CREATE="no"/' /etc/snapper/config
 sudo sed -i 's/^NUMBER_LIMIT="50"/NUMBER_LIMIT="5"/' /etc/snapper/configs/home 2>/dev/null || true
 sudo sed -i 's/^NUMBER_LIMIT_IMPORTANT="10"/NUMBER_LIMIT_IMPORTANT="5"/' /etc/snapper/configs/home 2>/dev/null || true
 
-# Enable limine-snapper-sync service if available
+# Check for limine-snapper-sync service
 if systemctl list-unit-files | grep -q "limine-snapper-sync.service"; then
-    echo "Enabling limine-snapper-sync service..."
+    echo "Enabling limine-snapper-sync service for automatic snapshot boot entries..."
     sudo systemctl enable limine-snapper-sync.service
+    
+    # Create an initial snapshot
+    echo "Creating initial snapshot..."
+    sudo snapper -c root create --description "Initial system snapshot" 2>/dev/null || true
+    
+    # Trigger sync to update boot entries
+    sudo systemctl start limine-snapper-sync.service 2>/dev/null || true
 else
-    echo "limine-snapper-sync service not available"
+    echo "Note: limine-snapper-sync not available"
+    echo "Snapshots can be managed manually with 'snapper' command"
+    echo "To restore: boot from live USB and use 'snapper undochange' or 'btrfs subvolume'"
 fi
 
 # Note: Kernel command line is configured via /etc/default/limine above  
