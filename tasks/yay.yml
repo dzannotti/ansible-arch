@@ -17,6 +17,11 @@
     creates: /tmp/yay_12.5.0_x86_64/yay
   changed_when: true
 
+- name: Check if yay is already installed
+  stat:
+    path: /usr/local/bin/yay
+  register: yay_exists
+
 - name: Install yay binary to /usr/local/bin
   become: true
   copy:
@@ -24,8 +29,7 @@
     dest: /usr/local/bin/yay
     mode: '0755'
     remote_src: true
-  args:
-    creates: /usr/local/bin/yay
+  when: not yay_exists.stat.exists
 
 - name: Clean up yay download files
   become: false
