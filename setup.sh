@@ -22,11 +22,6 @@ source scripts/update.sh
 echo "=== Core System Setup ==="
 source scripts/base.sh
 
-# System configuration
-echo "=== System Configuration ==="
-source scripts/system-config.sh
-source scripts/swap.sh
-
 # Boot experience (early for visual feedback)
 echo "=== Boot Experience ==="
 source scripts/limine.sh
