@@ -11,7 +11,8 @@ echo "Configure Arch Linux workstation"
 source config.sh
 
 # Establish sudo session
-sudo echo "Starting system setup (sudo session established)..."
+echo "=== Establishing sudo session ==="
+sudo echo "Established sudo session" 
 
 # System update
 echo "=== System Update ==="
