@@ -33,6 +33,30 @@ sudo pacman -S --needed --noconfirm limine-snapper-sync limine-mkinitcpio-hook 2
     fi
 }
 
+# Install Limine bootloader files and install to disk
+echo "Installing Limine bootloader files..."
+if [ ! -f "/boot/limine-bios.sys" ]; then
+    echo "Copying Limine bootloader files to /boot..."
+    sudo cp /usr/share/limine/limine-bios.sys /boot/
+    sudo cp /usr/share/limine/limine-bios-cd.bin /boot/ 2>/dev/null || true
+    sudo cp /usr/share/limine/limine-uefi-cd.bin /boot/ 2>/dev/null || true
+    success "Limine bootloader files copied"
+else
+    info "Limine bootloader files already present"
+fi
+
+# Install Limine to the disk (not partition)
+echo "Installing Limine bootloader to disk..."
+# Find the disk that contains /boot
+BOOT_DISK=$(lsblk -no PKNAME $(findmnt -no SOURCE /boot) | head -1)
+if [ -n "$BOOT_DISK" ]; then
+    echo "Installing Limine to disk: /dev/$BOOT_DISK"
+    sudo limine bios-install /dev/$BOOT_DISK && success "Limine bootloader installed to /dev/$BOOT_DISK" || error "Failed to install Limine bootloader"
+else
+    error "Could not determine boot disk for Limine installation"
+    warning "You may need to manually run: sudo limine bios-install /dev/sdX"
+fi
+
 echo "Configuring mkinitcpio hooks..."
 # Update the main mkinitcpio.conf with proper hooks including Plymouth and BTRFS support
 MKINITCPIO_CONF="/etc/mkinitcpio.conf"
