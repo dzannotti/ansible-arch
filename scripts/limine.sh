@@ -10,10 +10,20 @@ sudo pacman -S --needed --noconfirm \
     limine \
     plymouth
 
-# Install limine tools if available
-yay -S --needed --noconfirm \
-    limine-mkinitcpio-hook \
-    limine-snapper-sync || echo "Optional limine packages not available"
+# Try to install limine tools - first from official repos, then AUR
+echo "Installing limine tools..."
+
+# Try official repos first (some distros have these)
+sudo pacman -S --needed --noconfirm limine-snapper-sync limine-mkinitcpio-hook 2>/dev/null || {
+    echo "Limine tools not in official repos, trying AUR..."
+    if command -v yay &>/dev/null; then
+        yay -S --needed --noconfirm limine-mkinitcpio-hook || echo "limine-mkinitcpio-hook not available in AUR"
+        yay -S --needed --noconfirm limine-snapper-sync || echo "limine-snapper-sync not available in AUR"
+    else
+        echo "yay not available, cannot install AUR limine packages"
+        echo "Note: limine-update command will not be available without limine-mkinitcpio-hook"
+    fi
+}
 
 echo "Configuring mkinitcpio hooks..."
 # Create omarchy-style hooks config
@@ -22,7 +32,7 @@ HOOKS=(base udev plymouth keyboard autodetect microcode modconf kms keymap conso
 EOF
 
 echo "Plymouth and limine hooks configured"
-REBUILD_INITRAMFS=true
+# Note: Initramfs will be rebuilt by Plymouth when theme is set
 
 echo "Configuring Limine with Tokyo Night theme..."
 
@@ -69,9 +79,14 @@ EOF
         echo "Limine theme already configured"
     fi
 
-    # Update limine to generate boot entries
-    echo "Updating limine boot entries..."
-    sudo limine-update
+    # Update limine to generate boot entries if limine-update is available
+    if command -v limine-update &>/dev/null; then
+        echo "Updating limine boot entries..."
+        sudo limine-update
+    else
+        echo "Warning: limine-update not available - boot entries must be configured manually"
+        echo "Consider installing limine-mkinitcpio-hook from AUR for automatic boot entry generation"
+    fi
     
     echo "Limine configuration updated with Tokyo Night theme"
 else
@@ -89,10 +104,6 @@ if [ -f /etc/default/grub ]; then
     fi
 fi
 
-# Rebuild initramfs if needed
-if [ "$REBUILD_INITRAMFS" = true ]; then
-    echo "Rebuilding initramfs..."
-    sudo mkinitcpio -P
-fi
+# Note: Initramfs rebuild will be handled by Plymouth theme setup
 
 echo "Limine bootloader configured"

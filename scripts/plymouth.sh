@@ -99,12 +99,13 @@ else
     echo "ImageMagick not found, Plymouth will use text fallbacks"
 fi
 
-# Set workstation as default Plymouth theme
+# Set workstation as default Plymouth theme with automatic initramfs rebuild
 echo "Setting workstation as default Plymouth theme..."
-sudo plymouth-set-default-theme workstation
-
-# Rebuild initramfs to include Plymouth theme
-echo "Rebuilding initramfs..."
-sudo mkinitcpio -P
+if [ "$(plymouth-set-default-theme)" != "workstation" ]; then
+    sudo plymouth-set-default-theme -R workstation
+    echo "Plymouth theme set and initramfs rebuilt"
+else
+    echo "Plymouth theme already set to workstation"
+fi
 
 echo "Plymouth boot splash configured (omarchy-inspired theme)"

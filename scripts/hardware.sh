@@ -32,26 +32,28 @@ else
 fi
 
 echo "Adding NVIDIA modules to mkinitcpio.conf..."
-REBUILD_INITRAMFS=false
+# Use omarchy's approach - safely remove duplicates then add all modules
+MKINITCPIO_CONF="/etc/mkinitcpio.conf"
+NVIDIA_MODULES="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
 
-# Check and add each NVIDIA module individually
-for module in nvidia nvidia_modeset nvidia_uvm nvidia_drm; do
-    if ! grep -q "MODULES=.*$module" /etc/mkinitcpio.conf; then
-        # Add module to the MODULES array
-        sudo sed -i "/^MODULES=/s/)/ $module)/" /etc/mkinitcpio.conf
-        echo "Added $module to mkinitcpio.conf"
-        REBUILD_INITRAMFS=true
-    fi
-done
+# Make a backup before modifying
+if [ ! -f "$MKINITCPIO_CONF.backup" ]; then
+    sudo cp "$MKINITCPIO_CONF" "$MKINITCPIO_CONF.backup"
+fi
 
-# Clean up any duplicate spaces in MODULES line
-sudo sed -i '/^MODULES=/s/  */ /g' /etc/mkinitcpio.conf
-sudo sed -i '/^MODULES=/s/( /(/g' /etc/mkinitcpio.conf
-
-if [ "$REBUILD_INITRAMFS" = true ]; then
-    echo "Rebuilding initramfs..."
-    sudo mkinitcpio -P
+# Check if NVIDIA modules are already present
+if ! grep -q "nvidia" "$MKINITCPIO_CONF"; then
+    # Remove any old nvidia modules to prevent duplicates (omarchy approach)
+    sudo sed -i -E 's/ nvidia_drm//g; s/ nvidia_uvm//g; s/ nvidia_modeset//g; s/ nvidia//g;' "$MKINITCPIO_CONF"
+    
+    # Add the new modules at the start of the MODULES array
+    sudo sed -i -E "s/^(MODULES=\\()/\\1${NVIDIA_MODULES} /" "$MKINITCPIO_CONF"
+    
+    # Clean up potential double spaces
+    sudo sed -i -E 's/  +/ /g' "$MKINITCPIO_CONF"
+    
     echo "NVIDIA modules added to mkinitcpio.conf"
+    echo "Note: Initramfs will be rebuilt by Plymouth configuration"
 else
     echo "NVIDIA modules already present in mkinitcpio.conf"
 fi
