@@ -26,4 +26,8 @@ sudo pacman -S --needed --noconfirm \
     qt6-virtualkeyboard \
     qt6-multimedia-ffmpeg
 
+echo "Installing GNOME Extension Manager from AUR..."
+yay -S --needed --noconfirm \
+    extension-manager
+
 echo "GNOME desktop environment installed"
