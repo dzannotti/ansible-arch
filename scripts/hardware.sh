@@ -2,6 +2,9 @@
 # Hardware support - CPU, GPU, monitoring tools
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$SCRIPT_DIR/../configs"
+
 echo "Installing AMD microcode..."
 sudo pacman -S --needed --noconfirm \
     amd-ucode
@@ -22,25 +25,31 @@ sudo pacman -S --needed --noconfirm \
     lib32-nvidia-utils
 
 echo "Configuring NVIDIA DRM kernel mode setting for Wayland..."
-if [ ! -f /etc/modprobe.d/nvidia.conf ]; then
-    sudo tee /etc/modprobe.d/nvidia.conf > /dev/null <<'EOF'
-options nvidia_drm modeset=1
-options nvidia_drm fbdev=1
-options nvidia NVreg_PreserveVideoMemoryAllocations=1
-options nvidia NVreg_TemporaryFilePath=/var/tmp
-EOF
-    echo "Created nvidia.conf"
+if [ ! -f /etc/modprobe.d/nvidia.conf ] || ! cmp -s "$CONFIG_DIR/nvidia-modprobe.conf" /etc/modprobe.d/nvidia.conf 2>/dev/null; then
+    sudo cp "$CONFIG_DIR/nvidia-modprobe.conf" /etc/modprobe.d/nvidia.conf
+    echo "Created/updated nvidia.conf"
 else
-    echo "nvidia.conf already exists"
+    echo "nvidia.conf already up to date"
 fi
 
 echo "Adding NVIDIA modules to mkinitcpio.conf..."
-if ! grep -q "nvidia" /etc/mkinitcpio.conf; then
-    # Get current modules and add nvidia modules if not present
-    current_modules=$(grep "^MODULES=" /etc/mkinitcpio.conf | sed 's/MODULES=(\(.*\))/\1/')
-    new_modules="$current_modules nvidia nvidia_modeset nvidia_uvm nvidia_drm"
-    sudo sed -i "s/^MODULES=.*/MODULES=($new_modules)/" /etc/mkinitcpio.conf
-    
+REBUILD_INITRAMFS=false
+
+# Check and add each NVIDIA module individually
+for module in nvidia nvidia_modeset nvidia_uvm nvidia_drm; do
+    if ! grep -q "MODULES=.*$module" /etc/mkinitcpio.conf; then
+        # Add module to the MODULES array
+        sudo sed -i "/^MODULES=/s/)/ $module)/" /etc/mkinitcpio.conf
+        echo "Added $module to mkinitcpio.conf"
+        REBUILD_INITRAMFS=true
+    fi
+done
+
+# Clean up any duplicate spaces in MODULES line
+sudo sed -i '/^MODULES=/s/  */ /g' /etc/mkinitcpio.conf
+sudo sed -i '/^MODULES=/s/( /(/g' /etc/mkinitcpio.conf
+
+if [ "$REBUILD_INITRAMFS" = true ]; then
     echo "Rebuilding initramfs..."
     sudo mkinitcpio -P
     echo "NVIDIA modules added to mkinitcpio.conf"

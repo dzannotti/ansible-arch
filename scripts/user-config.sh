@@ -3,10 +3,11 @@
 set -euo pipefail
 
 # User details (adjust as needed)
-USERNAME="${USER}"
+USERNAME="dzannotti"
 FULL_NAME="Daniele Zannotti"
-# EMAIL="dzannotti@gmail.com"  # Reserved for future use
+# EMAIL="dzannotti@me.com"  # Reserved for future use
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$SCRIPT_DIR/../configs"
 AVATAR_SOURCE="$SCRIPT_DIR/../assets/profile.png"
 
 echo "Configuring user settings for $USERNAME..."
@@ -41,10 +42,7 @@ if [ -f "$AVATAR_SOURCE" ]; then
         fi
     else
         # Create AccountsService user file if it doesn't exist
-        sudo tee "$ACCOUNTS_FILE" > /dev/null <<EOF
-[User]
-Icon=/var/lib/AccountsService/icons/$USERNAME
-EOF
+        sed "s/USERNAME/$USERNAME/g" "$CONFIG_DIR/accountsservice-user.conf" | sudo tee "$ACCOUNTS_FILE" > /dev/null
     fi
     
     # Set avatar for user's home (for GNOME settings)
