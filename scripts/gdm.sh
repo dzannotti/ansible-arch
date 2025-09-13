@@ -20,4 +20,4 @@ echo "Enabling GDM service (will start on next boot)..."
 sudo systemctl enable gdm
 
 echo "GDM display manager configured (will be active after reboot)"
-echo "Note: GDM will start automatically on next boot"
+
