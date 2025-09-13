@@ -36,11 +36,8 @@ cd "$SCRIPT_DIR"
 # Boot experience (early for visual feedback)
 echo "=== Boot Experience ==="
 source scripts/limine.sh
-echo "DEBUG: limine.sh completed, returning to $SCRIPT_DIR"
 cd "$SCRIPT_DIR"
-echo "DEBUG: About to run plymouth.sh"
 source scripts/plymouth.sh
-echo "DEBUG: plymouth.sh completed"
 cd "$SCRIPT_DIR"
 
 # System services
