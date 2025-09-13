@@ -1,24 +1,37 @@
 ---
-# Simple, secure AUR helper installation
-- name: Clone yay from AUR
+# Install yay AUR helper from precompiled binary (no Go dependency needed)
+- name: Download yay precompiled binary
   become: false
-  git:
-    repo: https://aur.archlinux.org/yay.git
-    dest: /tmp/yay
-    version: master
-    force: true
+  get_url:
+    url: https://github.com/Jguer/yay/releases/download/v12.5.0/yay_12.5.0_x86_64.tar.gz
+    dest: /tmp/yay_12.5.0_x86_64.tar.gz
+    mode: '0644'
   changed_when: true
-  
-- name: Build and install yay
+
+- name: Extract yay binary
   become: false
-  shell: |
-    cd /tmp/yay
-    makepkg -si --noconfirm --needed
+  unarchive:
+    src: /tmp/yay_12.5.0_x86_64.tar.gz
+    dest: /tmp/
+    remote_src: true
+    creates: /tmp/yay_12.5.0_x86_64/yay
+  changed_when: true
+
+- name: Install yay binary to /usr/local/bin
+  become: true
+  copy:
+    src: /tmp/yay_12.5.0_x86_64/yay
+    dest: /usr/local/bin/yay
+    mode: '0755'
+    remote_src: true
   args:
-    creates: /usr/bin/yay
-  
-- name: Clean up yay build directory
+    creates: /usr/local/bin/yay
+
+- name: Clean up yay download files
   become: false
   file:
-    path: /tmp/yay
+    path: "{{ item }}"
     state: absent
+  loop:
+    - /tmp/yay_12.5.0_x86_64.tar.gz
+    - /tmp/yay_12.5.0_x86_64
