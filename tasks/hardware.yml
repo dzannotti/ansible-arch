@@ -13,6 +13,7 @@
   community.general.pacman:
     name:
       - acpi
+      - btop
       - cpupower
       - turbostat
       - fastfetch
