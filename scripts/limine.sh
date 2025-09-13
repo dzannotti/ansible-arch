@@ -43,19 +43,24 @@ fi
 
 echo "Configuring Limine with Tokyo Night theme..."
 
-# Check if limine bootloader is installed (check for config files, not command)
+# Check if limine bootloader is installed (check for config files)
 echo "DEBUG: Checking for limine installation..."
-if [ -f /boot/EFI/limine/limine.conf ] || [ -f /boot/limine/limine.conf ] || [ -d /boot/EFI/limine ] || [ -d /boot/limine ]; then
+if [ -f /boot/limine.conf ] || [ -f /boot/EFI/limine/limine.conf ] || [ -f /boot/limine/limine.conf ]; then
     echo "DEBUG: limine bootloader found"
-    # Determine if EFI or BIOS
-    [[ -f /boot/EFI/limine/limine.conf ]] && EFI=true || EFI=false
     
-    # Set config location based on boot type
-    if [ "$EFI" = true ]; then
+    # Determine config location - check all possible locations
+    if [ -f /boot/EFI/limine/limine.conf ]; then
         LIMINE_CONFIG="/boot/EFI/limine/limine.conf"
-    else
-        LIMINE_CONFIG="/boot/limine/limine.conf"
+        EFI=true
+    elif [ -f /boot/limine/limine.conf ]; then
+        LIMINE_CONFIG="/boot/limine/limine.conf"  
+        EFI=false
+    elif [ -f /boot/limine.conf ]; then
+        LIMINE_CONFIG="/boot/limine.conf"
+        EFI=false
     fi
+    
+    echo "DEBUG: Using limine config at: $LIMINE_CONFIG"
     
     # Get existing kernel command line if config exists
     if [ -f "$LIMINE_CONFIG" ]; then
