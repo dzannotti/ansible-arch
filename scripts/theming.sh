@@ -20,6 +20,11 @@ if [ ! -d "$HOME/.themes/Tokyonight-Dark-BL-LB" ]; then
     mkdir -p "$HOME/.local/share/icons"
     cp -r /tmp/tokyonight-gtk-theme/icons/Tokyonight-* "$HOME/.local/share/icons/" 2>/dev/null || true
     
+    # Also ensure legacy location exists in case some apps still use it
+    if [ ! -d "$HOME/.icons" ]; then
+        ln -sf "$HOME/.local/share/icons" "$HOME/.icons"
+    fi
+    
     echo "Cleaning up..."
     rm -rf /tmp/tokyonight-gtk-theme
     
