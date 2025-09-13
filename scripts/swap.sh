@@ -2,12 +2,7 @@
 # Swap file configuration
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# Load configuration
-source "$SCRIPT_DIR/../config.sh"
-
-# Set variables from config
+# Variables from config.sh (sourced by setup.sh)
 SWAPFILE_PATH="$SETUP_SWAPFILE_PATH"
 SWAPFILE_SIZE="$SETUP_SWAPFILE_SIZE"
 

@@ -22,6 +22,11 @@ source scripts/update.sh
 echo "=== Core System Setup ==="
 source scripts/base.sh
 
+# System configuration
+echo "=== System Configuration ==="
+source scripts/system-config.sh
+source scripts/swap.sh
+
 # Boot experience (early for visual feedback)
 echo "=== Boot Experience ==="
 source scripts/limine.sh
@@ -32,11 +37,6 @@ echo "=== System Services ==="
 source scripts/yay.sh
 source scripts/audio.sh
 source scripts/hardware.sh
-
-# System configuration
-echo "=== System Configuration ==="
-source scripts/system-config.sh
-source scripts/swap.sh
 source scripts/other-services.sh
 
 # Display and desktop

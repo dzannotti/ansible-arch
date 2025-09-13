@@ -2,15 +2,12 @@
 # User configuration - avatar, full name, email
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="$SCRIPT_DIR/../configs"
-
-# Load configuration
-source "$SCRIPT_DIR/../config.sh"
-
-# Set variables from config
+# Variables from config.sh (sourced by setup.sh)
 USERNAME="$SETUP_USERNAME"
 FULL_NAME="$SETUP_FULL_NAME"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$SCRIPT_DIR/../configs"
 AVATAR_SOURCE="$SCRIPT_DIR/../assets/profile.png"
 
 echo "Configuring user settings for $USERNAME..."

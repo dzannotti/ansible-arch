@@ -2,12 +2,7 @@
 # System configuration - hostname and basic settings
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# Load configuration
-source "$SCRIPT_DIR/../config.sh"
-
-# Set variables from config
+# Variables from config.sh (sourced by setup.sh)
 HOSTNAME="$SETUP_HOSTNAME"
 TIMEZONE="$SETUP_TIMEZONE"
 
