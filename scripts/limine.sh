@@ -2,8 +2,8 @@
 # Limine bootloader configuration with Tokyo Night theme
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="$SCRIPT_DIR/../configs"
+# Variables from setup.sh working directory
+CONFIG_DIR="configs"
 
 echo "Installing Limine bootloader..."
 sudo pacman -S --needed --noconfirm \

@@ -6,9 +6,8 @@ set -euo pipefail
 USERNAME="$SETUP_USERNAME"
 FULL_NAME="$SETUP_FULL_NAME"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="$SCRIPT_DIR/../configs"
-AVATAR_SOURCE="$SCRIPT_DIR/../assets/profile.png"
+CONFIG_DIR="configs"
+AVATAR_SOURCE="assets/profile.png"
 
 echo "Configuring user settings for $USERNAME..."
 

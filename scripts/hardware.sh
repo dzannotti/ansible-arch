@@ -2,8 +2,8 @@
 # Hardware support - CPU, GPU, monitoring tools
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="$SCRIPT_DIR/../configs"
+# Variables from setup.sh working directory
+CONFIG_DIR="configs"
 
 echo "Installing AMD microcode..."
 sudo pacman -S --needed --noconfirm \

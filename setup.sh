@@ -30,10 +30,8 @@ cd "$SCRIPT_DIR"
 
 # Boot experience (early for visual feedback)
 echo "=== Boot Experience ==="
-echo "Current directory: $(pwd)"
 source scripts/limine.sh
 cd "$SCRIPT_DIR"
-echo "Current directory after limine: $(pwd)"
 source scripts/plymouth.sh
 cd "$SCRIPT_DIR"
 
