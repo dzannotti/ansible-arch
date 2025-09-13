@@ -52,7 +52,7 @@
       - visual-studio-code-bin
       # API/Development tools
       - postman-bin       # API testing
-    use: paru
+    use: yay
     state: present
   changed_when: false
 
@@ -62,7 +62,8 @@
     # Install latest versions as global defaults
     mise install node@latest
     mise install go@latest
-    mise global node@latest go@latest
+    mise install rust@latest
+    mise global node@latest go@latest rust@latest
     # Install JS package managers
     mise exec -- npm install -g pnpm bun
   args:

@@ -25,6 +25,6 @@
       - ttf-ms-fonts              # Windows fonts (Arial, Times New Roman, etc.)
       # System font
       - otf-san-francisco         # SF Pro for system UI
-    use: paru
+    use: yay
     state: present
   changed_when: false

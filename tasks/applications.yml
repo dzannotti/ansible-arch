@@ -43,6 +43,6 @@
       # Communication
       - ferdium
       - zoom
-    use: paru
+    use: yay
     state: present
   changed_when: false

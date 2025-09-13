@@ -28,9 +28,6 @@
       # Shell
       - zsh
       - bash-completion
-      # Build tools (needed for AUR)
-      - rust
-      - cargo
       # System utilities
       - bc
       - stow

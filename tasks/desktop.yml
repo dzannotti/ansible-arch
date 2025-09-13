@@ -37,6 +37,6 @@
     name:
       - gnome-shell-extension-dash-to-dock
       - extension-manager           # GNOME extensions GUI manager
-    use: paru
+    use: yay
     state: present
   changed_when: false

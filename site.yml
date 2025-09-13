@@ -27,8 +27,8 @@
     # System services
     - name: Enable multilib repository
       import_tasks: tasks/multilib.yml
-    - name: Install paru AUR helper
-      import_tasks: tasks/paru.yml
+    - name: Install yay AUR helper
+      import_tasks: tasks/yay.yml
     - name: Setup audio system
       import_tasks: tasks/audio.yml
     - name: Setup hardware support

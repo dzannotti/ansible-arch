@@ -1,24 +1,24 @@
 ---
 # Simple, secure AUR helper installation
-- name: Clone paru from AUR
+- name: Clone yay from AUR
   become: false
   git:
-    repo: https://aur.archlinux.org/paru.git
-    dest: /tmp/paru
+    repo: https://aur.archlinux.org/yay.git
+    dest: /tmp/yay
     version: master
     force: true
   changed_when: true
   
-- name: Build and install paru
+- name: Build and install yay
   become: false
   shell: |
-    cd /tmp/paru
+    cd /tmp/yay
     makepkg -si --noconfirm --needed
   args:
-    creates: /usr/bin/paru
+    creates: /usr/bin/yay
   
-- name: Clean up paru build directory
+- name: Clean up yay build directory
   become: false
   file:
-    path: /tmp/paru
+    path: /tmp/yay
     state: absent
