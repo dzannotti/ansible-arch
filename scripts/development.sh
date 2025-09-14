@@ -1,0 +1,48 @@
+#!/bin/bash
+# Development tools and environments
+set -euo pipefail
+
+echo "Installing development packages..."
+yay -S --needed --noconfirm \
+    clang \
+    llvm \
+    gcc \
+    tmux \
+    jq \
+    universal-ctags \
+    shellcheck \
+    gnupg \
+    imagemagick \
+    eza \
+    bat \
+    fd \
+    fzf \
+    ripgrep \
+    mise \
+    git-delta \
+    lazygit \
+    github-cli \
+    starship \
+    zoxide \
+    neovim \
+    visual-studio-code-bin \
+    ghostty \
+    postman-bin
+
+echo "Installing runtime languages via mise..."
+if [ ! -f ~/.config/mise/config.toml ] || ! mise list | grep -q "python\|node\|go\|rust"; then
+    # Install latest versions as global defaults
+    mise install python@latest
+    mise install node@latest
+    mise install go@latest
+    mise install rust@latest
+    mise install pnpm@latest
+    mise install bun@latest
+    mise global python@latest node@latest go@latest rust@latest pnpm@latest bun@latest
+    
+    echo "Runtime languages installed via mise"
+else
+    echo "Runtime languages already installed via mise"
+fi
+
+echo "Development environment installed"

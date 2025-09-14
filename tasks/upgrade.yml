@@ -1,9 +1,0 @@
----
-- name: Update all packages
-  become: true
-  kewlfft.aur.aur:
-    upgrade: true
-    use: yay
-    state: present
-  changed_when: false
-  when: update | default(false) | bool
