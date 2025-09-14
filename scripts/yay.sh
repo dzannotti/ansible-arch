@@ -10,6 +10,9 @@ fi
 
 echo "Installing yay AUR helper..."
 
+# Clean up any existing yay directory first
+rm -rf /tmp/yay
+
 # Clone yay from AUR and build
 cd /tmp
 git clone https://aur.archlinux.org/yay.git
