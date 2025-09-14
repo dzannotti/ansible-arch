@@ -63,21 +63,39 @@ MKINITCPIO_CONF="/etc/mkinitcpio.conf"
 
 # Check if plymouth hook is already present
 if ! grep -q "plymouth" "$MKINITCPIO_CONF"; then
-    echo "Adding Plymouth and BTRFS hooks to mkinitcpio..."
+    echo "Adding Plymouth hook to existing mkinitcpio configuration..."
     
     # Backup the config
     if [ ! -f "$MKINITCPIO_CONF.backup" ]; then
         sudo cp "$MKINITCPIO_CONF" "$MKINITCPIO_CONF.backup"
     fi
     
-    # Replace the HOOKS line with our complete configuration
-    sudo sed -i 's/^HOOKS=.*/HOOKS=(base udev plymouth keyboard autodetect microcode modconf kms keymap consolefont block btrfs filesystems fsck)/' "$MKINITCPIO_CONF"
+    # Add Plymouth hook after udev/systemd, preserving existing hooks
+    # This works for both udev and systemd based systems
+    if grep -q "systemd" "$MKINITCPIO_CONF"; then
+        # systemd-based system - add after systemd
+        sudo sed -i 's/\(systemd\)/\1 plymouth/' "$MKINITCPIO_CONF"
+        echo "Added Plymouth hook to systemd-based initramfs"
+    else
+        # udev-based system - add after udev  
+        sudo sed -i 's/\(udev\)/\1 plymouth/' "$MKINITCPIO_CONF"
+        echo "Added Plymouth hook to udev-based initramfs"
+    fi
     
-    success "mkinitcpio hooks updated with Plymouth and BTRFS support"
+    # Ensure btrfs hook is present if not already there
+    if ! grep -q "btrfs" "$MKINITCPIO_CONF"; then
+        sudo sed -i 's/\(block\)/\1 btrfs/' "$MKINITCPIO_CONF"
+        echo "Added btrfs hook for BTRFS filesystem support"
+    fi
+    
+    success "Plymouth hook added to existing mkinitcpio configuration"
+    
+    # Rebuild initramfs to apply changes
+    echo "Rebuilding initramfs with new hooks..."
+    sudo mkinitcpio -P && success "Initramfs rebuilt successfully" || error "Failed to rebuild initramfs"
 else
     info "Plymouth hook already configured in mkinitcpio"
 fi
-# Note: Initramfs will be rebuilt by Plymouth when theme is set
 
 echo "Configuring Limine with Tokyo Night theme..."
 
