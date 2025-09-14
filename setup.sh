@@ -54,14 +54,14 @@ source scripts/yay.sh
 success "✅ AUR helper installation completed"
 cd "$SCRIPT_DIR"
 
-# Boot experience (early for visual feedback)
-info "=== Boot Experience ==="
-source scripts/limine.sh
-success "✅ Limine bootloader configuration completed"
-cd "$SCRIPT_DIR"
-source scripts/plymouth.sh
-success "✅ Plymouth boot splash configuration completed"
-cd "$SCRIPT_DIR"
+# Boot experience (early for visual feedback) - DISABLED due to system breaking issues
+# info "=== Boot Experience ==="
+# source scripts/limine.sh
+# success "✅ Limine bootloader configuration completed"
+# cd "$SCRIPT_DIR"
+# source scripts/plymouth.sh
+# success "✅ Plymouth boot splash configuration completed"
+# cd "$SCRIPT_DIR"
 
 # System services
 info "=== System Services ==="
