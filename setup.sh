@@ -91,7 +91,7 @@ success "✅ GDM display manager configuration completed"
 cd "$SCRIPT_DIR"
 
 # Applications
-info "=== Applications ===
+info "=== Applications ==="
 source scripts/development.sh
 success "✅ Development tools installation completed"
 cd "$SCRIPT_DIR"

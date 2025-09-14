@@ -3,8 +3,11 @@
 set -euo pipefail
 
 echo "Installing GDM display manager..."
-sudo pacman -S --needed --noconfirm \
-    gdm
+if ! sudo pacman -S --needed --noconfirm gdm; then
+    error "Failed to install GDM!"
+    warning "You may need to manually install: sudo pacman -S gdm"
+    exit 1
+fi
 
 echo "Disabling other display managers if present..."
 for dm in sddm lightdm; do
@@ -15,9 +18,21 @@ for dm in sddm lightdm; do
     fi
 done
 
+echo "Verifying GDM installation..."
+if ! pacman -Q gdm &>/dev/null; then
+    error "GDM is not installed! Installation may have failed."
+    exit 1
+fi
+success "GDM package installed successfully"
+
 echo "Enabling GDM service (will start on next boot)..."
 # Only enable, don't start - to avoid interrupting the setup
-sudo systemctl enable gdm
+if sudo systemctl enable gdm; then
+    success "GDM service enabled"
+else
+    error "Failed to enable GDM service"
+    exit 1
+fi
 
 echo "GDM display manager configured (will be active after reboot)"
 
